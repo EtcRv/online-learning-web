@@ -24,10 +24,10 @@ Client run in port 3000
 npm install
 ```
 
-### Run Client
+### Run Server
 
 ```
 npm start
 ```
 
-Client run in port 8888
+Server run in port 8888
