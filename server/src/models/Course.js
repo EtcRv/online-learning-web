@@ -1,10 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const Course = sequelize.define("Course", {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -15,10 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     type: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
-    teacher_id: {
-      type: DataTypes.INTEGER,
       allowNull: false,
     },
     status: {
@@ -33,6 +24,28 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   });
+
+  Course.associate = (models) => {
+    Course.hasMany(models.Admin, {
+      foreignKey: "courseId",
+    });
+
+    Course.hasOne(models.Assignment, {
+      foreignKey: "courseId",
+    });
+
+    Course.hasOne(models.Enroll, {
+      foreignKey: "courseId",
+    });
+
+    Course.hasMany(models.Lecture, {
+      foreignKey: "courseId",
+    });
+
+    Course.hasOne(models.Feedback, {
+      foreignKey: "courseId",
+    });
+  };
 
   return Course;
 };

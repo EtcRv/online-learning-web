@@ -19,11 +19,6 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
     {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
       email: {
         type: DataTypes.STRING,
         unique: true,
@@ -42,6 +37,21 @@ module.exports = (sequelize, DataTypes) => {
       },
     }
   );
+
+  User.associate = (models) => {
+    User.hasOne(models.Admin, {
+      foreignKey: "userId",
+    });
+    User.hasOne(models.Student, {
+      foreignKey: "userId",
+    });
+    User.hasOne(models.Teacher, {
+      foreignKey: "userId",
+    });
+    User.hasOne(models.Discussion, {
+      foreignKey: "userId",
+    });
+  };
 
   User.prototype.comparePassword = function comparePassword(password) {
     return bcrypt.compareAsync(password, this.password);
