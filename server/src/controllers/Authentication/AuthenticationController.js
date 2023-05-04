@@ -12,6 +12,7 @@ function jwtSignUp(user) {
 module.exports = {
   async register(req, res) {
     try {
+      console.log("req.body: ", req.body);
       const user = await User.create(req.body);
       const userJson = user.toJSON();
 
@@ -21,7 +22,8 @@ module.exports = {
       });
     } catch (err) {
       res.status(400).send({
-        error: "This email account is already in use",
+        // error: "This email account is already in use",
+        error: err,
       });
     }
   },

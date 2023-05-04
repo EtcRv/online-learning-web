@@ -1,18 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const Feedback = sequelize.define("Feedback", {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    course_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    student_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     rating: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -22,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     time: {
-      type: DataTypes.DATETIME,
+      type: "TIMESTAMP",
       allowNull: false,
     },
   });
