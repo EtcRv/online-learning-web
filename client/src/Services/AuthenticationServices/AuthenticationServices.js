@@ -7,4 +7,7 @@ export default {
   login(user) {
     return Api().post("login", user);
   },
+  checkTeacherLoginFirstTime(userId) {
+    return Api().post("checklogin", userId);
+  },
 };

@@ -3,10 +3,16 @@ import FloatingInput from "../../Components/ReUse/FloatingInput/FloatingInput";
 import AuthenticationLayout from "../../Components/Layout/AuthenticationLayout/AuthenticationLayout";
 import AlertMessage from "../../Components/ReUse/AlertMessage/AlertMessage";
 import AuthenticationServices from "../../Services/AuthenticationServices/AuthenticationServices";
+import SuccessMessage from "../../Components/ReUse/SuccessMessage/SuccessMessage";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../store/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const submitForm = async () => {
     const checkFieldEmpty = email == "" || password == "";
@@ -19,15 +25,34 @@ const Login = () => {
           email: email,
           password: password,
         });
-        console.log("response: ", response);
+
+        SuccessMessage("Success", "Login successfull");
+        dispatch(
+          updateUser({
+            user: response.data.user,
+            token: response.data.token,
+          })
+        );
+
+        if (response.data.user.user_type === "teacher") {
+          const isTeacherLoginFirstTime =
+            await AuthenticationServices.checkTeacherLoginFirstTime(
+              response.data.user.id
+            );
+          if (isTeacherLoginFirstTime) {
+            navigate(`/info/${response.data.user.id}`);
+          }
+        } else {
+          navigate("/");
+        }
       } catch (err) {
-        AlertMessage("Error", "Something wrong when login");
+        AlertMessage("Error", `${err.response.data.error}`);
       }
     }
   };
   return (
     <AuthenticationLayout>
-      <h2>Log in to your Udemy account</h2>
+      <h1>Log in to your Udemy account</h1>
       <div className="mt-4">
         <div className="mb-6">
           <FloatingInput
@@ -55,7 +80,7 @@ const Login = () => {
       >
         Sign in
       </button>
-      <div className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
+      {/* <div className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
         <p className="text-center font-semibold mx-4 mb-0">OR</p>
       </div>
 
@@ -77,7 +102,7 @@ const Login = () => {
           />
         </svg>
         Continue with Facebook
-      </a>
+      </a> */}
     </AuthenticationLayout>
   );
 };
