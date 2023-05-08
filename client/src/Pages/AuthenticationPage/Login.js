@@ -19,7 +19,30 @@ const Login = () => {
           email: email,
           password: password,
         });
+<<<<<<< Updated upstream
         console.log("response: ", response);
+=======
+
+        SuccessMessage("Success", "Login successfull");
+        dispatch(
+          updateUser({
+            user: response.data.user,
+            token: response.data.token,
+          })
+        );
+
+        if (response.data.user.user_type === "teacher") {
+          const isTeacherLoginFirstTime =
+            await AuthenticationServices.checkTeacherLoginFirstTime(
+              response.data.user.id
+            );
+          if (isTeacherLoginFirstTime) {
+            navigate(`/user/edit-profile`);
+          }
+        } else {
+          navigate("/");
+        }
+>>>>>>> Stashed changes
       } catch (err) {
         AlertMessage("Error", "Something wrong when login");
       }

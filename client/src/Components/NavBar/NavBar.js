@@ -11,6 +11,9 @@ function Navbar() {
         <li>
           <Link to="/login">Login</Link>
         </li>
+        <li>
+          <Link to="/user/edit-profile">profile</Link>
+        </li>
       </ul>
     </nav>
   );

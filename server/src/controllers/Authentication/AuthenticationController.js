@@ -16,11 +16,30 @@ module.exports = {
       const user = await User.create(req.body);
       const userJson = user.toJSON();
 
+      if (req.body.user_type === "student") {
+        const student = await Student.create({
+          name: user.email.split("@")[0],
+          description: "",
+          phone: "",
+          mail: user.email,
+          userId: user.id,
+        });
+      } else {
+        const teacher = await Teacher.create({
+          name: user.email.split("@")[0],
+          description: "Empty",
+          phone: "Empty",
+          mail: user.email,
+          userId: user.id,
+        });
+      }
+
       res.send({
         user: userJson,
         token: jwtSignUp(userJson),
       });
     } catch (err) {
+      console.log("err: ", err);
       res.status(400).send({
         // error: "This email account is already in use",
         error: err,
@@ -62,4 +81,39 @@ module.exports = {
       });
     }
   },
+<<<<<<< Updated upstream
+=======
+  async checkTeacherLoginFirstTime(req, res) {
+    try {
+      const userId = req.params.id;
+      const userInfo = await Teacher.findOne({
+        where: {
+          userId: userId,
+        },
+      });
+
+      if (!userInfo) {
+        res.status(400).send({
+          error: "User do not in database",
+        });
+      }
+
+      const userJson = userInfo.toJSON();
+
+      if (userJson.description === "Empty" && userJson.phone === "Empty") {
+        return res.send({
+          firstTimeLogin: true,
+        });
+      }
+
+      return res.send({
+        firstTimeLogin: false,
+      });
+    } catch (err) {
+      res.status(500).send({
+        error: "An error has occured trying to log in",
+      });
+    }
+  },
+>>>>>>> Stashed changes
 };
