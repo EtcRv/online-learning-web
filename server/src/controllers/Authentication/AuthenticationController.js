@@ -17,18 +17,18 @@ module.exports = {
 
       if (req.body.user_type === "student") {
         const student = await Student.create({
-          name: "",
+          name: user.email.split("@")[0],
           description: "",
           phone: "",
-          mail: "",
+          mail: user.email,
           userId: user.id,
         });
       } else {
         const teacher = await Teacher.create({
-          name: "",
-          description: "",
-          phone: "",
-          mail: "",
+          name: user.email.split("@")[0],
+          description: "Empty",
+          phone: "Empty",
+          mail: user.email,
           userId: user.id,
         });
       }
@@ -38,6 +38,7 @@ module.exports = {
         token: jwtSignUp(userJson),
       });
     } catch (err) {
+      console.log("err: ", err);
       res.status(400).send({
         error: "This email account is already in use",
       });
@@ -80,7 +81,7 @@ module.exports = {
   },
   async checkTeacherLoginFirstTime(req, res) {
     try {
-      const { userId } = req.body;
+      const userId = req.params.id;
       const userInfo = await Teacher.findOne({
         where: {
           userId: userId,
@@ -93,12 +94,8 @@ module.exports = {
         });
       }
 
-      if (
-        userInfo.name === "" &&
-        userInfo.description === "" &&
-        userInfo.phone === "" &&
-        userInfo.mail === ""
-      ) {
+      const userJson = userInfo.toJSON();
+      if (userJson.description === "Empty" && userJson.phone === "Empty") {
         return res.send({
           firstTimeLogin: true,
         });

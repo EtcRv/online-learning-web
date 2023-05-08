@@ -8,6 +8,6 @@ export default {
     return Api().post("login", user);
   },
   checkTeacherLoginFirstTime(userId) {
-    return Api().post("checklogin", userId);
+    return Api().get(`checklogin/${userId}`);
   },
 };

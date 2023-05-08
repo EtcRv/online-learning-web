@@ -25,7 +25,6 @@ const Login = () => {
           email: email,
           password: password,
         });
-
         SuccessMessage("Success", "Login successfull");
         dispatch(
           updateUser({
@@ -40,7 +39,7 @@ const Login = () => {
               response.data.user.id
             );
           if (isTeacherLoginFirstTime) {
-            navigate(`/info/${response.data.user.id}`);
+            navigate(`/user/edit-profile`);
           }
         } else {
           navigate("/");
