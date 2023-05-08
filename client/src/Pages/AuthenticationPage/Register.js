@@ -3,11 +3,15 @@ import FloatingInput from "../../Components/ReUse/FloatingInput/FloatingInput";
 import AuthenticationLayout from "../../Components/Layout/AuthenticationLayout/AuthenticationLayout";
 import AlertMessage from "../../Components/ReUse/AlertMessage/AlertMessage";
 import AuthenticationServices from "../../Services/AuthenticationServices/AuthenticationServices";
+import SuccessMessage from "../../Components/ReUse/SuccessMessage/SuccessMessage";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [verifiPass, setVerifiPass] = useState("");
+  const navigate = useNavigate();
+
   let url = document.URL;
   url = url.split("/");
   const userType = url[url.length - 1];
@@ -29,18 +33,19 @@ const Register = () => {
           password: password,
           user_type: userType,
         });
-        console.log("response: ", response);
+        SuccessMessage("Success", "Register successfull");
+        navigate("/login");
       } catch (err) {
-        AlertMessage("Error", `${err}`);
+        AlertMessage("Error", `${err.response.data.error}`);
       }
     }
   };
   return (
     <AuthenticationLayout>
       {userType === "teacher" ? (
-        <h2>Sign up and start teaching</h2>
+        <h1>Sign up and start teaching</h1>
       ) : (
-        <h2>Sign up and start learning</h2>
+        <h1>Sign up and start learning</h1>
       )}
       <div className="mt-4">
         <div className="mb-6">

@@ -1,4 +1,4 @@
-const { User } = require("../../models");
+const { User, Student, Teacher } = require("../../models");
 const config = require("../../config/config");
 const jwt = require("jsonwebtoken");
 
@@ -12,7 +12,6 @@ function jwtSignUp(user) {
 module.exports = {
   async register(req, res) {
     try {
-      console.log("req.body: ", req.body);
       const user = await User.create(req.body);
       const userJson = user.toJSON();
 
@@ -41,8 +40,7 @@ module.exports = {
     } catch (err) {
       console.log("err: ", err);
       res.status(400).send({
-        // error: "This email account is already in use",
-        error: err,
+        error: "This email account is already in use",
       });
     }
   },
@@ -81,8 +79,6 @@ module.exports = {
       });
     }
   },
-<<<<<<< Updated upstream
-=======
   async checkTeacherLoginFirstTime(req, res) {
     try {
       const userId = req.params.id;
@@ -99,7 +95,6 @@ module.exports = {
       }
 
       const userJson = userInfo.toJSON();
-
       if (userJson.description === "Empty" && userJson.phone === "Empty") {
         return res.send({
           firstTimeLogin: true,
@@ -115,5 +110,4 @@ module.exports = {
       });
     }
   },
->>>>>>> Stashed changes
 };
