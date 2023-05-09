@@ -14,13 +14,23 @@ function Navbar() {
           <NavLink to="/login" activeClassName="active">
             Login
           </NavLink>
-          <NavLink to="/signup" activeClassName="active">
+          <NavLink to="/register/student" activeClassName="active">
             SignUp
+          </NavLink>
+          <NavLink to="/user/edit-profile" activeClassName="active">
+            User Profile
           </NavLink>
         </div>
         <div class="input-group rounded" id="input-wrap">
-  <input type="search" id="input" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-</div>
+          <input
+            type="search"
+            id="input"
+            class="form-control rounded"
+            placeholder="Search"
+            aria-label="Search"
+            aria-describedby="search-addon"
+          />
+        </div>
       </div>
     </div>
   );

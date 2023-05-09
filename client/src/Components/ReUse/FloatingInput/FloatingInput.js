@@ -4,7 +4,7 @@ const FloatingInput = (props) => {
       <input
         type={props.type}
         id="floating_filled"
-        className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-black bg-white border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-black bg-white border-2 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
         placeholder=" "
         onChange={(e) => props.setValue(e.currentTarget.value)}
         value={props.value}
