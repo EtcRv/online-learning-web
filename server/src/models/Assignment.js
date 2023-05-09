@@ -1,14 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const Assignment = sequelize.define("Assignment", {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    course_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     type: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -22,5 +13,10 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  Assignment.associate = (models) => {
+    Assignment.hasOne(models.Assignment_Submission, {
+      foreignKey: "assignmentId",
+    });
+  };
   return Assignment;
 };

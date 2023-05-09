@@ -1,8 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./Pages/HomePage/HomePage";
-import LoginPage from "./Pages/AuthenticationPage/LoginPage";
+import Login from "./Pages/AuthenticationPage/Login";
+import Register from "./Pages/AuthenticationPage/Register";
 import Layout from "./Components/Layout/Layout";
 import SignUpPage from "./Pages/AuthenticationPage/SignUpPage";
+import EditProfilePage from "./Pages/User/Profile/EditProfilePage";
+import Course from "./Pages/Course/Course";
 
 function App() {
   return (
@@ -12,6 +15,11 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignUpPage />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register/student" element={<Register />} />
+          <Route path="register/teacher" element={<Register />} />
+          <Route path="user/edit-profile" element={<EditProfilePage />} />
+          <Route path="subject" element={<Course />} />
         </Route>
       </Routes>
     </BrowserRouter>

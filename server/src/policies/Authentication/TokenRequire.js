@@ -3,8 +3,8 @@ const config = require("../../config/config");
 
 module.exports = {
   async auth(req, res, next) {
+    console.log("req.headers: ", req.headers);
     const token = req.headers.authorization.split(" ")[1];
-    // console.log("Token:", token);
     if (!token) return res.status(401).send("Access denied. No token provided");
 
     try {

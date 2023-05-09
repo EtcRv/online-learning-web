@@ -4,12 +4,11 @@ module.exports = {
   port: process.env.PORT || 8888,
   db: {
     database: process.env.DB_NAME || "onlinelearningweb",
-    user: process.env.DB_USER || "onlinelearningweb",
-    password: process.env.DB_PASS || "onlinelearningweb",
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASS || "luvetcrv2408",
     options: {
-      dialect: process.env.DIALECT || "sqlite",
+      dialect: process.env.DIALECT || "mysql",
       host: process.env.HOST || "localhost",
-      storage: path.resolve(__dirname, "../../onlinelearningweb.sqlite"),
     },
   },
   authentication: {
