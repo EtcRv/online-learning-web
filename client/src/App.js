@@ -3,6 +3,7 @@ import HomePage from "./Pages/HomePage/HomePage";
 import Login from "./Pages/AuthenticationPage/Login";
 import Register from "./Pages/AuthenticationPage/Register";
 import Layout from "./Components/Layout/Layout";
+import SignUpPage from "./Pages/AuthenticationPage/SignUpPage";
 import EditProfilePage from "./Pages/User/Profile/EditProfilePage";
 import Course from "./Pages/Course/Course";
 
@@ -12,6 +13,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signup" element={<SignUpPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register/student" element={<Register />} />
           <Route path="register/teacher" element={<Register />} />

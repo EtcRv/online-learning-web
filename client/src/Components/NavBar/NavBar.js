@@ -1,25 +1,29 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+// import { Form, FormControl, Button } from "react-bootstrap";
+import "./NavBar.css";
 
 function Navbar() {
-    return (
-        <nav>
-            <div className='container flex space-x-8 items-end'>
-                <a className='font-bold text-2xl' href="/">Online Learning</a>
-                <ul className="flex justify-left space-x-4">
-                    <li>
-                        <Link to="/" className="text-blue-500 hover:text-blue-700">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/login" className="text-blue-500 hover:text-blue-700">Login</Link>
-                    </li>
-                    <li>
-                        <Link to="/subject" className="text-blue-500 hover:text-blue-700">Subject</Link>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    );
+  return (
+    <div>
+      <div className="topnav-bt d-flex ">
+        <div className="container">
+          <NavLink to="/" activeClassName="active" exact={true}>
+            Home
+          </NavLink>
+          <NavLink to="/login" activeClassName="active">
+            Login
+          </NavLink>
+          <NavLink to="/signup" activeClassName="active">
+            SignUp
+          </NavLink>
+        </div>
+        <div class="input-group rounded" id="input-wrap">
+  <input type="search" id="input" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+</div>
+      </div>
+    </div>
+  );
 }
 
 export default Navbar;

@@ -1,0 +1,15 @@
+.list-group-item {
+  font-weight: 700;
+}
+.card-title {
+  font-size: 16px;
+  font-weight: 800;
+}
+.title {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+.container {
+  margin-bottom: 30px;
+}

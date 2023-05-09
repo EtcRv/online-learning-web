@@ -1,10 +1,18 @@
 import React from "react";
-import { useSelector } from "react-redux";
-
+import FeaCop from "../../Components/FeaturedTopics/FeaCop";
+import SliderTop from "../../Components/SliderTop/SliderTop";
+import Couseras from "../../Components/Couseras/Couseras";
+import TopCate from "../../Components/TopCategories/TopCate";
 const HomePage = () => {
-  const user = useSelector((state) => state.user);
-  console.log("user: ", user);
-  return <h1>This is homepage</h1>;
+  return (
+  <>
+  <SliderTop/>
+  <TopCate/>
+  <Couseras/>
+  <FeaCop/>
+  </>
+  
+  );
 };
 
 export default HomePage;
