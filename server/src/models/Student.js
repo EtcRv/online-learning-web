@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
     Student.hasOne(models.Assignment_Submission, {
       foreignKey: "studentId",
     });
+
+    Student.hasOne(models.Lecture_Status, {
+      foreignKey: "studentId",
+    });
   };
 
   return Student;

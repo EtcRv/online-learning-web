@@ -10,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
     Lecture.hasOne(models.Discussion, {
       foreignKey: "lectureId",
     });
+    Lecture.hasOne(models.Lecture_Status, {
+      foreignKey: "lectureId",
+    });
   };
 
   return Lecture;
