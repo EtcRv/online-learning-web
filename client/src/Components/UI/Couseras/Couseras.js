@@ -1,62 +1,108 @@
 import React from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import CardCousera from "../../ReUse/CardCousera/CardCousera"
 import "./Couseras.css"
 
-const Couseras = () => {
+
+
+
+export default function Couseras() {
+  let settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 3,
+    initialSlide: 0
+    // responsive: [
+    //   {
+    //     breakpoint: 1024,
+    //     settings: {
+    //       slidesToShow: 3,
+    //       slidesToScroll: 3,
+    //       infinite: true,
+    //       dots: true
+    //     }
+    //   },
+    //   {
+    //     breakpoint: 600,
+    //     settings: {
+    //       slidesToShow: 2,
+    //       slidesToScroll: 2,
+    //       initialSlide: 2
+    //     }
+    //   },
+    //   {
+    //     breakpoint: 480,
+    //     settings: {
+    //       slidesToShow: 1,
+    //       slidesToScroll: 1
+    //     }
+    //   }
+    // ]
+  };
   return (
-  <div className="container">
-    <h2 className="title">Couseras</h2>
-  <div className="row">
-  <div  className=" col-3" >
-  <img  className="card-img-top" src="https://img-c.udemycdn.com/course/240x135/543600_64d1_4.jpg" alt=""/>
-  <div  className="card-body">
-    <h5  className="card-title">Automate the Boring Stuff with Python Programming</h5>
-    <p  className="card-text">Al Sweigart</p>
-  </div>
-  <ul  className="list-group list-group-flush">
-    <li  className="list-group-item">₫349,000</li>
-  </ul>
-</div>
-<div  className=" col-3" >
-  <img  className="card-img-top" src="https://img-c.udemycdn.com/course/240x135/567828_67d0.jpg" alt=""/>
-  <div  className="card-body">
-    <h5  className="card-title">The Complete Python Bootcamp From Zero to Hero in Python</h5>
-    <p  className="card-text">Jose Portillal</p>
-  </div>
-  <ul  className="list-group list-group-flush">
-    <li  className="list-group-item">₫499,000</li>
-  </ul>
-</div>
-<div  className=" col-3" >
-  <img  className="card-img-top" src="https://img-c.udemycdn.com/course/240x135/950390_270f_3.jpg" alt=""/>
-  <div  className="card-body">
-    <h5  className="card-title">{`Machine Learning A-Z™: AI, Python & R + ChatGPT Bonus [2023]`}</h5>
-    <p  className="card-text">Kirill Eremenko, Hadelin de Ponteves, Ligency I Team, Ligency Team</p>
-  </div>
-  <ul  className="list-group list-group-flush">
-    <li  className="list-group-item">₫399,000</li>
-  </ul>
-</div>
-<div  className=" col-3" >
-  <img  className="card-img-top" src="https://img-c.udemycdn.com/course/240x135/2776760_f176_10.jpg" alt=""/>
-  <div  className="card-body">
-    <h5  className="card-title">100 Days of Code: The Complete Python Pro Bootcamp for 2023</h5>
-    <p  className="card-text">Dr. Angela Yu</p>
-  </div>
-  <ul  className="list-group list-group-flush">
-    <li  className="list-group-item">₫449,000</li>
-  </ul>
-</div>
+    <>
+ <div className="couseras mx-[35px] px-[24px] mt-[64px] mb-[96px]">
+        <h2 className="mb-[16px] mx-[45px]">Students are viewing</h2>
+        {/* <Slider {...settings}>
+          <div>
+            <h3>1</h3>
+          </div>
+          <div>
+            <h3>2</h3>
+          </div>
+          <div>
+            <h3>3</h3>
+          </div>
+          <div>
+            <h3>4</h3>
+          </div>
+          <div>
+            <h3>5</h3>
+          </div>
+          <div>
+            <h3>6</h3>
+          </div>
+          <div>
+            <h3>7</h3>
+          </div>
+          <div>
+            <h3>8</h3>
+          </div>
+        </Slider> */}
 
-
-
-
-
-  </div>
-
-
-  {/* <h1>This is Couseras</h1> */}
-  </div>
+        <Slider {...settings}>
+          <div className="m-auto">
+            <CardCousera></CardCousera>
+          </div>
+          <div className="m-auto">
+          <CardCousera></CardCousera>
+          </div>
+          <div className="m-auto">
+          <CardCousera></CardCousera>
+          </div>
+          <div className="m-auto">
+          <CardCousera></CardCousera>
+          </div>
+          <div className="m-auto">
+          <CardCousera></CardCousera>
+          </div>
+          <div className="m-auto">
+          <CardCousera></CardCousera>
+          </div>
+          <div className="m-auto">
+          <CardCousera></CardCousera>
+          </div>
+          <div className="m-auto">
+          <CardCousera></CardCousera>
+          </div>
+        </Slider>
+      </div>
+    
+    </>
+    
   );
-};
-
-export default Couseras;
+}

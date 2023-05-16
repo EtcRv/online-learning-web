@@ -1,1 +1,7 @@
-
+/* reset slick slider  */
+.slider-top .slick-prev {
+  display: none !important;
+}
+.slider-top .slick-next {
+  display: none !important;
+}

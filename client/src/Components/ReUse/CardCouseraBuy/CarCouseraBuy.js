@@ -1,5 +1,7 @@
+import { AiFillPlayCircle} from "react-icons/ai";
+
 const a={
-courseraImg:"https://mp4-c.udemycdn.com/2020-04-22_19-21-36-9c7432c6fd7964510fbd0c3fd107b523/thumb-1.jpg?Expires=1684141459&Signature=a8dZvVxMNWkyJeg-kF3buuPMBNYQJGWcmlYoRJ5Gu7isCjQrlt15jdgDcwOL6zZTyCaM6Fmg3LfNEbKx~YJXUOpgfa9qU2oTitLjozww8RopNke4~wPerAT6RCpqqW9tQMLuIzKyRgw~5prpt0FvNEDq4ePOnHwn~51c2f7kT0SaDZ8pWHdTFOW7nL~BdCggSLHxX9BWDeta8AsPxTtdvMwAOK7rrTCu6kMthja-GT60ZOn2jKJuuVyGZlNz9fznpIJSsMyYfOjje9lkjOfb0GrnEqyAcAEbbGZlB-fmL24DqnYVPM4UHrQbz1WwHY~EwYAFiB-k8Nlr-y0legVdyg__&Key-Pair-Id=APKAITJV77WS5ZT7262A",
+courseraImg:"https://mp4-c.udemycdn.com/2020-04-22_19-21-36-9c7432c6fd7964510fbd0c3fd107b523/thumb-1.jpg?Expires=1684181815&Signature=OrdSufWFSrV3g4hIE3VibJgvf6KPPnF2dzWP2f~FADzxdnf9b-9olX-WAgG1x9s70f9~K7WUXbTZJfgphXOAzveLa-2r2DQ88r9h~N1IfEHKhYJh94OUU8oas8h9TCtzlzvbJOqSmdS4kB~Xvxuxe3gfygo9owS0JhijW58AUkzrVG9A4kegKdUrpI-U-qUhjeltvrPia~xNuS2KPAwDEAx55TR6G2IATvhqi8sdPzohONkesLhNWWkDX2YuOZTZcEb3rBR6dNWw1lAikQ~AhNqFLotPfYVhxN9Wldv7i--G6LTdGrZqD~sQAihzVbqlGTJm9MDJepC8nRna9Jjq9g__&Key-Pair-Id=APKAITJV77WS5ZT7262A",
 courseraName:"HTML5 - From Basics to Advanced level [2023]",
 currentLec:"1. HTML - Introduction",
 lecTime: "1 min"
@@ -19,7 +21,10 @@ const CardCouseraBuy = () => {
             src={a.courseraImg}
             alt=""
           ></img>
-         
+         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
+        
+        <span className="text-white  flex items-center justify-center absolute top-0 left-0 h-full w-full">  <AiFillPlayCircle className="text-[50px]"></AiFillPlayCircle></span>
+       
         </div>
         <div className="w-[300px] p-[16px] flex flex-col justify-between">
       <div>
