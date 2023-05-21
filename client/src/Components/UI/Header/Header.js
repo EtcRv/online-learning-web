@@ -59,21 +59,56 @@ function Header() {
             </div>
           </div>
           <div className="">
-          <div className="flex items-center justify-center">
-    <div className="flex border-2 rounded">
-        <input type="text" className="px-4 py-2 w-80" placeholder="Search..."></input>
-        <button className="flex items-center justify-center px-4 border-l">
-            <svg className="w-6 h-6 text-gray-600" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24">
-                <path
-                    d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-            </svg>
-        </button>
-    </div>
-</div>
-
+            <div className="flex items-center justify-center">
+              <div className="flex border-2 rounded">
+                <input
+                  type="text"
+                  className="px-4 py-2 w-80"
+                  placeholder="Search..."
+                ></input>
+                <button className="flex items-center justify-center px-4 border-l">
+                  <svg
+                    className="w-6 h-6 text-gray-600"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
+
           <div className="flex items-center h-full">
+            <NavLink
+              className="mr-5 font-medium hover:text-gray-900"
+              to="/cart"
+              activeClassName="active"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-shopping-cart"
+                id="IconChangeColor"
+              >
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path
+                  d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+                  id="mainIconPathAttribute"
+                  stroke="#1e3032"
+                  stroke-width="2.5"
+                ></path>
+              </svg>
+            </NavLink>
             <NavLink
               className="mr-5 font-medium hover:text-gray-900"
               to="/login"
