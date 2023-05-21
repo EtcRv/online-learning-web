@@ -3,6 +3,7 @@ import UserPageLayout from "../../../Components/Layout/UserPageLayout/UserPageLa
 import { useSelector } from "react-redux";
 import InfoServices from "../../../Services/UserServices/InfoServices";
 import AlertMessage from "../../../Components/ReUse/AlertMessage/AlertMessage";
+import Button from "../../../Components/ReUse/Button/Button";
 
 const EditProfilePage = () => {
   const [userInfor, setUserInfor] = useState({});
@@ -27,7 +28,6 @@ const EditProfilePage = () => {
         { userId: user.id, user_type: user.user_type },
         token
       );
-      console.log("getUser: ", getUser);
       setUserInfor(getUser.data.userInfor);
       setFullName(getUser.data.userInfor.name);
       setAvatar(getUser.data.userInfor.avatar_url);
@@ -41,9 +41,9 @@ const EditProfilePage = () => {
   };
 
   useEffect(() => {
-    if (!isLogin) {
-      window.location.href = "/login";
-    }
+    // if (!isLogin) {
+    //   window.location.href = "/login";
+    // }
     getUserData();
   }, []);
 
@@ -160,9 +160,14 @@ const EditProfilePage = () => {
           ) : (
             ""
           )}
-          <button class="bg-gray-600 hover:bg-gray-800 text-white font-bold py-3 px-4 mb-4">
+          <Button
+            bgColor="bg-gray-600"
+            bgColorHover="bg-gray-800"
+            textColor="text-white"
+            onClickBtn={() => console.log("Hello")}
+          >
             Save
-          </button>
+          </Button>
         </div>
       </div>
     </UserPageLayout>

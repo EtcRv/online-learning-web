@@ -1,6 +1,7 @@
 import EmptyStar from "../Star/EmptyStar";
 import FullStar from "../Star/FullStar";
 
+
 // const props = {
 //     image: "https://img-c.udemycdn.com/course/240x135/950390_270f_3.jpg",
 //     name: "Jose Potilla",
