@@ -1,6 +1,6 @@
 import CourseInCart from "../../Components/ReUse/CourseInCart/CourseInCart";
 import Couseras from "../../Components/UI/Couseras/Couseras";
-
+import UserPageLayout from "../../Components/Layout/UserPageLayout/UserPageLayout";
 
 const data = [
   {
@@ -25,20 +25,20 @@ const data = [
     price: "12,199,000",
   },
 ];
-const valOff=0.71;
+const valOff = 0.71;
 
-const totalPrice = (data,Off=0) => {
-    const totalPrice = data.reduce((sum, item) => {
-      const priceNumber = parseFloat(item.price.replace(/,/g, ""));
-      return sum + priceNumber;
-    }, 0);
-  
-    return (totalPrice*(1-Off)).toLocaleString(); 
-  };
+const totalPrice = (data, Off = 0) => {
+  const totalPrice = data.reduce((sum, item) => {
+    const priceNumber = parseFloat(item.price.replace(/,/g, ""));
+    return sum + priceNumber;
+  }, 0);
+
+  return (totalPrice * (1 - Off)).toLocaleString();
+};
 
 const CartCouseras = () => {
   return (
-    <>
+    <UserPageLayout>
       <div className="mx-[80px] px-[24px]">
         <h1 className="my-[34px]">Shopping Cart</h1>
         <div className="grid grid-cols-12 gap-10">
@@ -54,13 +54,13 @@ const CartCouseras = () => {
             <div>
               <div className="mb-2 text-gray-600">Total&nbsp;:</div>
 
-              <div className="text-[30px] font-bold">{
-                totalPrice(data,valOff)
-              } ₫</div>
+              <div className="text-[30px] font-bold">
+                {totalPrice(data, valOff)} ₫
+              </div>
 
-              <div className="text-gray-600 line-through">{
-                totalPrice(data)
-              } ₫</div>
+              <div className="text-gray-600 line-through">
+                {totalPrice(data)} ₫
+              </div>
 
               <div>71&nbsp;% off</div>
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-full">
@@ -98,7 +98,7 @@ const CartCouseras = () => {
         </div>
       </div>
       <Couseras></Couseras>
-    </>
+    </UserPageLayout>
   );
 };
 

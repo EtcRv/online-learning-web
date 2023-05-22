@@ -15,12 +15,12 @@ module.exports = (app) => {
   );
   app.get(
     "/user/student-profile/:id",
-    // TokenRequire.auth,
+    TokenRequire.auth,
     UserProfileController.getStudentInformation
   );
   app.get(
     "/user/teacher-profile/:id",
-    // TokenRequire.auth,
+    TokenRequire.auth,
     UserProfileController.getTeacherInformation
   );
   app.post(

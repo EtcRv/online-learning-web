@@ -1,25 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import InfoServices from "../../../Services/UserServices/InfoServices";
+
 function Header() {
+  const [userInfor, setUserInfor] = useState({});
+  const isLogin = useSelector((state) => state.user.isLogin);
+  const user = useSelector((state) => state.user.user);
+  const token = useSelector((state) => state.user.token);
+
+  const getUserData = async () => {
+    try {
+      const getUser = await InfoServices.getInfo(
+        { userId: user.id, user_type: user.user_type },
+        token
+      );
+      setUserInfor(getUser.data.userInfor);
+      console.log("userInfor: ", userInfor);
+    } catch (err) {
+      console.log("err: ", err);
+    }
+  };
+
+  useEffect(() => {
+    if (isLogin) {
+      getUserData();
+    }
+  }, []);
   return (
     <div>
-      {/* <div className="flex ">
-        <div className="">
-          <NavLink className="mr-5 font-medium hover:text-gray-900" to="/" activeClassName="active" exact={true}>
-            Home
-          </NavLink>
-          <NavLink className="mr-5 font-medium hover:text-gray-900" to="/login" activeClassName="active">
-            Login
-          </NavLink>
-          <NavLink className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease" to="/register/student" activeClassName="active">
-            SignUp
-          </NavLink>
-          <NavLink className="mr-5 font-medium hover:text-gray-900" to="/user/edit-profile" activeClassName="active">
-            User Profile
-          </NavLink>
-        </div>
-      </div> */}
-
       <div className="w-full  text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font">
         <div className="flex  justify-between p-6 mx-auto ">
           <div className="flex">
@@ -48,14 +57,6 @@ function Header() {
               >
                 Home
               </NavLink>
-              <NavLink
-                className="mr-5 font-medium hover:text-gray-900"
-                to="/user/edit-profile"
-                activeClassName="active"
-              >
-                User Profile
-              </NavLink>
-              {/* <a href="#_" className="font-medium hover:text-gray-900">Contact</a> */}
             </div>
           </div>
           <div className="">
@@ -109,20 +110,38 @@ function Header() {
                 ></path>
               </svg>
             </NavLink>
-            <NavLink
-              className="mr-5 font-medium hover:text-gray-900"
-              to="/login"
-              activeClassName="active"
-            >
-              Login
-            </NavLink>
-            <NavLink
-              className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
-              to="/register/student"
-              activeClassName="active"
-            >
-              SignUp
-            </NavLink>
+
+            {!isLogin && (
+              <NavLink
+                className="mr-5 font-medium hover:text-gray-900"
+                to="/login"
+                activeClassName="active"
+              >
+                Login
+              </NavLink>
+            )}
+            {!isLogin && (
+              <NavLink
+                className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
+                to="/register/student"
+                activeClassName="active"
+              >
+                SignUp
+              </NavLink>
+            )}
+
+            {isLogin && (
+              <NavLink
+                className="mr-5 rounded-full w-10 h-10"
+                to="/user/edit-profile"
+                activeClassName="active"
+              >
+                <img
+                  src={userInfor.avatar_url}
+                  className="rounded-full w-full h-full"
+                />
+              </NavLink>
+            )}
           </div>
         </div>
       </div>
