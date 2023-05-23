@@ -4,8 +4,11 @@ import { useSelector } from "react-redux";
 import InfoServices from "../../../Services/UserServices/InfoServices";
 import AlertMessage from "../../../Components/ReUse/AlertMessage/AlertMessage";
 import Button from "../../../Components/ReUse/Button/Button";
+import SuccessMessage from "../../../Components/ReUse/SuccessMessage/SuccessMessage";
+import { useNavigate } from "react-router-dom";
 
 const EditProfilePage = () => {
+  const navigate = useNavigate();
   const [userInfor, setUserInfor] = useState({});
   const [fullName, setFullName] = useState("");
   const [description, setDescription] = useState("");
@@ -40,10 +43,43 @@ const EditProfilePage = () => {
     }
   };
 
+  const updateUserProfile = async () => {
+    try {
+      const response = await InfoServices.setUserProfile(
+        {
+          userData: {
+            userId: user.id,
+            name: fullName,
+            description: description,
+            avatar_url: avatar,
+            phone: phone,
+            mail: mail,
+          },
+          user_type: user.user_type,
+        },
+        token
+      );
+      SuccessMessage("Success", "Update information successfully");
+    } catch (err) {
+      console.log("err: ", err);
+      AlertMessage("Error", "Failed when update user data");
+    }
+  };
+
+  const changeTab = (tabName) => {
+    if (tabName === "Public Profile") {
+      navigate("/user/profile");
+    } else if (tabName === "Account Security") {
+      console.log("hello");
+    } else if (tabName === "Close Account") {
+      console.log("Hello");
+    }
+  };
+
   useEffect(() => {
-    // if (!isLogin) {
-    //   window.location.href = "/login";
-    // }
+    if (!isLogin) {
+      window.location.href = "/login";
+    }
     getUserData();
   }, []);
 
@@ -71,12 +107,21 @@ const EditProfilePage = () => {
           </div>
           <div>
             <ul className="list-none">
-              <li className="py-1 px-4 cursor-pointer">View public profile</li>
-              <li className="py-1 px-4 cursor-pointer bg-gray-700 text-white">
+              <button
+                className="py-1 px-4 cursor-pointer w-full"
+                onClick={() => changeTab("Public Profile")}
+              >
+                View public profile
+              </button>
+              <button className="py-1 px-4 cursor-pointer bg-gray-700 text-white w-full text-left">
                 Profile
-              </li>
-              <li className="py-1 px-4 cursor-pointer">Account Security</li>
-              <li className="py-1 px-4 cursor-pointer">Close account</li>
+              </button>
+              <button className="py-1 px-4 cursor-pointer w-full">
+                Account Security
+              </button>
+              <button className="py-1 px-4 cursor-pointer w-full">
+                Close account
+              </button>
             </ul>
           </div>
         </div>
@@ -97,7 +142,7 @@ const EditProfilePage = () => {
               </label>
               <input
                 type="text"
-                className="px-3 py-3 bg-white border-2 border-slate-600"
+                className="px-3 py-3 bg-white border-2 border-slate-600 w-full"
                 placeholder="Full Name"
                 value={fullName}
                 onChange={(e) => setFullName(e.currentTarget.value)}
@@ -113,7 +158,7 @@ const EditProfilePage = () => {
                 )}
               </label>
               <textarea
-                className="px-3 py-3 bg-white border-2 border-slate-600 h-48 min-h-full"
+                className="px-3 py-3 bg-white border-2 border-slate-600 h-48 w-full min-h-full"
                 placeholder="Description"
                 value={description}
                 onChange={(e) => setDescription(e.currentTarget.value)}
@@ -131,7 +176,7 @@ const EditProfilePage = () => {
               </label>
               <input
                 type="text"
-                className="px-3 py-3 my-2 bg-white border-2 border-slate-600 mb-2"
+                className="px-3 py-3 my-2 bg-white border-2 border-slate-600 mb-2 w-full"
                 placeholder="Your phone"
                 value={phone}
                 onChange={(e) => setPhone(e.currentTarget.value)}
@@ -146,7 +191,7 @@ const EditProfilePage = () => {
               </label>
               <input
                 type="email"
-                className="px-3 py-3 mt-2 bg-white border-2 border-slate-600"
+                className="px-3 py-3 mt-2 bg-white border-2 border-slate-600 w-full"
                 placeholder="Your email"
                 value={mail}
                 onChange={(e) => setMail(e.currentTarget.value)}
@@ -164,7 +209,7 @@ const EditProfilePage = () => {
             bgColor="bg-gray-600"
             bgColorHover="bg-gray-800"
             textColor="text-white"
-            onClickBtn={() => console.log("Hello")}
+            onClickBtn={updateUserProfile}
           >
             Save
           </Button>

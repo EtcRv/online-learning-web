@@ -1,9 +1,9 @@
-import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import CardCousera from "../../ReUse/CardCousera/CardCousera";
-import "./Couseras.css";
+import InfoServices from "../../../Services/UserServices/InfoServices";
+import UserPageLayout from "../../../Components/Layout/UserPageLayout/UserPageLayout";
+import React, { useEffect, useState } from "react";
+import AlertMessage from "../../../Components/ReUse/AlertMessage/AlertMessage";
+import CardCousera from "../../../Components/ReUse/CardCousera/CardCousera";
+import { useSelector } from "react-redux";
 
 const data = [
   {
@@ -69,101 +69,57 @@ const data = [
     numberStudent: "462,590",
     price: "12,199,000",
   },
-  {
-    courseImg: "https://img-c.udemycdn.com/course/240x135/950390_270f_3.jpg",
-    title:
-      " Apple Watch Series 7 GPS, Aluminium Case, Starlight Spordasfasfasdfasdfafsaggabsafasfserw4efadf à we eawf we fwef t",
-    teacherName: "Jose Potilla",
-    rating: "5.0",
-    numberStudent: "462,590",
-    price: "12,199,000",
-  },
-  {
-    courseImg: "https://img-c.udemycdn.com/course/240x135/950390_270f_3.jpg",
-    title:
-      " Apple Watch Series 7 GPS, Aluminium Case, Starlight Spordasfasfasdfasdfafsaggabsafasfserw4efadf à we eawf we fwef t",
-    teacherName: "Jose Potilla",
-    rating: "5.0",
-    numberStudent: "462,590",
-    price: "12,199,000",
-  },
 ];
 
-export default function Couseras() {
-  let settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 3,
-    initialSlide: 0,
-    // responsive: [
-    //   {
-    //     breakpoint: 1024,
-    //     settings: {
-    //       slidesToShow: 3,
-    //       slidesToScroll: 3,
-    //       infinite: true,
-    //       dots: true
-    //     }
-    //   },
-    //   {
-    //     breakpoint: 600,
-    //     settings: {
-    //       slidesToShow: 2,
-    //       slidesToScroll: 2,
-    //       initialSlide: 2
-    //     }
-    //   },
-    //   {
-    //     breakpoint: 480,
-    //     settings: {
-    //       slidesToShow: 1,
-    //       slidesToScroll: 1
-    //     }
-    //   }
-    // ]
-  };
-  return (
-    <>
-      <div className="couseras mx-[35px] px-[24px] mt-[64px] mb-[96px]">
-        <h2 className="mb-[16px] mx-[45px]">Students are viewing</h2>
-        {/* <Slider {...settings}>
-          <div>
-            <h3>1</h3>
-          </div>
-          <div>
-            <h3>2</h3>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
-          </div>
-          <div>
-            <h3>7</h3>
-          </div>
-          <div>
-            <h3>8</h3>
-          </div>
-        </Slider> */}
+const ViewPublicProfile = (props) => {
+  const [userInfo, setUserInfo] = useState({});
+  const isLogin = useSelector((state) => state.user.isLogin);
+  const user = useSelector((state) => state.user.user);
+  const token = useSelector((state) => state.user.token);
 
-        <Slider {...settings}>
-          
+  const getUserData = async () => {
+    try {
+      const getUser = await InfoServices.getInfo(
+        { userId: user.id, user_type: user.user_type },
+        token
+      );
+      setUserInfo(getUser.data.userInfor);
+    } catch (err) {
+      console.log("err: ", err);
+      AlertMessage("Error", "Failed when load user data");
+    }
+  };
+
+  useEffect(() => {
+    if (!isLogin) {
+      window.location.href = "/login";
+    }
+    getUserData();
+  }, []);
+
+  return (
+    <UserPageLayout>
+      <div className="w-full px-8 bg-black py-16">
+        <p className="text-5xl text-white font-bold">{userInfo.name}</p>
+      </div>
+      <div className="w-full px-8 bg-white py-16">
+        <img
+          src={userInfo.avatar_url}
+          className="ml-16 w-36 h-36 rounded-full "
+        ></img>
+      </div>
+      <div className="w-full px-8 py-16 mt-8 border-2 border-slate-800 border-x-0 border-b-0 text-center">
+        <p className="font-bold text-xl mb-6">Courses you're enrolled in</p>
+        <div className="lg:w-3/6 md:w-full flex flex-wrap mx-auto">
           {data.map((item) => (
-            <div className="m-auto">
+            <div className="my-2 mx-2">
               <CardCousera data={item}></CardCousera>
             </div>
           ))}
-        </Slider>
+        </div>
       </div>
-    </>
+    </UserPageLayout>
   );
-}
+};
+
+export default ViewPublicProfile;

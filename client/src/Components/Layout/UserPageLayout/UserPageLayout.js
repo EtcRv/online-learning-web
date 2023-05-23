@@ -1,13 +1,16 @@
+import Header from "../../UI/Header/Header";
+import Footer from "../../UI/Footer/Footer";
+
 const UserPageLayout = ({ children }) => {
   return (
-    <section className="h-screen">
-      <div className="container mx-auto px-6 py-12 h-full">
-        <div className="flex flex-wrap h-full g-6 text-gray-800">
-          <div className="md:w-8/12 lg:w-5/12 lg:ml-20 lg:w-full">
-            {children}
-          </div>
+    <section className="h-screen w-full">
+      <Header></Header>
+      <div className="mx-auto px-6 py-12">
+        <div className="flex flex-wrap h-full text-gray-800">
+          <div className="w-full">{children}</div>
         </div>
       </div>
+      <Footer></Footer>
     </section>
   );
 };

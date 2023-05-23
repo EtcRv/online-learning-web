@@ -1,55 +1,36 @@
 import React from "react";
-import "./SliderTop.css";
-import slide1 from "../../../assets/image/slide1.jpg";
-import slide2 from "../../../assets/image/slide2.jpg";
-function SliderTop() {
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import slide1 from "../../../assets/image/slide1.jpg"
+import slide2 from "../../../assets/image/slide2.jpg"
+import "./SliderTop.css"
+
+export default function SliderTop() {
+  let settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true, 
+    autoplaySpeed: 2000,
+  };
   return (
-    <div
-      id="carouselExampleControlsNoTouching"
-      className="carousel slide w-100 h-30 container"
-      data-bs-touch="false"
-      data-bs-interval="false"
-    >
-      <div
-        id="carouselExampleControlsNoTouching"
-        className="carousel slide"
-        data-bs-touch="false"
-        data-bs-interval="false"
-      >
-        <div className="carousel-inner">
-          <div className="carousel-item active">
-            <img src={slide1} className="d-block w-100" alt="..." />
+    <>
+ <div className="mx-[80px] px-[24px] slider-top">
+ <Slider {...settings}>
+          <div>
+            <img src={slide1} />
           </div>
-          <div className="carousel-item">
-            <img src={slide2} className="d-block w-100" alt="..." />
+          <div>
+          <img src={slide2} />
           </div>
-        </div>
-        <button
-          className="carousel-control-prev btn-dark"
-          type="button"
-          data-bs-target="#carouselExampleControlsNoTouching"
-          data-bs-slide="prev"
-        >
-          <span
-            className="carousel-control-prev-icon "
-            aria-hidden="true"
-          ></span>
-          <span className="visually-hidden">Previous</span>
-        </button>
-        <button
-          className="carousel-control-next btn-dark"
-          type="button"
-          data-bs-target="#carouselExampleControlsNoTouching"
-          data-bs-slide="next"
-        >
-          <span
-            className="carousel-control-next-icon"
-            aria-hidden="true"
-          ></span>
-          <span className="visually-hidden">Next</span>
-        </button>
-      </div>
-    </div>
+        </Slider>
+
+ </div>
+    
+    </>
+    
   );
 }
-export default SliderTop;
