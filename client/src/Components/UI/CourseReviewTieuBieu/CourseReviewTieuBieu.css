@@ -1,0 +1,42 @@
+.card {
+    border: 1px solid #d1d7dc;
+    box-shadow: 0 2px 4px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.08);
+    background-color: white;
+    margin-bottom: 16px;
+    max-width: 50%;
+}
+
+.card-header {
+    font-size: 2rem;
+    line-height: 1.75rem;
+    font-weight: bold;
+    padding: 1.25rem 2rem;
+}
+
+.user-info {
+    padding: 0 2rem 1rem 2rem;
+    display: flex;
+}
+
+.user-avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-color: #f2f2f2;
+}
+
+.user-name {
+    padding-left: 2rem;
+
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    padding: 0 0 0 2rem;
+}
+
+.description {
+    padding: 0 2rem 2rem 2rem;
+    font-size: 14px;
+}
