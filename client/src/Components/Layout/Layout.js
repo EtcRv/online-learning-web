@@ -6,9 +6,7 @@ import Footer from "../UI/Footer/Footer";
 const Layout = () => {
   return (
     <>
-      {/* <Header /> */}
       <Outlet />
-      {/* <Footer /> */}
     </>
   );
 };

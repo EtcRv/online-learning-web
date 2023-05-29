@@ -17,7 +17,7 @@ module.exports = {
 
       if (req.body.user_type === "student") {
         const student = await Student.create({
-          name: user.email.split("@")[0],
+          name: user.name,
           description: "",
           phone: "",
           mail: user.email,
@@ -25,7 +25,7 @@ module.exports = {
         });
       } else {
         const teacher = await Teacher.create({
-          name: user.email.split("@")[0],
+          name: user.email,
           description: "Empty",
           phone: "Empty",
           mail: user.email,

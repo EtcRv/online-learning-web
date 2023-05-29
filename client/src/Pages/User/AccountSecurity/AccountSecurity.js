@@ -1,95 +1,95 @@
 import React, { useEffect, useState } from "react";
-import UserPageLayout from "../../../Components/Layout/UserPageLayout/UserPageLayout";
 import { useSelector } from "react-redux";
+import UserPageLayout from "../../../Components/Layout/UserPageLayout/UserPageLayout";
 import InfoServices from "../../../Services/UserServices/InfoServices";
 import AlertMessage from "../../../Components/ReUse/AlertMessage/AlertMessage";
 import Button from "../../../Components/ReUse/Button/Button";
 import SuccessMessage from "../../../Components/ReUse/SuccessMessage/SuccessMessage";
 import { useNavigate } from "react-router-dom";
 
-import UserToolbar from "../UserToolBar/UserToolBar";
-import { useDispatch } from "react-redux";
-import { updateUser } from "../../../store/userSlice";
-
-const EditProfilePage = () => {
+const AccountSecurity = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.user.isLogin);
   const user = useSelector((state) => state.user.user);
   const token = useSelector((state) => state.user.token);
-  const [fullName, setFullName] = useState(user.name);
+
+  console.log("User: ", user);
+  const [fullName, setFullName] = useState(user.email);
   const [description, setDescription] = useState("");
   const [phone, setPhone] = useState("");
+  const [mail, setMail] = useState(user.email);
+  const [avatar, setAvatar] = useState(
+    "https://img.freepik.com/premium-vector/avatar-user-icon-vector_97886-15026.jpg?size=626&ext=jpg"
+  );
 
-  const updateUserProfile = async () => {
-    try {
-      const response = await InfoServices.setUserProfile(
-        {
-          userData: {
-            userId: user.id,
-            description: description,
-            avatar_url: user.avatar,
-            phone: phone,
-            mail: user.mail,
-          },
-          user_type: user.user_type,
-        },
-        token
-      );
-
-      const newUser = user;
-      newUser.name = fullName;
-      newUser.description = description;
-      newUser.phone = phone;
-      dispatch(
-        updateUser({
-          user: newUser,
-        })
-      );
-      SuccessMessage("Success", "Update information successfully");
-    } catch (err) {
-      console.log("err: ", err);
-      AlertMessage("Error", "Failed when update user data");
-    }
+  const handleChange = (e) => {
+    setAvatar(URL.createObjectURL(e.target.files[0]));
   };
 
   const changeTab = (tabName) => {
     if (tabName === "Public Profile") {
       navigate("/user/profile");
-    } else if (tabName === "Account Security") {
-      console.log("hello");
+    } else if (tabName === "Edit Profile") {
+      navigate("/user/edit-profile");
     } else if (tabName === "Close Account") {
       console.log("Hello");
     }
   };
-
-  useEffect(() => {
-    if (!isLogin) {
-      window.location.href = "/login";
-    }
-  }, []);
-
   return (
     <UserPageLayout>
       <div className="flex p-3.5 h-full w-full">
         <div className="w-3/12 border-2 border-slate-200 flex flex-col ">
-          <UserToolbar />
+          <div className="p-6 text-center">
+            <div className="mx-auto mb-3">
+              <label className=" w-48 h-48 " htmlFor="changeImage">
+                <img
+                  src={avatar}
+                  className="rounded-full w-48 h-48 mx-auto"
+                ></img>
+                <input
+                  type="file"
+                  onChange={handleChange}
+                  accept="image/png, image/gif, image/jpeg"
+                  id="changeImage"
+                  hidden
+                />
+              </label>
+            </div>
+            <div className="font-bold">{fullName}</div>
+          </div>
+          <div>
+            <ul className="list-none ">
+              <button
+                className="py-1 px-4 cursor-pointer w-full text-left hover:bg-gray-700 hover:text-white"
+                onClick={() => changeTab("Public Profile")}
+              >
+                View public profile
+              </button>
+              <button
+                className="py-1 px-4 cursor-pointer w-full text-left hover:bg-gray-700 hover:text-white"
+                onClick={() => changeTab("Edit Profile")}
+              >
+                Profile
+              </button>
+              <button className="py-1 px-4 cursor-pointer bg-gray-700 text-white w-full text-left">
+                Account Security
+              </button>
+              <button className="py-1 px-4 cursor-pointer w-full text-left hover:bg-gray-700 hover:text-white">
+                Close account
+              </button>
+            </ul>
+          </div>
         </div>
         <div className="w-9/12 text-center border-2 border-l-0 border-slate-200">
           <div className="border-2 border-l-0 border-t-0 border-r-0  py-6  border-slate-200">
-            <div className="font-bold text-lg">Public profile</div>
-            <div className="text-base">Add information about yourself</div>
+            <div className="font-bold text-lg">Account</div>
+            <div className="text-base">
+              Edit your account settings and change your password here.
+            </div>
           </div>
           <div className=" p-6 text-start ">
             <div className="flex flex-col w-9/12 mx-auto my-4">
-              <label className="font-bold pb-2 flex">
-                Full Name:{" "}
-                {user.user_type === "teacher" ? (
-                  <p className="text-red-700">*</p>
-                ) : (
-                  ""
-                )}
-              </label>
+              <label className="font-bold pb-2 flex">Email:</label>
               <input
                 type="text"
                 className="px-3 py-3 bg-white border-2 border-slate-600 w-full"
@@ -131,6 +131,21 @@ const EditProfilePage = () => {
                 value={phone}
                 onChange={(e) => setPhone(e.currentTarget.value)}
               />
+              <label className="pb-1 flex">
+                Mail:{" "}
+                {user.user_type === "teacher" ? (
+                  <p className="text-red-700">*</p>
+                ) : (
+                  ""
+                )}
+              </label>
+              <input
+                type="email"
+                className="px-3 py-3 mt-2 bg-white border-2 border-slate-600 w-full"
+                placeholder="Your email"
+                value={mail}
+                onChange={(e) => setMail(e.currentTarget.value)}
+              />
             </div>
           </div>
           {user.user_type === "teacher" ? (
@@ -140,18 +155,18 @@ const EditProfilePage = () => {
           ) : (
             ""
           )}
-          <Button
+          {/* <Button
             bgColor="bg-gray-600"
             bgColorHover="bg-gray-800"
             textColor="text-white"
             onClickBtn={updateUserProfile}
           >
             Save
-          </Button>
+          </Button> */}
         </div>
       </div>
     </UserPageLayout>
   );
 };
 
-export default EditProfilePage;
+export default AccountSecurity;

@@ -7,6 +7,7 @@ import SuccessMessage from "../../Components/ReUse/SuccessMessage/SuccessMessage
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [verifiPass, setVerifiPass] = useState("");
@@ -17,7 +18,8 @@ const Register = () => {
   const userType = url[url.length - 1];
 
   const submitForm = async () => {
-    const checkFieldEmpty = email == "" || password == "" || verifiPass == "";
+    const checkFieldEmpty =
+      email == "" || password == "" || verifiPass == "" || name == "";
 
     if (checkFieldEmpty) {
       AlertMessage("Error", "You have to fill down all the infomation below");
@@ -30,6 +32,7 @@ const Register = () => {
       try {
         const response = await AuthenticationServices.register({
           email: email,
+          name: name,
           password: password,
           user_type: userType,
         });
@@ -48,6 +51,15 @@ const Register = () => {
         <h1>Sign up and start learning</h1>
       )}
       <div className="mt-4">
+        <div className="mb-6">
+          <FloatingInput
+            type="text"
+            placeholder="Full name"
+            setValue={setName}
+            value={name}
+          ></FloatingInput>
+        </div>
+
         <div className="mb-6">
           <FloatingInput
             type="email"

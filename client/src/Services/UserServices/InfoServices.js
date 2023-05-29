@@ -6,7 +6,7 @@ export default {
     const headers = { Authorization: `Bearer ${token}` };
     if (user_type === "student") {
       return Api().get(`user/student-profile/${userId}`, { headers });
-    } else {
+    } else if (user_type === "teacher") {
       return Api().get(`user/teacher-profile/${userId}`, { headers });
     }
   },
@@ -15,7 +15,7 @@ export default {
     const { userData, user_type } = user;
     if (user_type === "student") {
       return Api().post(`user/student-profile`, userData, { headers });
-    } else {
+    } else if (user_type === "teacher") {
       return Api().post(`user/teacher-profile`, userData, { headers });
     }
   },
