@@ -3,40 +3,51 @@ import UserPageLayout from "../../../Components/Layout/UserPageLayout/UserPageLa
 import { useSelector } from "react-redux";
 import InfoServices from "../../../Services/UserServices/InfoServices";
 import AlertMessage from "../../../Components/ReUse/AlertMessage/AlertMessage";
+import Button from "../../../Components/ReUse/Button/Button";
+import SuccessMessage from "../../../Components/ReUse/SuccessMessage/SuccessMessage";
+import { useNavigate } from "react-router-dom";
+import UserToolbar from "../UserToolBar/UserToolBar";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../../store/userSlice";
 
 const EditProfilePage = () => {
-  const [userInfor, setUserInfor] = useState({});
-  const [fullName, setFullName] = useState("");
-  const [description, setDescription] = useState("");
-  const [phone, setPhone] = useState("");
-  const [mail, setMail] = useState("");
-  const [avatar, setAvatar] = useState(
-    "https://img.freepik.com/premium-vector/avatar-user-icon-vector_97886-15026.jpg?size=626&ext=jpg"
-  );
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.user.isLogin);
   const user = useSelector((state) => state.user.user);
   const token = useSelector((state) => state.user.token);
+  const [fullName, setFullName] = useState(user.name);
+  const [description, setDescription] = useState("");
+  const [phone, setPhone] = useState("");
 
-  const handleChange = (e) => {
-    setAvatar(URL.createObjectURL(e.target.files[0]));
-  };
-
-  const getUserData = async () => {
+  const updateUserProfile = async () => {
     try {
-      const getUser = await InfoServices.getInfo(
-        { userId: user.id, user_type: user.user_type },
+      const response = await InfoServices.setUserProfile(
+        {
+          userData: {
+            userId: user.id,
+            description: description,
+            avatar_url: user.avatar,
+            phone: phone,
+            mail: user.mail,
+          },
+          user_type: user.user_type,
+        },
         token
       );
-      console.log("getUser: ", getUser);
-      setUserInfor(getUser.data.userInfor);
-      setFullName(getUser.data.userInfor.name);
-      setAvatar(getUser.data.userInfor.avatar_url);
-      setDescription(getUser.data.userInfor.description);
-      setPhone(getUser.data.userInfor.phone);
-      setMail(getUser.data.userInfor.mail);
+      const newUser = user;
+      newUser.name = fullName;
+      newUser.description = description;
+      newUser.phone = phone;
+      dispatch(
+        updateUser({
+          user: newUser,
+        })
+      );
+      SuccessMessage("Success", "Update information successfully");
     } catch (err) {
       console.log("err: ", err);
-      AlertMessage("Error", "Failed when load user data");
+      AlertMessage("Error", "Failed when update user data");
     }
   };
 
@@ -44,41 +55,13 @@ const EditProfilePage = () => {
     if (!isLogin) {
       window.location.href = "/login";
     }
-    getUserData();
   }, []);
 
   return (
     <UserPageLayout>
       <div className="flex p-3.5 h-full w-full">
         <div className="w-3/12 border-2 border-slate-200 flex flex-col ">
-          <div className="p-6 text-center">
-            <div className="mx-auto mb-3">
-              <label className=" w-48 h-48 " htmlFor="changeImage">
-                <img
-                  src={avatar}
-                  className="rounded-full w-48 h-48 mx-auto"
-                ></img>
-                <input
-                  type="file"
-                  onChange={handleChange}
-                  accept="image/png, image/gif, image/jpeg"
-                  id="changeImage"
-                  hidden
-                />
-              </label>
-            </div>
-            <div className="font-bold">{fullName}</div>
-          </div>
-          <div>
-            <ul className="list-none">
-              <li className="py-1 px-4 cursor-pointer">View public profile</li>
-              <li className="py-1 px-4 cursor-pointer bg-gray-700 text-white">
-                Profile
-              </li>
-              <li className="py-1 px-4 cursor-pointer">Account Security</li>
-              <li className="py-1 px-4 cursor-pointer">Close account</li>
-            </ul>
-          </div>
+          <UserToolbar />
         </div>
         <div className="w-9/12 text-center border-2 border-l-0 border-slate-200">
           <div className="border-2 border-l-0 border-t-0 border-r-0  py-6  border-slate-200">
@@ -135,21 +118,6 @@ const EditProfilePage = () => {
                 placeholder="Your phone"
                 value={phone}
                 onChange={(e) => setPhone(e.currentTarget.value)}
-              />
-              <label className="pb-1 flex">
-                Mail:{" "}
-                {user.user_type === "teacher" ? (
-                  <p className="text-red-700">*</p>
-                ) : (
-                  ""
-                )}
-              </label>
-              <input
-                type="email"
-                className="px-3 py-3 mt-2 bg-white border-2 border-slate-600"
-                placeholder="Your email"
-                value={mail}
-                onChange={(e) => setMail(e.currentTarget.value)}
               />
             </div>
           </div>

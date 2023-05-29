@@ -5,8 +5,9 @@ import AlertMessage from "../../Components/ReUse/AlertMessage/AlertMessage";
 import AuthenticationServices from "../../Services/AuthenticationServices/AuthenticationServices";
 import SuccessMessage from "../../Components/ReUse/SuccessMessage/SuccessMessage";
 import { useDispatch } from "react-redux";
-import { updateUser } from "../../store/userSlice";
+import { updateUser, addToken } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import InfoServices from "../../Services/UserServices/InfoServices";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,9 +28,24 @@ const Login = () => {
         });
         SuccessMessage("Success", "Login successfull");
         dispatch(
-          updateUser({
-            user: response.data.user,
+          addToken({
             token: response.data.token,
+          })
+        );
+        const userInfo = await InfoServices.getInfo(
+          {
+            userId: response.data.user.id,
+            user_type: response.data.user.user_type,
+          },
+          response.data.token
+        );
+
+        const user = userInfo.data.userInfor;
+        user["name"] = response.data.user.name;
+
+        dispatch(
+          updateUser({
+            user: user,
           })
         );
 
