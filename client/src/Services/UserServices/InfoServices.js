@@ -19,4 +19,8 @@ export default {
       return Api().post(`user/teacher-profile`, userData, { headers });
     }
   },
+  updatePassword(password, token) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return Api().post("/user/update-password", password, { headers });
+  },
 };

@@ -40,9 +40,9 @@ const Login = () => {
           response.data.token
         );
 
-        const user = userInfo.data.userInfor;
+        let user = userInfo.data.userInfor;
         user["name"] = response.data.user.name;
-
+        user["user_type"] = response.data.user.user_type;
         dispatch(
           updateUser({
             user: user,

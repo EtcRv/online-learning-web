@@ -110,4 +110,44 @@ module.exports = {
       });
     }
   },
+  async changePassword(req, res) {
+    try {
+      const { userId } = req.body;
+      const { oldPassword, newPassword } = req.body;
+
+      const user = await User.findOne({
+        where: {
+          id: userId,
+        },
+      });
+
+      const isPasswordValid = await user.comparePassword(oldPassword);
+
+      if (!isPasswordValid) {
+        return res.status(403).send({
+          error: "Password you entered is wrong",
+        });
+      }
+
+      const hashPassword = await user.hashPassword(newPassword);
+
+      const userUpdate = await User.update(
+        { password: hashPassword },
+        {
+          where: {
+            id: userId,
+          },
+        }
+      );
+
+      return res.send({
+        status: "Update success",
+      });
+    } catch (err) {
+      console.log("error: ", err);
+      res.status(500).send({
+        error: err,
+      });
+    }
+  },
 };

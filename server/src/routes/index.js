@@ -33,4 +33,9 @@ module.exports = (app) => {
     TokenRequire.auth,
     UserProfileController.setTeacherInformation
   );
+  app.post(
+    "/user/update-password",
+    TokenRequire.auth,
+    AuthenticationController.changePassword
+  );
 };

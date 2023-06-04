@@ -57,6 +57,16 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  User.prototype.hashPassword = function hashNewPassword(password) {
+    const SALT_FACTOR = 8;
+    return bcrypt
+      .genSaltAsync(SALT_FACTOR)
+      .then((salt) => bcrypt.hashAsync(password, salt, null))
+      .then((hash) => {
+        return hash;
+      });
+  };
+
   User.prototype.comparePassword = function comparePassword(password) {
     return bcrypt.compareAsync(password, this.password);
   };

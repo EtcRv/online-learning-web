@@ -57,14 +57,28 @@ module.exports = {
   async setStudentInformation(req, res) {
     try {
       const { userId } = req.body;
-      await Student.update(req.body, {
+      const newStudentInfo = {
+        description: req.body.description,
+        avatar_url: req.body.avatar_url,
+        phone: req.body.phone,
+      };
+      await Student.update(newStudentInfo, {
         where: {
           userId: userId,
         },
       });
 
-      res.send(req.body);
+      await User.update(req.body.name, {
+        where: {
+          userId: userId,
+        },
+      });
+
+      console.log("Update Success");
+
+      res.send("Update Success");
     } catch (err) {
+      console.log("err: ", err);
       res.status(500).send({
         error: err,
       });

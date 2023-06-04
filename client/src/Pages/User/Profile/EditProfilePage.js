@@ -18,17 +18,19 @@ const EditProfilePage = () => {
   const user = useSelector((state) => state.user.user);
   const token = useSelector((state) => state.user.token);
   const [fullName, setFullName] = useState(user.name);
-  const [description, setDescription] = useState("");
-  const [phone, setPhone] = useState("");
+  const [description, setDescription] = useState(user.description);
+  const [phone, setPhone] = useState(user.phone);
+  console.log("user: ", user);
 
   const updateUserProfile = async () => {
     try {
       const response = await InfoServices.setUserProfile(
         {
           userData: {
-            userId: user.id,
+            userId: user.userId,
+            name: fullName,
             description: description,
-            avatar_url: user.avatar,
+            avatar_url: user.avatar_url,
             phone: phone,
             mail: user.mail,
           },
@@ -37,10 +39,17 @@ const EditProfilePage = () => {
         token
       );
 
-      const newUser = user;
-      newUser.name = fullName;
-      newUser.description = description;
-      newUser.phone = phone;
+      let newUser = {
+        id: user.id,
+        userId: user.userId,
+        name: fullName,
+        description: description,
+        phone: phone,
+        avatar_url: user.avatar_url,
+        user_type: user.user_type,
+        mail: user.mail,
+      };
+
       dispatch(
         updateUser({
           user: newUser,
