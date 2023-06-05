@@ -20,7 +20,6 @@ const EditProfilePage = () => {
   const [fullName, setFullName] = useState(user.name);
   const [description, setDescription] = useState(user.description);
   const [phone, setPhone] = useState(user.phone);
-  console.log("user: ", user);
 
   const updateUserProfile = async () => {
     try {

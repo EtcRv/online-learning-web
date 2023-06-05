@@ -32,13 +32,11 @@ const AccountSecurity = () => {
           },
           token
         );
-
-        if (response.response.status === 403) {
-          AlertMessage("Error", "Your current password was incorrect");
-        } else {
-          SuccessMessage("Success", "Change password successfully");
-        }
+        SuccessMessage("Success", "Change password successfully");
       } catch (err) {
+        if (err.response.status === 403) {
+          AlertMessage("Error", "Your current password was incorrect");
+        }
         console.log("error: ", err);
       }
     }

@@ -150,4 +150,51 @@ module.exports = {
       });
     }
   },
+
+  async closeAccount(req, res) {
+    try {
+      console.log("req.body: ", req.body);
+      const { userId, password, user_type } = req.body;
+
+      const user = await User.findOne({
+        where: {
+          id: userId,
+        },
+      });
+
+      const isPasswordValid = await user.comparePassword(password);
+
+      if (!isPasswordValid) {
+        return res.status(403).send({
+          error: "Password you entered is wrong",
+        });
+      }
+
+      if (user_type === "student") {
+        const student = await Student.findOne({
+          where: {
+            userId: userId,
+          },
+        });
+
+        await student.destroy();
+      } else {
+        const teacher = await Teacher.findOne({
+          where: {
+            userId: userId,
+          },
+        });
+        await teacher.destroy();
+      }
+      await user.destroy();
+      return res.send({
+        status: "Delete account successfully",
+      });
+    } catch (err) {
+      console.log("error: ", err);
+      res.status(500).send({
+        error: err,
+      });
+    }
+  },
 };

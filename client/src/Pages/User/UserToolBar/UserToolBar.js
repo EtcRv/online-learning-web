@@ -36,7 +36,7 @@ const UserToolbar = () => {
     } else if (tabName === "Account Security") {
       navigate("/user/edit-account");
     } else if (tabName === "Close Account") {
-      console.log("Hello");
+      navigate("/user/close-account");
     } else if (tabName === "Edit Profile") {
       navigate("/user/edit-profile");
     }

@@ -23,4 +23,8 @@ export default {
     const headers = { Authorization: `Bearer ${token}` };
     return Api().post("/user/update-password", password, { headers });
   },
+  deleteAccount(body, token) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return Api().post("/user/delete-account", body, { headers });
+  },
 };

@@ -13,7 +13,11 @@ const userSlice = createSlice({
     updateUser(state, action) {
       const { user } = action.payload;
       state.user = user;
-      state.isLogin = true;
+      if (user === {}) {
+        state.isLogin = false;
+      } else {
+        state.isLogin = true;
+      }
     },
     addToken(state, action) {
       const { token } = action.payload;

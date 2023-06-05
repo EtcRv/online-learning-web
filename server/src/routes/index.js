@@ -38,4 +38,9 @@ module.exports = (app) => {
     TokenRequire.auth,
     AuthenticationController.changePassword
   );
+  app.post(
+    "/user/delete-account",
+    TokenRequire.auth,
+    AuthenticationController.closeAccount
+  );
 };
