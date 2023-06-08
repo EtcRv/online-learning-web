@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    sale: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   });
 
   Course.associate = (models) => {
@@ -34,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "courseId",
     });
 
-    Course.hasOne(models.Assignment, {
+    Course.hasMany(models.Assignment, {
       foreignKey: "courseId",
     });
 
@@ -46,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "courseId",
     });
 
-    Course.hasOne(models.Feedback, {
+    Course.hasMany(models.Feedback, {
       foreignKey: "courseId",
     });
   };

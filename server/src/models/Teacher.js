@@ -18,10 +18,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    website: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
 
   Teacher.associate = (models) => {
-    Teacher.hasOne(models.Course, {
+    Teacher.hasMany(models.Course, {
       foreignKey: "teacherId",
     });
   };

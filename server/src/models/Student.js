@@ -21,17 +21,17 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Student.associate = (models) => {
-    Student.hasOne(models.Feedback, {
+    Student.hasMany(models.Feedback, {
       foreignKey: "studentId",
     });
     Student.hasOne(models.Enroll, {
       foreignKey: "studentId",
     });
-    Student.hasOne(models.Assignment_Submission, {
+    Student.hasMany(models.Assignment_Submission, {
       foreignKey: "studentId",
     });
 
-    Student.hasOne(models.Lecture_Status, {
+    Student.hasMany(models.Lecture_Status, {
       foreignKey: "studentId",
     });
   };

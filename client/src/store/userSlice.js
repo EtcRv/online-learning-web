@@ -12,8 +12,10 @@ const userSlice = createSlice({
   reducers: {
     updateUser(state, action) {
       const { user } = action.payload;
+      console.log("user in state: ", user);
       state.user = user;
       if (user === {}) {
+        console.log("Is Running");
         state.isLogin = false;
       } else {
         state.isLogin = true;
