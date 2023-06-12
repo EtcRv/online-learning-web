@@ -9,7 +9,14 @@ import CartCouseras from "./Pages/CartCouseras/CartCouseras";
 import ViewPublicProfile from "./Pages/User/PublicProfile/ViewPublicProfile";
 import AccountSecurity from "./Pages/User/AccountSecurity/AccountSecurity";
 import CloseAccount from "./Pages/User/CloseAccount/CloseAccount";
-import CreateCourse from "./Pages/Teacher/CreateCourse/CreateCourse";
+import Goals from "./Pages/Teacher/Goals/Goals";
+import CourseStructure from "./Pages/Teacher/CourseStructure/CourseStructure";
+import SetupAndTestVideo from "./Pages/Teacher/Setup/SetupAndTestVideo";
+import FilmEdit from "./Pages/Teacher/FilmEdit/FilmEdit";
+import Curriculum from "./Pages/Teacher/Curriculum/Curriculum";
+import CourseLandingPage from "./Pages/Teacher/CourseLandingPage/CourseLandingPage";
+import Pricing from "./Pages/Teacher/Pricing/Pricing";
+import CourseMessages from "./Pages/Teacher/CourseMessages/CourseMessages";
 
 function App() {
   return (
@@ -27,8 +34,36 @@ function App() {
           <Route path="subject" element={<Course />} />
           <Route path="cart" element={<CartCouseras />} />
           <Route
-            path="course/create/:questionId"
-            element={<CreateCourse />}
+            path="instructor/course/:courseId/manage/goals"
+            element={<Goals />}
+          ></Route>
+          <Route
+            path="instructor/course/:courseId/manage/course-structure"
+            element={<CourseStructure />}
+          ></Route>
+          <Route
+            path="instructor/course/:courseId/manage/setup"
+            element={<SetupAndTestVideo />}
+          ></Route>
+          <Route
+            path="instructor/course/:courseId/manage/film"
+            element={<FilmEdit />}
+          ></Route>
+          <Route
+            path="instructor/course/:courseId/manage/curriculum"
+            element={<Curriculum />}
+          ></Route>
+          <Route
+            path="instructor/course/:courseId/manage/basics"
+            element={<CourseLandingPage />}
+          ></Route>
+          <Route
+            path="instructor/course/:courseId/manage/pricing"
+            element={<Pricing />}
+          ></Route>
+          <Route
+            path="instructor/course/:courseId/manage/messages"
+            element={<CourseMessages />}
           ></Route>
         </Route>
       </Routes>
