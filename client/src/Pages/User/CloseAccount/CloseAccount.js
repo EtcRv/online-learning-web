@@ -43,7 +43,9 @@ const CloseAccount = () => {
         dispatch(
           updateUser({
             user: {},
-          }),
+          })
+        );
+        dispatch(
           addToken({
             token: "",
           })

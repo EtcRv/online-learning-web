@@ -1,4 +1,5 @@
 const AuthenticationController = require("../controllers/Authentication/AuthenticationController");
+const CourseController = require("../controllers/Course/CourseController");
 const UserProfileController = require("../controllers/User/UserProfileController");
 const AuthenticationControllerPolicy = require("../policies/Authentication/AuthenticationControllerPolicy");
 const TokenRequire = require("../policies/Authentication/TokenRequire");
@@ -42,5 +43,40 @@ module.exports = (app) => {
     "/user/delete-account",
     TokenRequire.auth,
     AuthenticationController.closeAccount
+  );
+  app.post(
+    "/course/create-course",
+    // TokenRequire.auth,
+    CourseController.createNewCourse
+  );
+  app.get(
+    "/course/:courseId",
+    // TokenRequire.auth,
+    CourseController.getCourseInfo
+  );
+  app.post(
+    "/update-course/:courseId/:type",
+    // TokenRequire.auth,
+    CourseController.updateCourseInfo
+  );
+  app.post(
+    "/update-lecture/:courseId",
+    // TokenRequire.auth,
+    CourseController.updateLecture
+  );
+  app.post(
+    "/update-section/:courseId",
+    // TokenRequire.auth,
+    CourseController.updateSection
+  );
+  app.get(
+    "/get-lecture/:courseId",
+    // TokenRequire.auth,
+    CourseController.getLectureOfCourse
+  );
+  app.get(
+    "/get-section/:courseId",
+    // TokenRequire.auth,
+    CourseController.getSectionOfCourse
   );
 };

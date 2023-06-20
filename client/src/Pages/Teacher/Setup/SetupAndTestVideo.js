@@ -51,7 +51,7 @@ const SetupAndTestVideo = () => {
               <span className="font-bold text-2xl">Tips</span>
               {setUpAndTestVideoTips.map((item, idx) => {
                 return (
-                  <div className="mt-8">
+                  <div className="mt-8" key={idx}>
                     <label className="font-bold">{item.title}</label>
                     <br></br>
                     <span>{item.content}</span>

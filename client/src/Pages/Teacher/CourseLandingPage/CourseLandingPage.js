@@ -1,6 +1,11 @@
 import CreateCourseLayout from "../../../Components/Layout/CreateCourseLayout/CreateCourseLayout";
 import ManagerBar from "../ManagerBar/ManagerBar";
 import CreateCourseContentLayout from "../../../Components/Layout/CreateCourseLayout/CreateCourseContentLayout";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateState } from "../../../store/createCourseSlice";
+import SuccessMessage from "../../../Components/ReUse/SuccessMessage/SuccessMessage";
+import CourseServices from "../../../Services/CourseServices/CourseServices";
 
 const countries = [
   { value: "US", name: "English" },
@@ -26,6 +31,73 @@ const categories = [
 ];
 
 const CourseLandingPage = () => {
+  const isLogin = useSelector((state) => state.user.isLogin);
+  const user = useSelector((state) => state.user.user);
+  const token = useSelector((state) => state.user.token);
+  const course_id = useSelector(
+    (state) => state.createCourse.current_course_id
+  );
+  const [landing_page_state, set_landing_page_state] = useState(
+    useSelector((state) => state.createCourse.landing_page)
+  );
+
+  const [title, setTitle] = useState(landing_page_state.course_title);
+  const [subtitle, setSubTitle] = useState(landing_page_state.course_sub_title);
+  const [description, setDescription] = useState(
+    landing_page_state.course_description
+  );
+  const [language, setLanguage] = useState(
+    landing_page_state.basic_info.language
+  );
+  const [level, setLevel] = useState(landing_page_state.basic_info.level);
+  const [category, setCategory] = useState(
+    landing_page_state.basic_info.category
+  );
+  const [primarilyTaught, setPrimarilyTaught] = useState(
+    landing_page_state.primarily_taught
+  );
+  const [imageURL, setImageURL] = useState(landing_page_state.course_image);
+  const [videoURL, setVideoURL] = useState(
+    landing_page_state.promotional_video
+  );
+  const [changed, setChanged] = useState(false);
+  const dispatch = useDispatch();
+
+  const clickSaveBtn = async () => {
+    const new_landing_page = {
+      course_title: title,
+      course_sub_title: subtitle,
+      course_description: description,
+      basic_info: {
+        language: language,
+        level: level,
+        category: category,
+      },
+      primarily_taught: primarilyTaught,
+      course_image: imageURL,
+      promotional_video: videoURL,
+    };
+
+    await CourseServices.updateCourseInformation(
+      {
+        type_update: "landing_page",
+        data: new_landing_page,
+        courseId: course_id,
+      },
+      token
+    );
+
+    dispatch(
+      updateState({
+        type: "landing_page",
+        value: new_landing_page,
+      })
+    );
+
+    // Call API to save into db
+    SuccessMessage("Success", "Save successfull");
+  };
+
   return (
     <CreateCourseLayout>
       <div className="flex w-full">
@@ -51,6 +123,11 @@ const CourseLandingPage = () => {
                   <input
                     className="w-full outline-0"
                     placeholder="Example: Test course"
+                    value={title}
+                    onChange={(e) => {
+                      setTitle(e.currentTarget.value);
+                      setChanged(true);
+                    }}
                   ></input>
                 </div>
                 <span className="text-xs">
@@ -64,6 +141,11 @@ const CourseLandingPage = () => {
                   <input
                     className="w-full outline-0"
                     placeholder="Insert your course subtitle."
+                    value={subtitle}
+                    onChange={(e) => {
+                      setSubTitle(e.currentTarget.value);
+                      setChanged(true);
+                    }}
                   ></input>
                 </div>
                 <span className="text-xs">
@@ -77,8 +159,11 @@ const CourseLandingPage = () => {
                   <textarea
                     className="px-2 py-2 bg-white h-full w-full outline-0"
                     placeholder="Insert your course description."
-                    // value={description}
-                    // onChange={(e) => setDescription(e.currentTarget.value)}
+                    value={description}
+                    onChange={(e) => {
+                      setDescription(e.currentTarget.value);
+                      setChanged(true);
+                    }}
                   ></textarea>
                 </div>
                 <span className="text-xs">
@@ -88,7 +173,14 @@ const CourseLandingPage = () => {
               <div className="mt-8">
                 <label className="font-bold">Basic info</label>
                 <div className="flex justify-between">
-                  <select className="border-2 border-black py-2 pl-2 pr-8">
+                  <select
+                    className="border-2 border-black py-2 pl-2 pr-8"
+                    defaultValue={language}
+                    onChange={(e) => {
+                      setLanguage(e.currentTarget.value);
+                      setChanged(true);
+                    }}
+                  >
                     {countries.map((item, idx) => (
                       <option value={item.value} key={idx}>
                         {item.name + " (" + item.value + ")"}
@@ -97,7 +189,11 @@ const CourseLandingPage = () => {
                   </select>
                   <select
                     className="border-2 border-black py-2 pl-2 pr-8"
-                    defaultValue={"-- Select Level --"}
+                    defaultValue={level}
+                    onChange={(e) => {
+                      setLevel(e.currentTarget.value);
+                      setChanged(true);
+                    }}
                   >
                     {levels.map((item, idx) => (
                       <option value={item} key={idx}>
@@ -105,7 +201,14 @@ const CourseLandingPage = () => {
                       </option>
                     ))}
                   </select>
-                  <select className="border-2 border-black py-2 pl-2 pr-8">
+                  <select
+                    className="border-2 border-black py-2 pl-2 pr-8"
+                    defaultValue={category}
+                    onChange={(e) => {
+                      setCategory(e.currentTarget.value);
+                      setChanged(true);
+                    }}
+                  >
                     {categories.map((item, idx) => (
                       <option value={item} key={idx}>
                         {item}
@@ -122,6 +225,11 @@ const CourseLandingPage = () => {
                   <input
                     className="w-full outline-0"
                     placeholder="e.g. Landscape Photography"
+                    value={primarilyTaught}
+                    onChange={(e) => {
+                      setPrimarilyTaught(e.currentTarget.value);
+                      setChanged(true);
+                    }}
                   ></input>
                 </div>
               </div>
@@ -142,6 +250,11 @@ const CourseLandingPage = () => {
                     <input
                       className="w-full outline-0 p-4 border-2 border-black mt-4 mb-2 w-3/5"
                       placeholder="Image URL"
+                      value={imageURL}
+                      onChange={(e) => {
+                        setImageURL(e.currentTarget.value);
+                        setChanged(true);
+                      }}
                     ></input>
                   </div>
                 </div>
@@ -150,7 +263,11 @@ const CourseLandingPage = () => {
                 <label className="font-bold">Promotional video</label>
                 <div className="flex">
                   <img
-                    src="https://s.udemycdn.com/course/750x422/placeholder.jpg"
+                    src={
+                      imageURL
+                        ? imageURL
+                        : "https://s.udemycdn.com/course/750x422/placeholder.jpg"
+                    }
                     className="w-auto h-56"
                   />
                   <div className="px-4">
@@ -163,10 +280,26 @@ const CourseLandingPage = () => {
                     <input
                       className="w-full outline-0 p-4 border-2 border-black mt-4 mb-2 w-3/5"
                       placeholder="Video URL"
+                      value={videoURL}
+                      onChange={(e) => {
+                        setVideoURL(e.currentTarget.value);
+                        setChanged(true);
+                      }}
                     ></input>
                   </div>
                 </div>
               </div>
+              <button
+                disabled={!changed}
+                className={
+                  !changed
+                    ? "bg-gray-500 mt-4 mx-2 px-6 py-2 font-bold text-white"
+                    : "bg-indigo-500 mt-4 mx-2 px-6 py-2 font-bold text-white"
+                }
+                onClick={clickSaveBtn}
+              >
+                Save
+              </button>
             </div>
           </CreateCourseContentLayout>
         </div>

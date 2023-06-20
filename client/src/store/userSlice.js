@@ -14,7 +14,7 @@ const userSlice = createSlice({
       const { user } = action.payload;
       console.log("user in state: ", user);
       state.user = user;
-      if (user === {}) {
+      if (Object.keys(user).length === 0) {
         console.log("Is Running");
         state.isLogin = false;
       } else {
