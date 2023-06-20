@@ -77,9 +77,6 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Course.associate = (models) => {
-    Course.hasMany(models.Admin, {
-      foreignKey: "courseId",
-    });
 
     Course.hasMany(models.Assignment, {
       foreignKey: "courseId",
