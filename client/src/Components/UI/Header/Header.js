@@ -1,12 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUser, addToken } from "../../../store/userSlice";
 
 function Header() {
+  const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.user.isLogin);
   const user = useSelector((state) => state.user.user);
   const token = useSelector((state) => state.user.token);
   const [userInfor, setUserInfor] = useState(user);
+
+  const logout = () => {
+    dispatch(
+      updateUser({
+        user: {},
+      })
+    );
+    dispatch(
+      addToken({
+        token: "",
+      })
+    );
+    window.location.href = "/";
+  };
 
   return (
     <div>
@@ -63,6 +79,15 @@ function Header() {
           </div>
 
           <div className="flex items-center h-full">
+            {isLogin && user.user_type === "teacher" && (
+              <NavLink
+                className="px-6 py-2 text-lg text-black "
+                to={"/instructor/course"}
+                activeclassname="active"
+              >
+                Teacher
+              </NavLink>
+            )}
             <NavLink
               className="mr-5 font-medium hover:text-gray-900"
               to="/cart"
@@ -101,6 +126,7 @@ function Header() {
                 Login
               </NavLink>
             )}
+
             {!isLogin && (
               <NavLink
                 className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
@@ -114,13 +140,21 @@ function Header() {
             {isLogin && (
               <NavLink
                 className="mr-5 rounded-full w-10 h-10"
-                to="/user/edit-profile"
+                to={"/user/edit-profile"}
                 activeclassname="active"
               >
-                <img
-                  src={userInfor.avatar_url}
-                  className="rounded-full w-full h-full"
-                />
+                <div className="relative w-full h-full group/logout">
+                  <img
+                    src={userInfor.avatar_url}
+                    className="rounded-full w-full h-full"
+                  />
+                  <button
+                    className="absolute px-4 py-2 bg-sky-100 left-0 hidden group-hover/logout:block"
+                    onClick={logout}
+                  >
+                    Logout
+                  </button>
+                </div>
               </NavLink>
             )}
           </div>

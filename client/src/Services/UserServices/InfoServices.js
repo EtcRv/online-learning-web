@@ -1,6 +1,6 @@
 import Api from "../Api";
 
-export default {
+const InfoServices = {
   getInfo(user, token) {
     const { userId, user_type } = user;
     const headers = { Authorization: `Bearer ${token}` };
@@ -28,3 +28,5 @@ export default {
     return Api().post("/user/delete-account", body, { headers });
   },
 };
+
+export default InfoServices;
