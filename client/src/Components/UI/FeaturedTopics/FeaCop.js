@@ -2,7 +2,7 @@ import React from "react";
 
 const FeaCop = () => {
   return (
-    <div className=" bg-slate-300">
+    <div className=" bg-slate-300 mx-[-24px]">
       <div className="mx-[80px] py-[64px] px-[24px]">
         <h2 className="mb-[24px] text-[25px]">Featured topics by category</h2>
 

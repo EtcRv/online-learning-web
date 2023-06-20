@@ -9,6 +9,7 @@ function Header() {
   const user = useSelector((state) => state.user.user);
   const token = useSelector((state) => state.user.token);
   const [userInfor, setUserInfor] = useState(user);
+  const [isHovered, setIsHovered] = useState(false);
 
   const logout = () => {
     dispatch(
@@ -24,6 +25,14 @@ function Header() {
     window.location.href = "/";
   };
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    console.log(userInfor);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
   return (
     <div>
       <div className="w-full  text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font">
@@ -78,7 +87,7 @@ function Header() {
             </div>
           </div>
 
-          <div className="flex items-center h-full">
+          <div className="flex items-center h-full relative">
             {isLogin && user.user_type === "teacher" && (
               <NavLink
                 className="px-6 py-2 text-lg text-black "
@@ -88,34 +97,36 @@ function Header() {
                 Teacher
               </NavLink>
             )}
-            <NavLink
-              className="mr-5 font-medium hover:text-gray-900"
-              to="/cart"
-              activeclassname="active"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="feather feather-shopping-cart"
-                id="IconChangeColor"
+            {isLogin && (
+              <NavLink
+                className="mr-5 font-medium hover:text-gray-900"
+                to="/cart"
+                activeclassname="active"
               >
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path
-                  d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
-                  id="mainIconPathAttribute"
-                  stroke="#1e3032"
-                  strokeWidth="2.5"
-                ></path>
-              </svg>
-            </NavLink>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="feather feather-shopping-cart"
+                  id="IconChangeColor"
+                >
+                  <circle cx="9" cy="21" r="1"></circle>
+                  <circle cx="20" cy="21" r="1"></circle>
+                  <path
+                    d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+                    id="mainIconPathAttribute"
+                    stroke="#1e3032"
+                    strokeWidth="2.5"
+                  ></path>
+                </svg>
+              </NavLink>
+            )}
 
             {!isLogin && (
               <NavLink
@@ -143,17 +154,66 @@ function Header() {
                 to={"/user/edit-profile"}
                 activeclassname="active"
               >
-                <div className="relative w-full h-full group/logout">
+                <div
+                  className="relative rounded-full w-full h-full"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
                   <img
                     src={userInfor.avatar_url}
                     className="rounded-full w-full h-full"
                   />
-                  <button
-                    className="absolute px-4 py-2 bg-sky-100 left-0 hidden group-hover/logout:block"
-                    onClick={logout}
-                  >
-                    Logout
-                  </button>
+                  {isHovered && (
+                    <div class="absolute z-10 mt-[100px] top-[40px] right-[5px] bg-white divide-y divide-gray-100  shadow w-44">
+                      <div className="flex items-center justify-center">
+                        <div className="rounded-full w-10 h-10 mr-2">
+                          <img
+                            src={userInfor.avatar_url}
+                            alt="User Avatar"
+                            className="rounded-full w-full h-full"
+                          />
+                        </div>
+                        <div>
+                          <p className="font-bold">{userInfor.name}</p>
+                          <p>{userInfor.mail}</p>
+                        </div>
+                      </div>
+                      <ul class=" p-[10px] text-sm text-gray-700 ">
+                        <li>
+                          <NavLink
+                            href=""
+                            class="block p-[10px] hover:text-[#a435f0]  "
+                          >
+                            My learning
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink
+                            href=""
+                            class="block p-[10px] hover:text-[#a435f0] "
+                          >
+                            My cart
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink
+                            href=""
+                            class="block p-[10px] hover:text-[#a435f0] "
+                          >
+                            Messages
+                          </NavLink>
+                        </li>
+                      </ul>
+                      <div class="py-2 px-[10px] ">
+                        <button
+                          onClick={logout}
+                          class="block p-[10px] text-sm text-gray-700 hover:text-[#a435f0] "
+                        >
+                          Log out
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </NavLink>
             )}
