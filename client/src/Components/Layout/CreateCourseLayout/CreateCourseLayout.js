@@ -38,10 +38,7 @@ const CreateCourseLayout = ({ children }) => {
 
   const callApiGetCourseData = async () => {
     try {
-      const response = await CourseServices.getCourseInformation(
-        course_id,
-        token
-      );
+      const response = await CourseServices.getCourseInformation(course_id);
       setCourseInfor(response.data.course);
       setTitle(response.data.course.title);
       setStatus(response.data.course.status);

@@ -1,13 +1,8 @@
 import Api from "../Api";
 
 const CourseServices = {
-  createCourse(teacherId, token) {
-    const headers = { Authorization: `Bearer ${token}` };
-    return Api().post(`user/student-profile`, teacherId, { headers });
-  },
-  getCourseInformation(courseId, token) {
-    const headers = { Authorization: `Bearer ${token}` };
-    return Api().get(`/course/${courseId}`, { headers });
+  getCourseInformation(courseId) {
+    return Api().get(`/course/${courseId}`);
   },
   updateCourseInformation(course, token) {
     const headers = { Authorization: `Bearer ${token}` };

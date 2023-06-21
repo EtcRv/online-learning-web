@@ -34,7 +34,7 @@ function App() {
           <Route path="user/close-account" element={<CloseAccount />} />
           <Route path="subject" element={<Course />} />
           <Route path="cart" element={<CartCouseras />} />
-          <Route path="/instructor/course" element={<ViewCoursePage />}></Route>
+          <Route path="instructor/course" element={<ViewCoursePage />}></Route>
           <Route
             path="instructor/course/:courseId/manage/goals"
             element={<Goals />}

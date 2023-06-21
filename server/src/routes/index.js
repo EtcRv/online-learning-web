@@ -49,11 +49,7 @@ module.exports = (app) => {
     TokenRequire.auth,
     CourseController.createNewCourse
   );
-  app.get(
-    "/course/:courseId",
-    TokenRequire.auth,
-    CourseController.getCourseInfo
-  );
+  app.get("/course/:courseId", CourseController.getCourseInfo);
   app.post(
     "/update-course/:courseId/:type",
     TokenRequire.auth,
@@ -79,5 +75,10 @@ module.exports = (app) => {
     TokenRequire.auth,
     CourseController.getSectionOfCourse
   );
-  app.get("/get-allcourse/:teacherId", CourseController.getAllCourse);
+  app.get(
+    "/get-allcourse/:teacherId",
+    TokenRequire.auth,
+    CourseController.getAllCourseOfTeacher
+  );
+  app.get("/get-allcourse", CourseController.getAllCourse);
 };

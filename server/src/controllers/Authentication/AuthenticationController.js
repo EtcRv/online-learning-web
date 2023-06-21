@@ -34,8 +34,7 @@ module.exports = {
       }
 
       res.send({
-        user: userJson,
-        token: jwtSignUp(userJson),
+        status: "Register successful",
       });
     } catch (err) {
       console.log("err: ", err);
