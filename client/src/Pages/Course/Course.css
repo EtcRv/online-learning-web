@@ -1,0 +1,92 @@
+.course-courseTitle {
+    margin-top: 1rem;
+    background-color: black;
+    width: 100%;
+    height: 40%;
+    padding-top: 3.2rem;
+    padding-bottom: 3.2rem;
+}
+
+.course-title {
+    color: white;
+    margin: auto auto auto auto;
+}
+
+.course-des {
+    font-size: 1.25rem;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.course-badge {
+    color: black;
+    background-color: #eceb98;
+    width: 120px;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.course-rate {
+    margin-left: 10px;
+}
+
+.course-card {
+    border: 1px solid #d1d7dc;
+    box-shadow: 0 2px 4px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.08);
+    background-color: white;
+    margin-bottom: 16px;
+}
+
+.course-cardHeader {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: bold;
+    padding: 1.25rem 2rem;
+}
+
+.course-cardItem {
+    margin: 0 2rem 1.25rem 2rem;
+}
+
+.course-listHeader {
+    font-size: 1rem;
+    line-height: 1.75rem;
+    font-weight: bold;
+    margin: 10px -2rem;
+    padding: 5px 2rem;
+    border-top: 1px solid #d1d7dc;
+    border-bottom: 1px solid #d1d7dc;
+    background-color: #f7f9fa;
+}
+
+.course-priceCard {
+    position: fixed;
+    top: 50px;
+    right: 120px;
+    width: 25%;
+}
+
+.course-buttonAdd {
+    background-color: #a435f0;
+    color: white;
+    font-weight: bold;
+    font-size: 1.125rem;
+    width: 100%;
+    height: 50px;
+    margin: 0.5rem 0
+}
+
+.course-buttonBuy {
+    font-weight: bold;
+    font-size: 1.125rem;
+    width: 100%;
+    height: 50px;
+    margin: 0.5rem 0;
+    border: 1px solid black
+}
+
+hr {
+    border: 1px solid darkgray;
+}

@@ -11,8 +11,8 @@ const TeacherInfo = (props) => {
     const emptyStar = 5 - rating;
 
     return (
-        <div className="card">
-            <div className="card-header">
+        <div className="teacher-card">
+            <div className="teacher-card-header">
                 Teacher
             </div>
             <div className="teacher-name">
