@@ -44,7 +44,10 @@ const CourseServices = {
     return Api().get(`/get-allcourse/${teacherId}/`, {
       headers,
     });
-  },
+  }
+  
+  
+  ,
   createNewCourse(teacherId, token) {
     const headers = { Authorization: `Bearer ${token}` };
     return Api().post(

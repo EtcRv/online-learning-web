@@ -69,10 +69,12 @@ function App() {
             path="instructor/course/:courseId/manage/messages"
             element={<CourseMessages />}
           ></Route>
-          <Route
+          {/* <Route
             path="coursePage"
             element={<CoursePage />}
-          ></Route>
+          ></Route> */}
+          <Route path="coursePage/:courseId" element={<CoursePage />} />
+
         </Route>
       </Routes>
     </BrowserRouter>
