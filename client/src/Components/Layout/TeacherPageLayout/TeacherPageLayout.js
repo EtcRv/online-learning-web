@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const AuthenticationLayout = ({ children }) => {
+const TeacherPageLayout = ({ children }) => {
+  const user = useSelector((state) => state.user.user);
   return (
-    <section className="h-screen">
+    <section className="h-full w-full">
       <div>
         <div className="w-full  text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font">
           <div className="flex  justify-between p-6 mx-auto ">
@@ -20,16 +22,29 @@ const AuthenticationLayout = ({ children }) => {
                 </NavLink>
               </div>
             </div>
+
+            <div className="flex items-center h-full">
+              <NavLink
+                className="mr-5 rounded-full w-10 h-10"
+                to="/user/edit-profile"
+                activeclassname="active"
+              >
+                <img
+                  src={user.avatar_url}
+                  className="rounded-full w-full h-full"
+                />
+              </NavLink>
+            </div>
           </div>
         </div>
       </div>
-      <div className="container mx-auto px-6 py-12 h-full">
-        <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-          <div className="md:w-8/12 lg:w-5/12 lg:ml-20">{children}</div>
+      <div className="mx-auto px-6 py-12">
+        <div className="flex flex-wrap h-full text-gray-800">
+          <div className="w-full mx-20">{children}</div>
         </div>
       </div>
     </section>
   );
 };
 
-export default AuthenticationLayout;
+export default TeacherPageLayout;

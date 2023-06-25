@@ -7,7 +7,7 @@ import EmptyStar from "../../ReUse/Star/EmptyStar";
 const CourseReviewTieuBieu = (props) => {
     const { header, userName, courseAmount, reviewAmount, description, avatar , rating } = props;
 
-    const defaultHeader = "Featured review";
+    const defaultHeader = "Top Review";
     const defaultUserName = "Nong Viet Dung";
     const defaultCourseAmount = "9";
     const defaultReviewAmount = "2";
@@ -19,21 +19,21 @@ const CourseReviewTieuBieu = (props) => {
     const emptyStar = 5 - fullStar;
 
     return (
-        <div className="card">
-            <div className="card-header">
+        <div className="crtb-card">
+            <div className="crtb-card-header">
                 {header || defaultHeader}
             </div>
-            <div className="user-info">
-                <div className="user-avatar">
+            <div className="crtb-user-info">
+                <div className="crtb-user-avatar">
                     <img src={avatar || defaultAvatar}/>
                 </div>
-                <div className="user-name">
+                <div className="crtb-user-name">
                     <div style={{fontWeight: "bold"}}>{userName || defaultUserName}</div>
                     <div style={{fontSize: "13px"}}>Courses: {courseAmount || defaultCourseAmount}</div>
                     <div style={{fontSize: "13px"}}>Reviews: {reviewAmount || defaultReviewAmount}</div>
                 </div>
             </div>
-            <div className="rating">
+            <div className="crtb-rating">
                 {Array.from({ length: fullStar }, (_, index) => (
                     <FullStar key={index}></FullStar>
                 ))}
@@ -41,7 +41,7 @@ const CourseReviewTieuBieu = (props) => {
                     <EmptyStar key={index}></EmptyStar>
                 ))}
             </div>
-            <div className="description">
+            <div className="crtb-description">
                 {description || defaultDescription}
             </div>
         </div>

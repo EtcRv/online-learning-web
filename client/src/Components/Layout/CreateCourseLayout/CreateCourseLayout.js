@@ -6,8 +6,10 @@ import {
   updateState,
 } from "../../../store/createCourseSlice";
 import CourseServices from "../../../Services/CourseServices/CourseServices";
+import { useNavigate } from "react-router-dom";
 
 const CreateCourseLayout = ({ children }) => {
+  const navigate = useNavigate();
   const current_course_id = useSelector(
     (state) => state.createCourse.current_course_id
   );
@@ -36,10 +38,7 @@ const CreateCourseLayout = ({ children }) => {
 
   const callApiGetCourseData = async () => {
     try {
-      const response = await CourseServices.getCourseInformation(
-        course_id,
-        token
-      );
+      const response = await CourseServices.getCourseInformation(course_id);
       setCourseInfor(response.data.course);
       setTitle(response.data.course.title);
       setStatus(response.data.course.status);
@@ -128,7 +127,14 @@ const CreateCourseLayout = ({ children }) => {
     <section className="h-auto w-full">
       <div className="flex bg-black text-white justify-between px-8 py-4 items-center">
         <div className="flex">
-          <button className="px-2 hover:text-slate-300">Back to courses</button>
+          <button
+            className="px-2 hover:text-slate-300"
+            onClick={() => {
+              navigate("/instructor/course");
+            }}
+          >
+            Back to courses
+          </button>
           <div className="px-2 font-bold text-xl">{title}</div>
           <div className="px-2 mx-2 bg-gray-500 text-base">{status}</div>
         </div>

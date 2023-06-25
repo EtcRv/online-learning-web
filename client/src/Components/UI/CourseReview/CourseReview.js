@@ -11,14 +11,14 @@ const CourseReview = (props) => {
     const emptyStar = 5 - rating;
 
     return (
-        <div className="card">
-            <div className="user-info">
-                <div className="user-avatar">
+        <div className="course-review-card">
+            <div className="cr-user-info">
+                <div className="cr-user-avatar">
                     <img src={avatar} />
                 </div>
-                <div className="user-name">
+                <div className="cr-user-name">
                     {name}
-                    <div className="rating">
+                    <div className="cr-rating">
                         {Array.from({ length: fullStar }, (_, index) => (
                             <FullStar key={index}></FullStar>
                         ))}
@@ -28,7 +28,7 @@ const CourseReview = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="description">
+            <div className="cr-description">
                 {description}
             </div>
         </div>

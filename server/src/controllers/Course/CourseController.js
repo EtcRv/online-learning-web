@@ -198,7 +198,6 @@ module.exports = {
     try {
       const courseId = req.params.courseId;
       const { allLectures } = req.body;
-      
 
       allLectures.map(async (lecture, idx) => {
         if (!Number.isInteger(Number(lecture.id))) {
@@ -264,6 +263,51 @@ module.exports = {
       console.log("error: ", err);
       res.status(400).send({
         error: "Failed when get lectures",
+      });
+    }
+  },
+  async getAllCourseOfTeacher(req, res) {
+    try {
+      const teacherId = req.params.teacherId;
+      const allCourses = await Course.findAll({
+        where: {
+          teacherId: teacherId,
+        },
+      });
+      res.send({
+        courses: allCourses,
+      });
+    } catch (err) {
+      console.log("error: ", err);
+      res.status(400).send({
+        error: "Failed when get courses",
+      });
+    }
+  },
+  async getAllCourse(req, res) {
+    try {
+      const allCourses = await Course.findAll();
+      res.send({
+        courses: allCourses,
+      });
+    } catch (err) {
+      console.log("error: ", err);
+      res.status(400).send({
+        error: "Failed when get all courses",
+      });
+    }
+  },
+  async getCourseInformation(req, res) {
+    try {
+      const courseId = req.params.courseId;
+      const course = await Course.findByPk(courseId);
+      res.send({
+        course: course,
+      });
+    } catch (err) {
+      console.log("error: ", err);
+      res.status(400).send({
+        error: "Failed when get course information",
       });
     }
   },

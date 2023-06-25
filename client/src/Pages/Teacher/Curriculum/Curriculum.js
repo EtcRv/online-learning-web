@@ -11,59 +11,6 @@ import CourseServices from "../../../Services/CourseServices/CourseServices";
 import { useSelector } from "react-redux";
 import SuccessMessage from "../../../Components/ReUse/SuccessMessage/SuccessMessage";
 
-const dummy_lectures = [
-  {
-    id: 1,
-    sectionId: 1,
-    name: "HEHE 1",
-    video_url:
-      "https://www.youtube.com/watch?v=6DkGrvhxwmk&list=PLYAnNqnAlTB9vxCvdGmwVMX6ODf2w1PAS&index=10",
-  },
-  {
-    id: 2,
-    sectionId: 1,
-    name: "HEHE 2",
-    video_url:
-      "https://www.youtube.com/watch?v=6DkGrvhxwmk&list=PLYAnNqnAlTB9vxCvdGmwVMX6ODf2w1PAS&index=10",
-  },
-  {
-    id: 3,
-    sectionId: 1,
-    name: "HEHE 3",
-    video_url:
-      "https://www.youtube.com/watch?v=6DkGrvhxwmk&list=PLYAnNqnAlTB9vxCvdGmwVMX6ODf2w1PAS&index=10",
-  },
-  {
-    id: 4,
-    sectionId: 2,
-    name: "HEHE 4",
-    video_url:
-      "https://www.youtube.com/watch?v=6DkGrvhxwmk&list=PLYAnNqnAlTB9vxCvdGmwVMX6ODf2w1PAS&index=10",
-  },
-  {
-    id: 5,
-    sectionId: 2,
-    name: "HEHE 5",
-    video_url:
-      "https://www.youtube.com/watch?v=6DkGrvhxwmk&list=PLYAnNqnAlTB9vxCvdGmwVMX6ODf2w1PAS&index=10",
-  },
-];
-
-const dummy_sections = [
-  {
-    id: 1,
-    name: "Section 1 day",
-  },
-  {
-    id: 2,
-    name: "Section 2 ne",
-  },
-  {
-    id: 3,
-    name: "Section 3 do",
-  },
-];
-
 const Curriculum = () => {
   const isLogin = useSelector((state) => state.user.isLogin);
   const user = useSelector((state) => state.user.user);

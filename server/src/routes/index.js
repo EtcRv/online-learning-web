@@ -46,37 +46,39 @@ module.exports = (app) => {
   );
   app.post(
     "/course/create-course",
-    // TokenRequire.auth,
+    TokenRequire.auth,
     CourseController.createNewCourse
   );
-  app.get(
-    "/course/:courseId",
-    // TokenRequire.auth,
-    CourseController.getCourseInfo
-  );
+  app.get("/course/:courseId", CourseController.getCourseInfo);
   app.post(
     "/update-course/:courseId/:type",
-    // TokenRequire.auth,
+    TokenRequire.auth,
     CourseController.updateCourseInfo
   );
   app.post(
     "/update-lecture/:courseId",
-    // TokenRequire.auth,
+    TokenRequire.auth,
     CourseController.updateLecture
   );
   app.post(
     "/update-section/:courseId",
-    // TokenRequire.auth,
+    TokenRequire.auth,
     CourseController.updateSection
   );
   app.get(
     "/get-lecture/:courseId",
-    // TokenRequire.auth,
+    TokenRequire.auth,
     CourseController.getLectureOfCourse
   );
   app.get(
     "/get-section/:courseId",
-    // TokenRequire.auth,
+    TokenRequire.auth,
     CourseController.getSectionOfCourse
   );
+  app.get(
+    "/get-allcourse/:teacherId",
+    TokenRequire.auth,
+    CourseController.getAllCourseOfTeacher
+  );
+  app.get("/get-allcourse", CourseController.getAllCourse);
 };

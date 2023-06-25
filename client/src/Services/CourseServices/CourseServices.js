@@ -1,13 +1,8 @@
 import Api from "../Api";
 
 const CourseServices = {
-  createCourse(teacherId, token) {
-    const headers = { Authorization: `Bearer ${token}` };
-    return Api().post(`user/student-profile`, teacherId, { headers });
-  },
-  getCourseInformation(courseId, token) {
-    const headers = { Authorization: `Bearer ${token}` };
-    return Api().get(`/course/${courseId}`, { headers });
+  getCourseInformation(courseId) {
+    return Api().get(`/course/${courseId}`);
   },
   getAllCourse( token) {
     const headers = { Authorization: `Bearer ${token}` };
@@ -43,6 +38,22 @@ const CourseServices = {
     return Api().post(`/update-section/${courseId}/`, sections, {
       headers,
     });
+  },
+  getAllCourse(teacherId, token) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return Api().get(`/get-allcourse/${teacherId}/`, {
+      headers,
+    });
+  },
+  createNewCourse(teacherId, token) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return Api().post(
+      `/course/create-course`,
+      { teacherId: teacherId },
+      {
+        headers,
+      }
+    );
   },
 };
 

@@ -17,7 +17,9 @@ import Curriculum from "./Pages/Teacher/Curriculum/Curriculum";
 import CourseLandingPage from "./Pages/Teacher/CourseLandingPage/CourseLandingPage";
 import Pricing from "./Pages/Teacher/Pricing/Pricing";
 import CourseMessages from "./Pages/Teacher/CourseMessages/CourseMessages";
-import CoursePage from "./Pages/CoursePage/CoursePage"
+import CoursePage from "./Pages/CoursePage/CoursePage"//buy
+import ViewCoursePage from "./Pages/Teacher/ViewCoursePage/ViewCoursePage";
+
 
 function App() {
   return (
@@ -34,6 +36,7 @@ function App() {
           <Route path="user/close-account" element={<CloseAccount />} />
           <Route path="subject" element={<Course />} />
           <Route path="cart" element={<CartCouseras />} />
+          <Route path="instructor/course" element={<ViewCoursePage />}></Route>
           <Route
             path="instructor/course/:courseId/manage/goals"
             element={<Goals />}
