@@ -17,6 +17,7 @@ import Curriculum from "./Pages/Teacher/Curriculum/Curriculum";
 import CourseLandingPage from "./Pages/Teacher/CourseLandingPage/CourseLandingPage";
 import Pricing from "./Pages/Teacher/Pricing/Pricing";
 import CourseMessages from "./Pages/Teacher/CourseMessages/CourseMessages";
+import CoursePage from "./Pages/CoursePage/CoursePage"
 
 function App() {
   return (
@@ -64,6 +65,10 @@ function App() {
           <Route
             path="instructor/course/:courseId/manage/messages"
             element={<CourseMessages />}
+          ></Route>
+          <Route
+            path="coursePage"
+            element={<CoursePage />}
           ></Route>
         </Route>
       </Routes>

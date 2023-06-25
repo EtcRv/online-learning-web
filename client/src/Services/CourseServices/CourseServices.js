@@ -9,6 +9,10 @@ const CourseServices = {
     const headers = { Authorization: `Bearer ${token}` };
     return Api().get(`/course/${courseId}`, { headers });
   },
+  getAllCourse( token) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return Api().get(`/get-allcourse`, { headers });
+  },
   updateCourseInformation(course, token) {
     const headers = { Authorization: `Bearer ${token}` };
     const { type_update, data, courseId } = course;

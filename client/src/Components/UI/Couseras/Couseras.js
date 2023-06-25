@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CardCousera from "../../ReUse/CardCousera/CardCousera";
 import "./Couseras.css";
+import { useSelector } from "react-redux";
+import CourseServices from "../../../Services/CourseServices/CourseServices"
 
 const data = [
   {
@@ -90,6 +92,41 @@ const data = [
 ];
 
 export default function Couseras() {
+  const token = useSelector((state) => state.user.token);;
+
+
+
+
+
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await CourseServices.getAllCourse( token);
+        const coursesData = response.data.courses;
+
+        const formattedCourses = coursesData.map(course => ({
+          courseImg: course.course_image,
+          title: course.title,
+          teacherName: "", // Lấy thông tin giảng viên từ API nếu có
+          rating: course.rating.toString(),
+          numberStudent: "", // Lấy thông tin số học viên từ API nếu có
+          price: course.price.toString(),
+        }));
+
+        setCourses(formattedCourses);
+      } catch (error) {
+        console.error('Failed when getting all courses:', error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array to run only once on component mount
+
+
+
+
   let settings = {
     dots: true,
     infinite: false,
@@ -97,41 +134,15 @@ export default function Couseras() {
     slidesToShow: 4,
     slidesToScroll: 3,
     initialSlide: 0,
-    // responsive: [
-    //   {
-    //     breakpoint: 1024,
-    //     settings: {
-    //       slidesToShow: 3,
-    //       slidesToScroll: 3,
-    //       infinite: true,
-    //       dots: true
-    //     }
-    //   },
-    //   {
-    //     breakpoint: 600,
-    //     settings: {
-    //       slidesToShow: 2,
-    //       slidesToScroll: 2,
-    //       initialSlide: 2
-    //     }
-    //   },
-    //   {
-    //     breakpoint: 480,
-    //     settings: {
-    //       slidesToShow: 1,
-    //       slidesToScroll: 1
-    //     }
-    //   }
-    // ]
   };
   return (
     <>
       <div className="couseras mx-[35px] px-[24px] mt-[64px] mb-[96px]">
         <h2 className="mb-[16px] mx-[45px]">Students are viewing</h2>
         <Slider {...settings}>
-          {data.map((item, idx) => (
+          {data.map((item, idx) => (//data=courses
             <div className="m-auto" key={idx}>
-              <CardCousera data={item}></CardCousera>
+              <CardCousera data={item}></CardCousera> 
             </div>
           ))}
         </Slider>
