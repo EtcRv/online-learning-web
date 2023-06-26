@@ -1,10 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Enroll = sequelize.define("Enroll", {
-    type: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  });
+  const Enroll = sequelize.define("Enroll", {});
 
   return Enroll;
 };

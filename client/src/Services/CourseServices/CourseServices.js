@@ -4,9 +4,8 @@ const CourseServices = {
   getCourseInformation(courseId) {
     return Api().get(`/course/${courseId}`);
   },
-  getAllCourse( token) {
-    const headers = { Authorization: `Bearer ${token}` };
-    return Api().get(`/get-allcourse`, { headers });
+  getAllCourse() {
+    return Api().get(`/get-allcourse`);
   },
   updateCourseInformation(course, token) {
     const headers = { Authorization: `Bearer ${token}` };
@@ -15,17 +14,11 @@ const CourseServices = {
       headers,
     });
   },
-  getAllSectionOfCourse(courseId, token) {
-    const headers = { Authorization: `Bearer ${token}` };
-    return Api().get(`/get-section/${courseId}/`, {
-      headers,
-    });
+  getAllSectionOfCourse(courseId) {
+    return Api().get(`/get-section/${courseId}`);
   },
-  getAllLectureOfCourse(courseId, token) {
-    const headers = { Authorization: `Bearer ${token}` };
-    return Api().get(`/get-lecture/${courseId}/`, {
-      headers,
-    });
+  getAllLectureOfCourse(courseId) {
+    return Api().get(`/get-lecture/${courseId}`);
   },
   updateLecture(courseId, lectures, token) {
     const headers = { Authorization: `Bearer ${token}` };
@@ -39,15 +32,12 @@ const CourseServices = {
       headers,
     });
   },
-  getAllCourse(teacherId, token) {
+  getAllCourseOfTeacher(teacherId, token) {
     const headers = { Authorization: `Bearer ${token}` };
     return Api().get(`/get-allcourse/${teacherId}/`, {
       headers,
     });
-  }
-  
-  
-  ,
+  },
   createNewCourse(teacherId, token) {
     const headers = { Authorization: `Bearer ${token}` };
     return Api().post(

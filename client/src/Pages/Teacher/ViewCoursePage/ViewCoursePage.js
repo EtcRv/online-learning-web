@@ -16,16 +16,20 @@ const ViewCoursePage = () => {
   const getAllCourses = async () => {
     const teacherInfor = await InfoServices.getInfo(
       {
-        userId: user.id,
+        userId: user.userId,
         user_type: user.user_type,
       },
       token
     );
+    console.log("teacherInfor: ", teacherInfor);
 
     const teacherId = teacherInfor.data.userInfor.id;
     setTeacherId(teacherId);
 
-    const response = await CourseServices.getAllCourse(teacherId, token);
+    const response = await CourseServices.getAllCourseOfTeacher(
+      teacherId,
+      token
+    );
     setCourses(response.data.courses);
   };
 
@@ -43,15 +47,18 @@ const ViewCoursePage = () => {
   const createNewCourse = async () => {
     const response = await CourseServices.createNewCourse(teacherId, token);
     const newCourseId = response.data.course.id;
-    await CourseServices.updateSection(newCourseId, {
-      allSections: [
-        {
-          id: 1.0000012,
-          name: "New Section",
-        },
-      ],
-      token,
-    });
+    await CourseServices.updateSection(
+      newCourseId,
+      {
+        allSections: [
+          {
+            id: 1.0000012,
+            name: "New Section",
+          },
+        ],
+      },
+      token
+    );
     navigate(`/instructor/course/${newCourseId}/manage/curriculum`);
   };
 

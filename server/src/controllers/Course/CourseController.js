@@ -1,4 +1,11 @@
-const { Course, Teacher, Section, Lecture } = require("../../models");
+const {
+  Course,
+  Teacher,
+  Section,
+  Lecture,
+  Enroll,
+  User,
+} = require("../../models");
 
 module.exports = {
   async createNewCourse(req, res) {
@@ -287,8 +294,24 @@ module.exports = {
   async getAllCourse(req, res) {
     try {
       const allCourses = await Course.findAll();
+      const coursesData = Promise.all(
+        allCourses.map(async (course) => {
+          const teacher = await Teacher.findByPk(course.teacherId);
+          const user = await User.findByPk(teacher.userId);
+
+          return {
+            id: course.id,
+            courseImg: course.course_image,
+            title: course.title,
+            teacherName: user.name,
+            rating: course.rating,
+            price: course.price,
+          };
+        })
+      );
+
       res.send({
-        courses: allCourses,
+        courses: await coursesData,
       });
     } catch (err) {
       console.log("error: ", err);
@@ -304,6 +327,32 @@ module.exports = {
       res.send({
         course: course,
       });
+    } catch (err) {
+      console.log("error: ", err);
+      res.status(400).send({
+        error: "Failed when get course information",
+      });
+    }
+  },
+  async getAllCourseOfStudent(req, res) {
+    try {
+      const studentId = req.params.studentId;
+      const coursesId = await Enroll.findAll({
+        where: {
+          studentId: studentId,
+        },
+      });
+
+      const coursesData = Promise.all(
+        coursesId.map(async (courseId) => {
+          const course = await Course.findByPk(courseId);
+          return {
+            courseInformation: course,
+          };
+        })
+      );
+
+      res.send(await coursesData);
     } catch (err) {
       console.log("error: ", err);
       res.status(400).send({

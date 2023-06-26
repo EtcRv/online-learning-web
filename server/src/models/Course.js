@@ -51,8 +51,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     price: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: true,
+      defaultValue: 0,
     },
     welcome_message: {
       type: DataTypes.STRING,
@@ -69,6 +70,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     rating: {
       type: DataTypes.FLOAT,
+      defaultValue: 5,
     },
     sale: {
       type: DataTypes.INTEGER,
@@ -77,12 +79,15 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Course.associate = (models) => {
-
     Course.hasMany(models.Assignment, {
       foreignKey: "courseId",
     });
 
     Course.hasOne(models.Enroll, {
+      foreignKey: "courseId",
+    });
+
+    Course.hasOne(models.Cart, {
       foreignKey: "courseId",
     });
 

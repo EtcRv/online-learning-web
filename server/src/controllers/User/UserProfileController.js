@@ -54,6 +54,38 @@ module.exports = {
       });
     }
   },
+  async getAllInfoOfTeacher(req, res) {
+    try {
+      const id = req.params.id;
+
+      let teacher = await Teacher.findByPk(id);
+
+      if (!teacher) {
+        return res.status(403).send({
+          error: "Do not exist that teacher",
+        });
+      }
+
+      const user = await User.findByPk(teacher.userId);
+
+      return res.send({
+        userInfor: {
+          id: teacher.id,
+          avatar_url: teacher.avatar_url,
+          description: teacher.description,
+          mail: teacher.mail,
+          phone: teacher.phone,
+          userId: teacher.userId,
+          name: user.name,
+          website: teacher.website,
+        },
+      });
+    } catch (err) {
+      res.status(500).send({
+        error: err,
+      });
+    }
+  },
   async setStudentInformation(req, res) {
     try {
       const { userId } = req.body;

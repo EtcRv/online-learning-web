@@ -43,6 +43,7 @@ const Login = () => {
         let user = userInfo.data.userInfor;
         user["name"] = response.data.user.name;
         user["user_type"] = response.data.user.user_type;
+        user["money"] = response.data.user.money;
         dispatch(
           updateUser({
             user: user,

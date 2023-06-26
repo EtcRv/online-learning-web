@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      money: {
+        type: DataTypes.FLOAT,
+        defaultValue: 0,
+      },
       user_type: DataTypes.STRING,
     },
     {
@@ -50,6 +54,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "userId",
     });
     User.hasOne(models.Discussion, {
+      foreignKey: "userId",
+    });
+    User.hasOne(models.Enroll, {
+      foreignKey: "userId",
+    });
+    User.hasOne(models.Cart, {
       foreignKey: "userId",
     });
   };

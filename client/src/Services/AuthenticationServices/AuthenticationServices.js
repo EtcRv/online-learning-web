@@ -1,6 +1,6 @@
 import Api from "../Api";
 
-export default {
+const AuthenticationServices = {
   register(user) {
     return Api().post("register", user);
   },
@@ -11,3 +11,5 @@ export default {
     return Api().get(`checklogin/${userId}`);
   },
 };
+
+export default AuthenticationServices;

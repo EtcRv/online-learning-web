@@ -1,6 +1,8 @@
+import CartServices from "../../../Services/CartServices/CartServices";
 import EmptyStar from "../Star/EmptyStar";
 import FullStar from "../Star/FullStar";
-
+import { useSelector } from "react-redux";
+import SuccessMessage from "../SuccessMessage/SuccessMessage";
 
 // const props = {
 //     image: "https://img-c.udemycdn.com/course/240x135/950390_270f_3.jpg",
@@ -10,9 +12,21 @@ import FullStar from "../Star/FullStar";
 //     price: "12,199,000"
 //   };
 
-
 const CourseInCart = (props) => {
-   
+  const token = useSelector((state) => state.user.token);
+  const userId = props.userId;
+  const removeCourse = async () => {
+    const response = await CartServices.removeCourseFromCart(
+      {
+        userId: userId,
+        courseId: props.data.id,
+      },
+      token
+    );
+
+    SuccessMessage("Success", "Delete course successful");
+  };
+
   return (
     <div className="py-2 flex w-full h-full justify-between border-t border-solid border-gray-300">
       <div className="flex ">
@@ -56,12 +70,12 @@ const CourseInCart = (props) => {
       </div>
       <div className="flex justify-center">
         <div className="mx-8 flex flex-col items-end">
-          <button className="text-blue-800">Remove</button>
-          <button className="text-blue-800">Safe for later</button>
-          <button className="text-blue-800">Move to Wishlist</button>
+          <button className="text-blue-800" onClick={removeCourse}>
+            Remove
+          </button>
         </div>
         <div className="font-bold text-3xl text-violet-700 mr-4 ml-8">
-          ${props.data.price}
+          {props.data.price === 0 ? "Free" : `$${props.data.price}`}
         </div>
       </div>
     </div>

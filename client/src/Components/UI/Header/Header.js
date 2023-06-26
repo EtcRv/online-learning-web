@@ -161,7 +161,7 @@ function Header() {
                         </div>
                         <div>
                           <p className="font-bold">{userInfor.name}</p>
-                          <p>{userInfor.mail}</p>
+                          <p>$ {userInfor.money}</p>
                         </div>
                       </div>
                       <ul class=" p-[10px] text-sm text-gray-700 ">

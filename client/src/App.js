@@ -17,9 +17,9 @@ import Curriculum from "./Pages/Teacher/Curriculum/Curriculum";
 import CourseLandingPage from "./Pages/Teacher/CourseLandingPage/CourseLandingPage";
 import Pricing from "./Pages/Teacher/Pricing/Pricing";
 import CourseMessages from "./Pages/Teacher/CourseMessages/CourseMessages";
-import CoursePage from "./Pages/CoursePage/CoursePage"//buy
+import CoursePage from "./Pages/CoursePage/CoursePage"; //buy
 import ViewCoursePage from "./Pages/Teacher/ViewCoursePage/ViewCoursePage";
-
+import MessagePage from "./Pages/MessagePage/MessagePage";
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
           <Route path="user/profile" element={<ViewPublicProfile />} />
           <Route path="user/edit-account" element={<AccountSecurity />} />
           <Route path="user/close-account" element={<CloseAccount />} />
-          <Route path="subject" element={<Course />} />
+          <Route path="course/:courseId" element={<Course />} />
           <Route path="cart" element={<CartCouseras />} />
           <Route path="instructor/course" element={<ViewCoursePage />}></Route>
           <Route
@@ -74,7 +74,7 @@ function App() {
             element={<CoursePage />}
           ></Route> */}
           <Route path="coursePage/:courseId" element={<CoursePage />} />
-
+          <Route path="message" element={<MessagePage />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -27,6 +27,9 @@ const InfoServices = {
     const headers = { Authorization: `Bearer ${token}` };
     return Api().post("/user/delete-account", body, { headers });
   },
+  getTeacherInfo(teacherId) {
+    return Api().get(`/teacher-profile/${teacherId}`);
+  },
 };
 
 export default InfoServices;

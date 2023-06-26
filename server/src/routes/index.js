@@ -1,8 +1,11 @@
 const AuthenticationController = require("../controllers/Authentication/AuthenticationController");
 const CourseController = require("../controllers/Course/CourseController");
+const MessageController = require("../controllers/Message/MessageController");
 const UserProfileController = require("../controllers/User/UserProfileController");
 const AuthenticationControllerPolicy = require("../policies/Authentication/AuthenticationControllerPolicy");
 const TokenRequire = require("../policies/Authentication/TokenRequire");
+const { User } = require("../models");
+const CartController = require("../controllers/CartController/CartController");
 module.exports = (app) => {
   app.post(
     "/register",
@@ -24,6 +27,7 @@ module.exports = (app) => {
     TokenRequire.auth,
     UserProfileController.getTeacherInformation
   );
+  app.get("/teacher-profile/:id", UserProfileController.getAllInfoOfTeacher);
   app.post(
     "/user/student-profile",
     TokenRequire.auth,
@@ -67,12 +71,12 @@ module.exports = (app) => {
   );
   app.get(
     "/get-lecture/:courseId",
-    TokenRequire.auth,
+    // TokenRequire.auth,
     CourseController.getLectureOfCourse
   );
   app.get(
     "/get-section/:courseId",
-    TokenRequire.auth,
+    // TokenRequire.auth,
     CourseController.getSectionOfCourse
   );
   app.get(
@@ -80,5 +84,32 @@ module.exports = (app) => {
     TokenRequire.auth,
     CourseController.getAllCourseOfTeacher
   );
+  app.get(
+    "/get-allcourse/:studentId",
+    TokenRequire.auth,
+    CourseController.getAllCourseOfStudent
+  );
   app.get("/get-allcourse", CourseController.getAllCourse);
+  app.get(
+    "/cart/get-course/:userId",
+    TokenRequire.auth,
+    CartController.getCourseInCart
+  );
+  app.post(
+    "/cart/add-course",
+    TokenRequire.auth,
+    CartController.addCourseIntoCart
+  );
+  app.post(
+    "/cart/remove-course",
+    TokenRequire.auth,
+    CartController.removeCourseFromCart
+  );
+  app.post("/api/conversation", MessageController.createConversation);
+  app.get(
+    "/api/conversations/:userId",
+    MessageController.getAllUserConversation
+  );
+  app.post("/api/message", MessageController.createMessage);
+  app.get("/api/message/:conversationId", MessageController.getMessage);
 };

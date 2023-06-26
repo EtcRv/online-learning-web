@@ -1,6 +1,9 @@
+import { useEffect, useState } from "react";
 import CourseInCart from "../../Components/ReUse/CourseInCart/CourseInCart";
 import Couseras from "../../Components/UI/Couseras/Couseras";
 import UserPageLayout from "../../Components/Layout/UserPageLayout/UserPageLayout";
+import CartServices from "../../Services/CartServices/CartServices";
+import { useSelector } from "react-redux";
 
 const data = [
   {
@@ -25,11 +28,10 @@ const data = [
     price: "12,199,000",
   },
 ];
-const valOff = 0.71;
 
 const totalPrice = (data, Off = 0) => {
   const totalPrice = data.reduce((sum, item) => {
-    const priceNumber = parseFloat(item.price.replace(/,/g, ""));
+    const priceNumber = item.price;
     return sum + priceNumber;
   }, 0);
 
@@ -37,37 +39,50 @@ const totalPrice = (data, Off = 0) => {
 };
 
 const CartCouseras = () => {
+  const user = useSelector((state) => state.user.user);
+  const token = useSelector((state) => state.user.token);
+  const [courses, setCourses] = useState([]);
+
+  const getAllCourseInCart = async () => {
+    const response = await CartServices.getCourseInCart(user.id, token);
+    setCourses(response.data);
+  };
+  useEffect(() => {
+    getAllCourseInCart();
+  }, [courses]);
+
   return (
     <UserPageLayout>
       <div className="mx-[80px] px-[24px]">
         <h1 className="my-[34px]">Shopping Cart</h1>
         <div className="grid grid-cols-12 gap-10">
           <div className="col-span-9">
-            {data.map((item) => (
-              <div>
-                {" "}
-                <CourseInCart data={item}></CourseInCart>
+            {courses.map((course, idx) => (
+              <div key={idx}>
+                <CourseInCart
+                  userId={user.id}
+                  data={course.courseInformation}
+                ></CourseInCart>
               </div>
             ))}
           </div>
           <div className="col-span-3">
             <div>
-              <div className="mb-2 text-gray-600">Total&nbsp;:</div>
+              <div className="mb-2 text-gray-600">Total:</div>
+
+              {/* <div className="text-[30px] font-bold">
+                ${totalPrice(courses, valOff)}
+              </div> */}
 
               <div className="text-[30px] font-bold">
-                {totalPrice(data, valOff)} ₫
+                ${totalPrice(courses)}
               </div>
 
-              <div className="text-gray-600 line-through">
-                {totalPrice(data)} ₫
-              </div>
-
-              <div>71&nbsp;% off</div>
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-full">
                 Checkout
               </button>
             </div>
-            <div className="mt-6 border-t border-black pt-6">
+            {/* <div className="mt-6 border-t border-black pt-6">
               <p className="mb-[16px] font-bold">Promotions</p>
               <div>
                 <button type="button ">
@@ -93,7 +108,7 @@ const CartCouseras = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
