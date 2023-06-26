@@ -13,19 +13,7 @@ import SuccessMessage from "../SuccessMessage/SuccessMessage";
 //   };
 
 const CourseInCart = (props) => {
-  const token = useSelector((state) => state.user.token);
-  const userId = props.userId;
-  const removeCourse = async () => {
-    const response = await CartServices.removeCourseFromCart(
-      {
-        userId: userId,
-        courseId: props.data.id,
-      },
-      token
-    );
-
-    SuccessMessage("Success", "Delete course successful");
-  };
+  const user = useSelector((state) => state.user.user);
 
   return (
     <div className="py-2 flex w-full h-full justify-between border-t border-solid border-gray-300">
@@ -70,7 +58,10 @@ const CourseInCart = (props) => {
       </div>
       <div className="flex justify-center">
         <div className="mx-8 flex flex-col items-end">
-          <button className="text-blue-800" onClick={removeCourse}>
+          <button
+            className="text-blue-800"
+            onClick={() => props.eventClickRemoveBtn(user.id, props.data.id)}
+          >
             Remove
           </button>
         </div>

@@ -80,16 +80,17 @@ module.exports = (app) => {
     CourseController.getSectionOfCourse
   );
   app.get(
-    "/get-allcourse/:teacherId",
+    "/teacher/get-allcourse/:teacherId",
     TokenRequire.auth,
     CourseController.getAllCourseOfTeacher
   );
   app.get(
-    "/get-allcourse/:studentId",
+    "/user/get-allcourse/:userId",
     TokenRequire.auth,
-    CourseController.getAllCourseOfStudent
+    CourseController.getAllCourseOfUser
   );
   app.get("/get-allcourse", CourseController.getAllCourse);
+  app.post("/course/buy-course", TokenRequire.auth, CourseController.buyCourse);
   app.get(
     "/cart/get-course/:userId",
     TokenRequire.auth,
