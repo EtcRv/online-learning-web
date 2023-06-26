@@ -403,8 +403,6 @@ module.exports = {
       });
     }
   },
-  
-=======
   async buyCourse(req, res) {
     try {
       const { courses, totalPrice, userId } = req.body;
@@ -427,5 +425,4 @@ module.exports = {
       });
     }
   },
->>>>>>> 3cf7e2436714074742e0914420acb6696f04926a
 };
