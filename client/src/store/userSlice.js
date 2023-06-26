@@ -12,7 +12,6 @@ const userSlice = createSlice({
   reducers: {
     updateUser(state, action) {
       const { user } = action.payload;
-      console.log("user in state: ", user);
       state.user = user;
       if (Object.keys(user).length === 0) {
         console.log("Is Running");
@@ -25,9 +24,13 @@ const userSlice = createSlice({
       const { token } = action.payload;
       state.token = token;
     },
+    updateMoney(state, action) {
+      const { newMoney } = action.payload;
+      state.user.money = newMoney;
+    },
   },
 });
 
-export const { updateUser, addToken } = userSlice.actions;
+export const { updateUser, addToken, updateMoney } = userSlice.actions;
 
 export default userSlice.reducer;

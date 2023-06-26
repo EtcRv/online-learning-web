@@ -34,7 +34,13 @@ const CourseServices = {
   },
   getAllCourseOfTeacher(teacherId, token) {
     const headers = { Authorization: `Bearer ${token}` };
-    return Api().get(`/get-allcourse/${teacherId}/`, {
+    return Api().get(`/teacher/get-allcourse/${teacherId}/`, {
+      headers,
+    });
+  },
+  getAllCourseOfUser(userId, token) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return Api().get(`/user/get-allcourse/${userId}`, {
       headers,
     });
   },
@@ -47,6 +53,10 @@ const CourseServices = {
         headers,
       }
     );
+  },
+  buyCourse(data, token) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return Api().post("/course/buy-course", data, { headers });
   },
 };
 

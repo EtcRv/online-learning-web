@@ -3,8 +3,12 @@ import CourseInCart from "../../Components/ReUse/CourseInCart/CourseInCart";
 import Couseras from "../../Components/UI/Couseras/Couseras";
 import UserPageLayout from "../../Components/Layout/UserPageLayout/UserPageLayout";
 import CartServices from "../../Services/CartServices/CartServices";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import SuccessMessage from "../../Components/ReUse/SuccessMessage/SuccessMessage";
+import AlertMessage from "../../Components/ReUse/AlertMessage/AlertMessage";
+import CourseServices from "../../Services/CourseServices/CourseServices";
+import { updateMoney } from "../../store/userSlice";
+import { useNavigate } from "react-router-dom";
 const data = [
   {
     image: "https://img-c.udemycdn.com/course/240x135/950390_270f_3.jpg",
@@ -31,7 +35,7 @@ const data = [
 
 const totalPrice = (data, Off = 0) => {
   const totalPrice = data.reduce((sum, item) => {
-    const priceNumber = item.price;
+    const priceNumber = item.courseInformation.price;
     return sum + priceNumber;
   }, 0);
 
@@ -41,6 +45,8 @@ const totalPrice = (data, Off = 0) => {
 const CartCouseras = () => {
   const user = useSelector((state) => state.user.user);
   const token = useSelector((state) => state.user.token);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
 
   const getAllCourseInCart = async () => {
@@ -49,7 +55,64 @@ const CartCouseras = () => {
   };
   useEffect(() => {
     getAllCourseInCart();
-  }, [courses]);
+  }, []);
+
+  const removeCourseFromCourse = async (userId, courseId) => {
+    const response = await CartServices.removeCourseFromCart(
+      {
+        userId: userId,
+        courseId: courseId,
+      },
+      token
+    );
+
+    const newCourses = courses.filter(
+      (course) => course.courseInformation.id != courseId
+    );
+    setCourses(newCourses);
+
+    SuccessMessage("Success", "Delete course successful");
+  };
+
+  const buyAllCourse = async () => {
+    if (courses.length === 0) {
+      AlertMessage("Error", "You don't have any course in cart");
+    } else if (parseFloat(totalPrice(courses)) > user.money) {
+      AlertMessage("Error", "You don't have enough money to buy all course");
+    } else {
+      let coursesId = [];
+      let totalPrice = 0;
+      courses.map(async (course, idx) => {
+        coursesId.push(course.courseInformation.id);
+        totalPrice += course.courseInformation.price;
+        const response = await CartServices.removeCourseFromCart(
+          {
+            userId: user.id,
+            courseId: course.courseInformation.id,
+          },
+          token
+        );
+      });
+
+      const res = await CourseServices.buyCourse(
+        {
+          courses: coursesId,
+          totalPrice: totalPrice,
+          userId: user.id,
+        },
+        token
+      );
+
+      dispatch(
+        updateMoney({
+          newMoney: user.money - totalPrice,
+        })
+      );
+
+      SuccessMessage("Success", "Buy successful");
+      navigate("/");
+    }
+  };
 
   return (
     <UserPageLayout>
@@ -60,7 +123,7 @@ const CartCouseras = () => {
             {courses.map((course, idx) => (
               <div key={idx}>
                 <CourseInCart
-                  userId={user.id}
+                  eventClickRemoveBtn={removeCourseFromCourse}
                   data={course.courseInformation}
                 ></CourseInCart>
               </div>
@@ -78,7 +141,10 @@ const CartCouseras = () => {
                 ${totalPrice(courses)}
               </div>
 
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-full">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-full"
+                onClick={buyAllCourse}
+              >
                 Checkout
               </button>
             </div>

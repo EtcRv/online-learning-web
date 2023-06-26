@@ -335,18 +335,18 @@ module.exports = {
       });
     }
   },
-  async getAllCourseOfStudent(req, res) {
+  async getAllCourseOfUser(req, res) {
     try {
-      const studentId = req.params.studentId;
+      const userId = req.params.userId;
       const coursesId = await Enroll.findAll({
         where: {
-          studentId: studentId,
+          userId: userId,
         },
       });
 
       const coursesData = Promise.all(
         coursesId.map(async (courseId) => {
-          const course = await Course.findByPk(courseId);
+          const course = await Course.findByPk(courseId.courseId);
           return {
             courseInformation: course,
           };
@@ -361,6 +361,7 @@ module.exports = {
       });
     }
   },
+<<<<<<< HEAD
   async createNewFeedback(req, res) {
     try {
       const { courseId, studentId, feedbackDescription, rating, time } = req.body;
@@ -403,4 +404,28 @@ module.exports = {
     }
   },
   
+=======
+  async buyCourse(req, res) {
+    try {
+      const { courses, totalPrice, userId } = req.body;
+
+      const user = await User.findByPk(userId);
+      user.money = user.money - totalPrice;
+      await user.save();
+      courses.map(async (courseId, idx) => {
+        const newEnroll = await Enroll.create();
+        newEnroll.courseId = courseId;
+        newEnroll.userId = userId;
+        await newEnroll.save();
+      });
+
+      res.send("Buy Successfully");
+    } catch (err) {
+      console.log("error: ", err);
+      res.status(400).send({
+        error: "Failed when get course information",
+      });
+    }
+  },
+>>>>>>> 3cf7e2436714074742e0914420acb6696f04926a
 };
