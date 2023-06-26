@@ -112,4 +112,12 @@ module.exports = (app) => {
   );
   app.post("/api/message", MessageController.createMessage);
   app.get("/api/message/:conversationId", MessageController.getMessage);
+  app.post("/api/feedback", MessageController.createMessage);
+  app.post(
+    "/api/Feedback/create",
+    TokenRequire.auth,
+    CourseController.createNewFeedback
+  );
+  app.get("/api/Feedback/:courseId", CourseController.getFeedbacksByCourseId);
+
 };

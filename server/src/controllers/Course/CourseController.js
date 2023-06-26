@@ -5,6 +5,7 @@ const {
   Lecture,
   Enroll,
   User,
+  Feedback,
 } = require("../../models");
 
 module.exports = {
@@ -360,4 +361,46 @@ module.exports = {
       });
     }
   },
+  async createNewFeedback(req, res) {
+    try {
+      const { courseId, studentId, feedbackDescription, rating, time } = req.body;
+  
+      // Tạo feedback mới
+      const feedback = await Feedback.create({
+        courseId,
+        studentId,
+        feedbackDescription,
+        rating,
+        time,
+      });
+  
+      const feedbackJson = feedback.toJSON();
+      res.send({
+        feedback: feedbackJson,
+      });
+    } catch (err) {
+      console.log("err: ", err);
+      res.status(400).send({
+        error: "Failed when creating feedback",
+      });
+    }
+  },
+  async getFeedbacksByCourseId(req, res) {
+    try {
+      const { courseId } = req.params;
+  
+      // Tìm các feedback có courseId tương ứng trong cơ sở dữ liệu
+      const feedbacks = await Feedback.find({ courseId });
+  
+      res.send({
+        feedbacks,
+      });
+    } catch (err) {
+      console.log('err:', err);
+      res.status(400).send({
+        error: 'Failed to get feedbacks by courseId',
+      });
+    }
+  },
+  
 };
