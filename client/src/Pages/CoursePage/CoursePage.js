@@ -11,42 +11,45 @@ const CoursePage = () => {
   const { courseId } = useParams();
   const isLogin = useSelector((state) => state.user.isLogin);
   const token = useSelector((state) => state.user.token);
-
-  const sections = [];
-
-  const fetchData = async (courseId, token) => {
-    try {
-      const sectionsData = await CourseServices.getAllSectionOfCourse(
-        courseId,
-        token
-      );
-
-      for (const section of sectionsData) {
-        const lecturesBySectionId = await CourseServices.getAllLectureOfCourse(
-          courseId,
-          token
-        );
-        const lectures = lecturesBySectionId.filter(
-          (lecture) => lecture.sectionId === section.id
-        );
-
-        sections.push({
-          ...section,
-          lectures,
-        });
-      }
-
-      // Sử dụng mảng sections chứa dữ liệu đã tích hợp
-      console.log(sections);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [sections, setSections] = useState([]);
+  const [lectureVideoId, setLectureVideoId] = useState("");
 
   // Gọi hàm fetchData để lấy dữ liệu
   useEffect(() => {
+    const fetchData = async (courseId, token) => {
+      try {
+        const sectionsData = await CourseServices.getAllSectionOfCourse(
+          courseId
+        );
+
+        let newSections = [];
+
+        for (const section of sectionsData.data.sections) {
+          const lecturesBySectionId =
+            await CourseServices.getAllLectureOfCourse(courseId);
+          const lectures = lecturesBySectionId.data.lectures.filter(
+            (lecture) => lecture.sectionId === section.id
+          );
+
+          newSections.push({
+            ...section,
+            lectures,
+          });
+        }
+        console.log("newSections: ", newSections);
+        setSections(newSections);
+        if (sections.length > 0) {
+          setLectureVideoId(
+            getVideoIdFromUrl(sections[0].lectures[0].video_url)
+          );
+        }
+        // Sử dụng mảng sections chứa dữ liệu đã tích hợp
+      } catch (error) {
+        console.error(error);
+      }
+    };
     fetchData(courseId, token);
-  }, [courseId, token]);
+  }, []);
 
   const sectionsNew = [
     {
@@ -177,10 +180,6 @@ const CoursePage = () => {
     return videoId;
   };
 
-  const [lectureVideoId, setLectureVideoId] = useState(
-    getVideoIdFromUrl(sectionsNew[0].lectures[1].video_url)
-  );
-
   const lessons = [
     { id: 1, title: "Bài học 1", videoUrl: "https://youtu.be/E7S6zyXYe7M" },
     { id: 2, title: "Bài học 2", videoUrl: "https://youtu.be/E7S6zyXYe7M" },
@@ -201,12 +200,12 @@ const CoursePage = () => {
     // Kiểm tra nếu sectionIndex và subTitleIndex hợp lệ
     if (
       sectionIndex >= 0 &&
-      sectionIndex < sectionsNew.length &&
+      sectionIndex < sections.length &&
       subTitleIndex >= 0 &&
-      subTitleIndex < sectionsNew[sectionIndex].lectures.length
+      subTitleIndex < sections[sectionIndex].lectures.length
     ) {
-      // Lấy giá trị video_url từ sectionsNew
-      const selectedLecture = sectionsNew[sectionIndex].lectures[subTitleIndex];
+      // Lấy giá trị video_url từ sections
+      const selectedLecture = sections[sectionIndex].lectures[subTitleIndex];
 
       if (selectedLecture) {
         // Cập nhật selectedLesson với videoId mới
@@ -267,7 +266,7 @@ const CoursePage = () => {
           {courseId}
         </div>
         <div className="w-[30%]  max-h-[500px] overflow-y-auto">
-          {sectionsNew.map((section, sectionIndex) => (
+          {sections.map((section, sectionIndex) => (
             <div key={section.id}>
               <button
                 onClick={() => toggleSubTitle(sectionIndex, null)}
