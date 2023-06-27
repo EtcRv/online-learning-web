@@ -8,6 +8,11 @@ import CourseServices from "../../Services/CourseServices/CourseServices";
 import InfoServices from "../../Services/UserServices/InfoServices";
 import UserPageLayout from "../../Components/Layout/UserPageLayout/UserPageLayout";
 import { useSelector } from "react-redux";
+import CartServices from "../../Services/CartServices/CartServices";
+import SuccessMessage from "../../Components/ReUse/SuccessMessage/SuccessMessage";
+import { useNavigate } from "react-router-dom";
+import Rating from "@mui/material/Rating";
+import Feedback from "../../Components/UI/Feedback/Feedback";
 
 const Course = () => {
   // const dataTitle = "Công nghệ Web và Dịch vụ trực tuyến";
@@ -32,7 +37,11 @@ const Course = () => {
   const [sections, setSections] = useState([]);
   const [lectures, setLectures] = useState([]);
   const [structOfCourse, setStructOfCourse] = useState([]);
-
+  const [inCartOrNot, setInCartOrNot] = useState(false);
+  const [isBuy, setIsBuy] = useState(false);
+  const [showRate, setShowRate] = useState(false);
+  const [allReviews, setAllReviews] = useState([]);
+  const navigate = useNavigate();
   const getCourseId = () => {
     let url = document.URL;
     url = url.split("/");
@@ -45,7 +54,45 @@ const Course = () => {
   };
   const courseId = getCourseId();
 
+  const showRating = () => {
+    setShowRate(!showRate);
+  };
+
+  const hideRating = () => {
+    setShowRate(false);
+  };
+
+  const addCourseIntoCart = async () => {
+    const response = await CartServices.addCourseInCart(
+      {
+        userId: user.id,
+        courseId: courseId,
+      },
+      token
+    );
+    setInCartOrNot(true);
+    SuccessMessage("Success", "Add Successful");
+  };
+
   useEffect(() => {
+    const checkCourseBuy = async () => {
+      const courses = await CourseServices.getAllCourseOfUser(user.id, token);
+      courses.data.map((course, idx) => {
+        if (course.courseInformation.id == courseId) {
+          setIsBuy(true);
+        }
+      });
+    };
+
+    const checkCourseInCart = async () => {
+      const coursesInCart = await CartServices.getCourseInCart(user.id, token);
+      coursesInCart.data.map((course, idx) => {
+        if (course.courseInformation.id == courseId) {
+          setInCartOrNot(true);
+        }
+      });
+    };
+
     const getSectionData = async () => {
       const all_sections = await CourseServices.getAllSectionOfCourse(courseId);
 
@@ -64,9 +111,16 @@ const Course = () => {
       );
       setTeacherInformation(teacherInfo.data.userInfor);
     };
+    const getCourseReview = async () => {
+      const all_reviews = await CourseServices.getFeedback(courseId);
+      setAllReviews(all_reviews.data);
+    };
     getCourseData();
     getSectionData();
     getLectureData();
+    getCourseReview();
+    checkCourseInCart();
+    checkCourseBuy();
   }, []);
 
   useEffect(() => {
@@ -111,7 +165,6 @@ const Course = () => {
               </div>
               <div style={{ display: "flex", marginBottom: "10px" }}>
                 <div className="course-badge">Bán chạy nhất</div>
-                {/* <div className="course-rate">{dataSubscribe} người đăng ký</div> */}
               </div>
               <div style={{ marginBottom: "10px" }}>
                 Created by:
@@ -187,7 +240,25 @@ const Course = () => {
                   <FullStar></FullStar>
                   4.7 course rating and 100K ratings
                 </div>
+                {isBuy && (
+                  <button
+                    className="rounded p-2 bg-cyan-400 text-white font-bold my-2"
+                    onClick={showRating}
+                  >
+                    Đánh giá khóa học này!
+                  </button>
+                )}
+                {showRate && (
+                  <div className="my-2">
+                    <Feedback userId={user.id} courseId={courseId}></Feedback>
+                  </div>
+                )}
                 <div className="grid grid-cols-2 gap-4">
+                  {allReviews.map((review, idx) => {
+                    return (
+                      <CourseReview data={review} key={idx}></CourseReview>
+                    );
+                  })}
                   <CourseReview></CourseReview>
                   <CourseReview></CourseReview>
                   <CourseReview></CourseReview>
@@ -199,15 +270,61 @@ const Course = () => {
         </div>
         <div className="course-priceCard">
           <div className="course-card">
-            <img className="w-full h-60" src={courseInformation.course_image} />
+            {courseInformation.promotional_video && (
+              <iframe
+                src={courseInformation.promotional_video}
+                className="w-full h-60"
+                title="promotional_video"
+              ></iframe>
+            )}
+            {!courseInformation.promotional_video && (
+              <img
+                className="w-full h-60"
+                src={courseInformation.course_image}
+                alt=""
+              />
+            )}
             <div style={{ margin: "1rem" }}>
               <h1 style={{ paddingBottom: "0.5rem" }}>
                 {courseInformation.price === 0
                   ? "Free"
                   : `${courseInformation.price} $`}
               </h1>
-              <button className="course-buttonAdd">Add to cart</button>
-              <button className="course-buttonBuy">Buy now</button>
+              {inCartOrNot && !isBuy && (
+                <button
+                  className="course-buttonAdd"
+                  onClick={() => navigate("/cart")}
+                >
+                  Course is in the cart
+                </button>
+              )}
+              {!inCartOrNot && !isBuy && (
+                <button
+                  className="course-buttonAdd"
+                  onClick={addCourseIntoCart}
+                >
+                  Add to cart
+                </button>
+              )}
+
+              {!isBuy && (
+                <button
+                  className="course-buttonBuy"
+                  onClick={() => navigate("/cart")}
+                >
+                  Buy now
+                </button>
+              )}
+
+              {isBuy && (
+                <button
+                  className="course-buttonBuy"
+                  onClick={() => navigate(`/coursePage/${courseId}`)}
+                >
+                  Watch now
+                </button>
+              )}
+
               <b>Bao gồm có:</b>
               <ul className="list-disc pl-5">
                 <li>14 bài</li>

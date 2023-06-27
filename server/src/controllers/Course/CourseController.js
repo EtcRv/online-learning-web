@@ -6,6 +6,7 @@ const {
   Enroll,
   User,
   Feedback,
+  Student,
 } = require("../../models");
 
 module.exports = {
@@ -361,20 +362,21 @@ module.exports = {
       });
     }
   },
-<<<<<<< HEAD
   async createNewFeedback(req, res) {
     try {
-      const { courseId, studentId, feedbackDescription, rating, time } = req.body;
-  
+      const { courseId, userId, feedbackDescription, rating } = req.body;
+
       // Tạo feedback mới
       const feedback = await Feedback.create({
-        courseId,
-        studentId,
-        feedbackDescription,
-        rating,
-        time,
+        feedback_description: feedbackDescription,
+        rating: rating,
       });
-  
+
+      feedback.courseId = courseId;
+      feedback.userId = userId;
+
+      await feedback.save();
+
       const feedbackJson = feedback.toJSON();
       res.send({
         feedback: feedbackJson,
@@ -388,18 +390,51 @@ module.exports = {
   },
   async getFeedbacksByCourseId(req, res) {
     try {
-      const { courseId } = req.params;
-  
+      const courseId = req.params.courseId;
+
       // Tìm các feedback có courseId tương ứng trong cơ sở dữ liệu
-      const feedbacks = await Feedback.find({ courseId });
-  
-      res.send({
-        feedbacks,
+      const feedbacks = await Feedback.findAll({
+        where: {
+          courseId: courseId,
+        },
       });
+
+      console.log("feedbacks: ", feedbacks);
+      const feedbackData = Promise.all(
+        feedbacks.map(async (feedback) => {
+          const user = await User.findByPk(feedback.userId);
+          let avatar_url = "";
+          if (user.user_type === "teacher") {
+            const teacher = await Teacher.findOne({
+              where: {
+                userId: user.id,
+              },
+            });
+            avatar_url = teacher.avatar_url;
+          } else {
+            const student = await Student.findOne({
+              where: {
+                userId: user.id,
+              },
+            });
+            avatar_url = student.avatar_url;
+          }
+
+          return {
+            id: feedback.id,
+            rating: feedback.rating,
+            name: user.name,
+            description: feedback.feedback_description,
+            avatar: avatar_url,
+          };
+        })
+      );
+
+      res.send(await feedbackData);
     } catch (err) {
-      console.log('err:', err);
+      console.log("err:", err);
       res.status(400).send({
-        error: 'Failed to get feedbacks by courseId',
+        error: "Failed to get feedbacks by courseId",
       });
     }
   },
