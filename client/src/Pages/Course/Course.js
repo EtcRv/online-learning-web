@@ -105,6 +105,7 @@ const Course = () => {
     };
     const getCourseData = async () => {
       const response = await CourseServices.getCourseInformation(courseId);
+      console.log("response.data.course: ", response.data.course);
       setCourseInformation(response.data.course);
       const teacherInfo = await InfoServices.getTeacherInfo(
         response.data.course.teacherId
@@ -112,7 +113,8 @@ const Course = () => {
       setTeacherInformation(teacherInfo.data.userInfor);
     };
     const getCourseReview = async () => {
-      const all_reviews = await CourseServices.getFeedback(courseId);
+      let all_reviews = await CourseServices.getFeedback(courseId);
+      all_reviews.data.sort((a, b) => b.rating - a.rating);
       setAllReviews(all_reviews.data);
     };
     getCourseData();
@@ -160,6 +162,9 @@ const Course = () => {
           <div className="flex flex-row h-full w-4/5 course-title">
             <div className="basis-3/5">
               <h1>{courseInformation.title}</h1>
+              {courseInformation.sub_title && (
+                <span>{courseInformation.sub_title}</span>
+              )}
               <div className="course-des">
                 {courseInformation.course_description}
               </div>
@@ -206,16 +211,46 @@ const Course = () => {
                     return (
                       <div className="mt-1" key={idx}>
                         <div className="course-listHeader">
-                          {section.section_name}
+                          {`Section ${idx + 1}: ${section.section_name}`}
                         </div>
                         <ul className="pl-5">
                           {section.all_lectures.map((lecture, idx) => {
-                            return <li key={idx}>{lecture.lecture_name}</li>;
+                            return (
+                              <li key={idx}>{`Lecture ${idx + 1}: ${
+                                lecture.lecture_name
+                              }`}</li>
+                            );
                           })}
                         </ul>
                       </div>
                     );
                   })}
+                </div>
+              </div>
+              <div className="pt-6">
+                <hr></hr>
+                <div className="pt-4">
+                  <span className="font-bold text-2xl">Requirements</span>
+                  <ul className="pt-2 px-8 list-disc">
+                    {teacherInformation.required_skills && (
+                      <li>{teacherInformation.required_skills}</li>
+                    )}
+                    {!teacherInformation.required_skills && (
+                      <li>No requirements</li>
+                    )}
+                  </ul>
+                </div>
+              </div>
+              <div className="pt-6">
+                <hr></hr>
+                <div className="pt-4 flex flex-col">
+                  <span className="font-bold text-2xl">Description</span>
+                  {teacherInformation.course_description && (
+                    <span>{teacherInformation.course_description}</span>
+                  )}
+                  {!teacherInformation.course_description && (
+                    <span className="mt-2 ">No description</span>
+                  )}
                 </div>
               </div>
               <div className="pt-6">

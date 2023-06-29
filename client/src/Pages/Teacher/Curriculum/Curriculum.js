@@ -77,16 +77,47 @@ const Curriculum = () => {
   }, [lectures, sections]);
 
   const clickSaveBtn = async () => {
-    await CourseServices.updateSection(
+    const res = await CourseServices.updateSection(
       course_id,
       { allSections: sections },
       token
     );
+
+    const newSections = res.data.filter((data) => {
+      return data.id !== undefined;
+    });
+
+    let newLectures = [];
+    lectures.map((lecture, idx) => {
+      if (!Number.isInteger(Number(lecture.sectionId))) {
+        const sectionInfo = sections.find(
+          (section) => section.id === lecture.sectionId
+        );
+        const newSectionInfo = newSections.find((section) => {
+          return section.name == sectionInfo.name;
+        });
+        newLectures.push({
+          id: lecture.id,
+          name: lecture.name,
+          sectionId: newSectionInfo.id,
+          video_url: lecture.video_url,
+        });
+      } else {
+        newLectures.push(lecture);
+      }
+    });
+
     await CourseServices.updateLecture(
       course_id,
-      { allLectures: lectures },
+      { allLectures: newLectures },
       token
     );
+
+    const all_lectures = await CourseServices.getAllLectureOfCourse(
+      course_id,
+      token
+    );
+    setLectures(all_lectures.data.lectures);
 
     SuccessMessage("Success", "Save successfull");
   };

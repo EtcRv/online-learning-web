@@ -55,11 +55,13 @@ module.exports = {
           course_for: course_for,
         };
 
-        await Course.update(updatedData, {
+        const course = await Course.update(updatedData, {
           where: {
             id: courseId,
           },
         });
+
+        console.log("course: ", course);
       } else if (type_update === "landing_page") {
         const {
           course_title,
@@ -172,30 +174,71 @@ module.exports = {
   async updateSection(req, res) {
     try {
       const courseId = req.params.courseId;
-      const { allSections } = req.body;
+      let { allSections } = req.body;
+      const newAllSections = Promise.all(
+        allSections.map(async (section, idx) => {
+          if (!Number.isInteger(Number(section.id))) {
+            const newSection = await Section.create({
+              name: section.name,
+            });
+            newSection.courseId = courseId;
+            await newSection.save();
+            return newSection;
+          } else {
+            const newSection = await Section.update(
+              { name: section.name },
+              {
+                where: {
+                  id: section.id,
+                },
+              }
+            );
 
-      allSections.map(async (section, idx) => {
+            return newSection;
+          }
+        })
+      );
+
+      const newData = await newAllSections;
+      const newSectionInfo = newData.filter((data) => {
+        return data.id !== undefined;
+      });
+
+      allSections.forEach((section) => {
         if (!Number.isInteger(Number(section.id))) {
-          const newSection = await Section.create({
-            name: section.name,
-          });
-          newSection.courseId = courseId;
-          await newSection.save();
-        } else {
-          await Section.update(
-            { name: section.name },
-            {
-              where: {
-                id: section.id,
-              },
-            }
+          const sectionChange = newSectionInfo.find(
+            (data) => data.name === section.name
           );
+          section.id = sectionChange.id;
         }
       });
 
-      res.send({
-        status: "Update Successful",
+      const allSectionInDB = await Section.findAll({
+        where: {
+          courseId: courseId,
+        },
       });
+
+      await Promise.all(
+        allSectionInDB.map(async (section, idx) => {
+          let flag = 0;
+          for (let sec of allSections) {
+            if (sec.id == section.id) flag = 1;
+          }
+
+          if (flag == 0) {
+            const destroySection = await Section.findByPk(section.id);
+            await Lecture.destroy({
+              where: {
+                sectionId: section.id,
+              },
+            });
+            await destroySection.destroy();
+          }
+        })
+      );
+
+      res.send(newData);
     } catch (err) {
       console.log("error: ", err);
       res.status(400).send({
@@ -206,28 +249,71 @@ module.exports = {
   async updateLecture(req, res) {
     try {
       const courseId = req.params.courseId;
-      const { allLectures } = req.body;
+      let { allLectures } = req.body;
 
-      allLectures.map(async (lecture, idx) => {
+      const newAllLectures = Promise.all(
+        allLectures.map(async (lecture, idx) => {
+          if (!Number.isInteger(Number(lecture.id))) {
+            const newLecture = await Lecture.create({
+              name: lecture.name,
+              video_url: lecture.video_url,
+            });
+            newLecture.sectionId = lecture.sectionId;
+            newLecture.courseId = courseId;
+            await newLecture.save();
+            return newLecture;
+          } else {
+            const newLecture = await Lecture.update(
+              { name: lecture.name, video_url: lecture.video_url },
+              {
+                where: {
+                  id: lecture.id,
+                },
+              }
+            );
+            return newLecture;
+          }
+        })
+      );
+
+      const newData = await newAllLectures;
+      const newLectureInfo = newData.filter((data) => {
+        return data.id !== undefined;
+      });
+
+      allLectures.forEach((lecture) => {
         if (!Number.isInteger(Number(lecture.id))) {
-          const newLecture = await Lecture.create({
-            name: lecture.name,
-            video_url: lecture.video_url,
-          });
-          newLecture.sectionId = lecture.sectionId;
-          newLecture.courseId = courseId;
-          await newLecture.save();
-        } else {
-          await Lecture.update(
-            { name: lecture.name, video_url: lecture.video_url },
-            {
+          const lectureChange = newLectureInfo.find(
+            (data) =>
+              data.name === lecture.name && data.sectionId === lecture.sectionId
+          );
+          lecture.id = lectureChange.id;
+        }
+      });
+
+      const allLectureInDB = await Lecture.findAll({
+        where: {
+          courseId: courseId,
+        },
+      });
+
+      await Promise.all(
+        allLectureInDB.map(async (lecture, idx) => {
+          let flag = 0;
+          for (let lec of allLectures) {
+            if (lec.id == lecture.id) flag = 1;
+          }
+
+          if (flag == 0) {
+            await Lecture.destroy({
               where: {
                 id: lecture.id,
               },
-            }
-          );
-        }
-      });
+            });
+          }
+        })
+      );
+
       res.send({
         status: "Update Successful",
       });

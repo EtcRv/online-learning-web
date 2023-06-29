@@ -69,7 +69,7 @@ const AccountSecurity = () => {
                 className="px-3 py-3 bg-white border-2 border-slate-600 w-full"
                 placeholder="Full Name"
                 defaultValue={`Your email address is: ${mail}`}
-                // onChange={(e) => setMail(e.currentTarget.value)}
+                disabled
               />
             </div>
             <div className="flex flex-col w-9/12 mx-auto my-4">
