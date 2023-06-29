@@ -218,7 +218,6 @@ const Curriculum = () => {
               value={video_url}
               onChange={(e) => {
                 setVideoURL(e.currentTarget.value);
-                // changeVideoUrl();
               }}
               onBlur={() => changeVideoUrl()}
             ></input>
@@ -351,7 +350,7 @@ const Curriculum = () => {
             </button>
           </div>
         </div>
-        <div className="w-full h-6 py-6 group/add">
+        <div className={`w-full h-6 py-6 group/add ${props.data.section_number === sections.length ? "block" : "hidden"} `}>
           <button
             className="p-2 border-dashed border-2 border-gray-500 hidden group-hover/add:block"
             onClick={() => addNewSection()}

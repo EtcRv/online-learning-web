@@ -13,6 +13,7 @@ import SuccessMessage from "../../Components/ReUse/SuccessMessage/SuccessMessage
 import { useNavigate } from "react-router-dom";
 import Rating from "@mui/material/Rating";
 import Feedback from "../../Components/UI/Feedback/Feedback";
+import YouTube, { YouTubeProps } from "react-youtube";
 
 const Course = () => {
   // const dataTitle = "Công nghệ Web và Dịch vụ trực tuyến";
@@ -72,6 +73,22 @@ const Course = () => {
     );
     setInCartOrNot(true);
     SuccessMessage("Success", "Add Successful");
+  };
+
+  const getVideoIdFromUrl = (videoUrl) => {
+    let videoId = "";
+
+    // Kiểm tra các định dạng URL phổ biến của YouTube
+    if (videoUrl.includes("youtu.be")) {
+      // Định dạng URL: https://youtu.be/{videoId}
+      videoId = videoUrl.split("/").pop();
+    } else if (videoUrl.includes("youtube.com")) {
+      // Định dạng URL: https://www.youtube.com/watch?v={videoId}
+      const urlParams = new URLSearchParams(new URL(videoUrl).search);
+      videoId = urlParams.get("v");
+    }
+
+    return videoId;
   };
 
   useEffect(() => {
@@ -166,7 +183,7 @@ const Course = () => {
                 <span>{courseInformation.sub_title}</span>
               )}
               <div className="course-des">
-                {courseInformation.course_description}
+                {courseInformation.primarily_taught}
               </div>
               <div style={{ display: "flex", marginBottom: "10px" }}>
                 <div className="course-badge">Bán chạy nhất</div>
@@ -232,10 +249,10 @@ const Course = () => {
                 <div className="pt-4">
                   <span className="font-bold text-2xl">Requirements</span>
                   <ul className="pt-2 px-8 list-disc">
-                    {teacherInformation.required_skills && (
-                      <li>{teacherInformation.required_skills}</li>
+                    {courseInformation.required_skills && (
+                      <li>{courseInformation.required_skills}</li>
                     )}
-                    {!teacherInformation.required_skills && (
+                    {!courseInformation.required_skills && (
                       <li>No requirements</li>
                     )}
                   </ul>
@@ -245,10 +262,10 @@ const Course = () => {
                 <hr></hr>
                 <div className="pt-4 flex flex-col">
                   <span className="font-bold text-2xl">Description</span>
-                  {teacherInformation.course_description && (
-                    <span>{teacherInformation.course_description}</span>
+                  {courseInformation.course_description && (
+                    <span>{courseInformation.course_description}</span>
                   )}
-                  {!teacherInformation.course_description && (
+                  {!courseInformation.course_description && (
                     <span className="mt-2 ">No description</span>
                   )}
                 </div>
@@ -306,11 +323,12 @@ const Course = () => {
         <div className="course-priceCard">
           <div className="course-card">
             {courseInformation.promotional_video && (
-              <iframe
-                src={courseInformation.promotional_video}
+              <YouTube
+                opts={{ height: 240, width: 460 }}
+                videoId={getVideoIdFromUrl(courseInformation.promotional_video)}
                 className="w-full h-60"
                 title="promotional_video"
-              ></iframe>
+              ></YouTube>
             )}
             {!courseInformation.promotional_video && (
               <img
@@ -359,15 +377,6 @@ const Course = () => {
                   Watch now
                 </button>
               )}
-
-              <b>Bao gồm có:</b>
-              <ul className="list-disc pl-5">
-                <li>14 bài</li>
-                <li>Mỗi bài là một video</li>
-                <li>Kèm theo đầy đủ tài liệu</li>
-                <li>Đầy đủ lý thuyết và bài tập</li>
-                <li>Có thể chat với người tạo ra khóa học</li>
-              </ul>
             </div>
           </div>
         </div>

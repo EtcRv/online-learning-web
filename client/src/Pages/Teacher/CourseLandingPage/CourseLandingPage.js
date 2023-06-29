@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateState } from "../../../store/createCourseSlice";
 import SuccessMessage from "../../../Components/ReUse/SuccessMessage/SuccessMessage";
 import CourseServices from "../../../Services/CourseServices/CourseServices";
-
+import YouTube, { YouTubeProps } from "react-youtube";
 const countries = [
   { value: "US", name: "English" },
   { value: "VN", name: "Việt Nam" },
@@ -96,6 +96,22 @@ const CourseLandingPage = () => {
 
     // Call API to save into db
     SuccessMessage("Success", "Save successfull");
+  };
+
+  const getVideoIdFromUrl = (videoUrl) => {
+    let videoId = "";
+
+    // Kiểm tra các định dạng URL phổ biến của YouTube
+    if (videoUrl.includes("youtu.be")) {
+      // Định dạng URL: https://youtu.be/{videoId}
+      videoId = videoUrl.split("/").pop();
+    } else if (videoUrl.includes("youtube.com")) {
+      // Định dạng URL: https://www.youtube.com/watch?v={videoId}
+      const urlParams = new URLSearchParams(new URL(videoUrl).search);
+      videoId = urlParams.get("v");
+    }
+
+    return videoId;
   };
 
   return (
@@ -236,10 +252,14 @@ const CourseLandingPage = () => {
               <div className="mt-8">
                 <label className="font-bold">Course image</label>
                 <div className="flex">
-                  <img
-                    src="https://s.udemycdn.com/course/750x422/placeholder.jpg"
-                    className="w-auto h-56"
-                  />
+                  {!imageURL && (
+                    <img
+                      src="https://s.udemycdn.com/course/750x422/placeholder.jpg"
+                      className="w-auto h-56"
+                    />
+                  )}
+                  {imageURL && <img src={imageURL} className="w-auto h-56" />}
+
                   <div className="px-4">
                     <span>
                       Upload your course image here. It must meet our course
@@ -262,14 +282,22 @@ const CourseLandingPage = () => {
               <div className="mt-8">
                 <label className="font-bold">Promotional video</label>
                 <div className="flex">
-                  <img
-                    src={
-                      imageURL
-                        ? imageURL
-                        : "https://s.udemycdn.com/course/750x422/placeholder.jpg"
-                    }
-                    className="w-auto h-56"
-                  />
+                  {videoURL && (
+                    <div className="w-auto h-56">
+                      <YouTube
+                        opts={{ height: 224, width: 398 }}
+                        videoId={getVideoIdFromUrl(videoURL)}
+                        className=" w-full h-full m-auto"
+                      ></YouTube>
+                    </div>
+                  )}
+
+                  {!videoURL && (
+                    <img
+                      src="https://s.udemycdn.com/course/750x422/placeholder.jpg"
+                      className="w-[398px] h-56"
+                    />
+                  )}
                   <div className="px-4">
                     <span>
                       Your promo video is a quick and compelling way for
