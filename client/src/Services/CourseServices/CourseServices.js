@@ -39,10 +39,14 @@ const CourseServices = {
     });
   },
   getAllCourseOfUser(userId, token) {
+    // getAllCourseOfUser(userId) {
     const headers = { Authorization: `Bearer ${token}` };
     return Api().get(`/user/get-allcourse/${userId}`, {
       headers,
-    });
+    })
+  },
+  getAllCourseOfTitle(title) {
+    return Api().get(`/cart/get-course-title/${title}`)
   },
   createNewCourse(teacherId, token) {
     const headers = { Authorization: `Bearer ${token}` };

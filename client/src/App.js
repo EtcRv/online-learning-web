@@ -20,6 +20,7 @@ import CourseMessages from "./Pages/Teacher/CourseMessages/CourseMessages";
 import CoursePage from "./Pages/CoursePage/CoursePage"; //buy
 import ViewCoursePage from "./Pages/Teacher/ViewCoursePage/ViewCoursePage";
 import MessagePage from "./Pages/MessagePage/MessagePage";
+import SearchCoursesPage from "./Pages/SearchCoursesPage/SearchCoursesPage"
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
           ></Route>
           <Route path="coursePage/:courseId" element={<CoursePage />} />
           <Route path="message" element={<MessagePage />}></Route>
+          <Route path="coursePage/search/:title" element={<SearchCoursesPage />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

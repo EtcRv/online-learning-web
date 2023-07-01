@@ -132,13 +132,15 @@ export default function Couseras() {
     <>
       <div className="couseras mx-[35px] px-[24px] mt-[64px] mb-[96px]">
         <h2 className="mb-[16px] mx-[45px]">Students are viewing</h2>
-        <Slider {...settings}>
+      
+      <div className="mx-[45px]">
+      <Slider {...settings}>
           {courses.map(
             (
               item,
               idx //data=courses
             ) => (
-              <div className="m-auto" key={idx}>
+              <div className="" key={idx}>
                 <NavLink to={`/course/${item.id}`} activeClassName="active">
                   <CardCousera data={item}></CardCousera>
                 </NavLink>
@@ -146,6 +148,8 @@ export default function Couseras() {
             )
           )}
         </Slider>
+        </div> 
+      
       </div>
     </>
   );

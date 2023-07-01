@@ -8,7 +8,7 @@ const {
   Feedback,
   Student,
 } = require("../../models");
-
+const { Op } = require("sequelize");
 module.exports = {
   async createNewCourse(req, res) {
     try {
@@ -448,6 +448,41 @@ module.exports = {
       });
     }
   },
+  async getAllCourseOfTitle(req, res) {
+  
+  try {
+    const { title } = req.params;
+    const courses = await Course.findAll({
+      where: {
+        title: {
+          [Op.like]: `%${title}%`, // Tìm các khóa học có title chứa từ khóa tìm kiếm
+        },
+      },
+    });
+
+    const coursesData = Promise.all(
+      courses.map(async (course) => {
+        const teacher = await Teacher.findByPk(course.teacherId);
+        const user = await User.findByPk(teacher.userId);
+        return {
+          id: course.id,
+          courseImg: course.course_image,
+          title: course.title,
+          teacherName: user.name,
+          rating: course.rating,
+          price: course.price,
+        };
+      })
+    );
+    res.send( await coursesData);
+  }   catch (err) {
+      console.log("error: ", err);
+      res.status(400).send({
+        error: "Failed to fetch search results",
+      });
+    }
+  },
+
   async createNewFeedback(req, res) {
     try {
       const { courseId, userId, feedbackDescription, rating } = req.body;

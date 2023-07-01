@@ -96,6 +96,10 @@ module.exports = (app) => {
     TokenRequire.auth,
     CartController.getCourseInCart
   );
+  app.get(
+    "/cart/get-course-title/:title",
+    CourseController.getAllCourseOfTitle
+  );
   app.post(
     "/cart/add-course",
     TokenRequire.auth,

@@ -36,14 +36,12 @@ const CoursePage = () => {
             lectures,
           });
         }
-        console.log("newSections: ", newSections);
         setSections(newSections);
-        if (sections.length > 0) {
+        if (newSections.length > 0 && newSections[0].lectures.length > 0) {
           setLectureVideoId(
-            getVideoIdFromUrl(sections[0].lectures[0].video_url)
+            getVideoIdFromUrl(newSections[0].lectures[0].video_url)
           );
         }
-        // Sử dụng mảng sections chứa dữ liệu đã tích hợp
       } catch (error) {
         console.error(error);
       }
@@ -295,9 +293,9 @@ const CoursePage = () => {
                   >
                     {section.lectures.map((lecture, lectureIndex) => (
                       <li key={lecture.id}>
-                        <a
-                          href="" //{lecture.video_url}
-                          className={`block px-4 py-2 hover:bg-[#d1d7dc] ${
+                        <span
+                         // href="" //{lecture.video_url}
+                          className={`block  px-4 py-2 hover:bg-[#d1d7dc] ${
                             selectedSubTitles.some(
                               ([sIndex, subIndex]) =>
                                 sIndex === sectionIndex &&
@@ -312,7 +310,7 @@ const CoursePage = () => {
                           }}
                         >
                           {lecture.name}
-                        </a>
+                        </span>
                       </li>
                     ))}
                   </ul>

@@ -61,9 +61,6 @@ const CardCousera = (props) => {
                 <EmptyStar></EmptyStar>
               )}
             </div>
-            {/* <span className="text-gray-400 text-[13px]">
-              ({props.data.numberStudent})
-            </span> */}
           </div>
 
           <div className="flex items-center justify-between">

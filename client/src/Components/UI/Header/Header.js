@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser, addToken } from "../../../store/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const dispatch = useDispatch();
@@ -10,6 +11,16 @@ function Header() {
   const token = useSelector((state) => state.user.token);
   const [userInfor, setUserInfor] = useState(user);
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState("");
+
+  const handleSearch = () => {
+    if (searchText) {
+      navigate(`/coursePage/search/${searchText}`);
+      window.location.reload();
+    }
+  };
+
 
   const logout = () => {
     dispatch(
@@ -58,8 +69,10 @@ function Header() {
                   type="text"
                   className="px-4 py-2 w-80"
                   placeholder="Search..."
+                  value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
                 ></input>
-                <button className="flex items-center justify-center px-4 border-l">
+                <button className="flex items-center justify-center px-4 border-l"  onClick={handleSearch}>
                   <svg
                     className="w-6 h-6 text-gray-600"
                     fill="currentColor"
