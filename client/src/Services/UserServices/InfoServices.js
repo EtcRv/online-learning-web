@@ -30,6 +30,18 @@ const InfoServices = {
   getTeacherInfo(teacherId) {
     return Api().get(`/teacher-profile/${teacherId}`);
   },
+  getAllUser(token) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return Api().get("/api/all-user", { headers });
+  },
+  updateUserMoney(userId, money, token) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return Api().post(
+      `/api/update-money/${userId}`,
+      { money: money },
+      { headers }
+    );
+  },
 };
 
 export default InfoServices;

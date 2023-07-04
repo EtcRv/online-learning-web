@@ -20,7 +20,10 @@ import CourseMessages from "./Pages/Teacher/CourseMessages/CourseMessages";
 import CoursePage from "./Pages/CoursePage/CoursePage"; //buy
 import ViewCoursePage from "./Pages/Teacher/ViewCoursePage/ViewCoursePage";
 import MessagePage from "./Pages/MessagePage/MessagePage";
-import SearchCoursesPage from "./Pages/SearchCoursesPage/SearchCoursesPage"
+import SearchCoursesPage from "./Pages/SearchCoursesPage/SearchCoursesPage";
+import DashboardPage from "./Pages/Admin/DashboardPage/DashboardPage";
+import DatabasePage from "./Pages/Admin/DatabasePage/DatabasePage";
+import ReviewCoursePage from "./Pages/Admin/ReviewCoursePage/ReviewCoursePage";
 
 function App() {
   return (
@@ -72,7 +75,13 @@ function App() {
           ></Route>
           <Route path="coursePage/:courseId" element={<CoursePage />} />
           <Route path="message" element={<MessagePage />}></Route>
-          <Route path="coursePage/search/:title" element={<SearchCoursesPage />}></Route>
+          <Route
+            path="coursePage/search/:title"
+            element={<SearchCoursesPage />}
+          ></Route>
+          <Route path="admin/dashboard" element={<DashboardPage />}></Route>
+          <Route path="admin/database" element={<DatabasePage />}></Route>
+          <Route path="admin/courses" element={<ReviewCoursePage />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

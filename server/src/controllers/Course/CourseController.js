@@ -133,34 +133,6 @@ module.exports = {
       }
 
       const course = await Course.findByPk(courseId);
-      const courseJson = course.toJSON();
-      if (
-        courseJson.learning_object !== "" &&
-        courseJson.required_skills !== "" &&
-        courseJson.course_for !== "" &&
-        courseJson.title !== "" &&
-        courseJson.sub_title !== "" &&
-        courseJson.course_description !== "" &&
-        courseJson.language !== "" &&
-        courseJson.level !== "" &&
-        courseJson.category !== "" &&
-        courseJson.primarily_taught !== "" &&
-        courseJson.course_image !== "" &&
-        courseJson.price >= 0 &&
-        courseJson.welcome_message !== "" &&
-        courseJson.congratulation_message !== ""
-      ) {
-        await course.update(
-          { status: "Public" },
-          {
-            where: {
-              id: courseId,
-            },
-          }
-        );
-        await course.save();
-      }
-
       res.send({
         course: course.toJSON(),
       });
@@ -381,7 +353,11 @@ module.exports = {
   },
   async getAllCourse(req, res) {
     try {
-      const allCourses = await Course.findAll();
+      const allCourses = await Course.findAll({
+        where: {
+          status: "Public",
+        },
+      });
       const coursesData = Promise.all(
         allCourses.map(async (course) => {
           const teacher = await Teacher.findByPk(course.teacherId);
@@ -449,33 +425,32 @@ module.exports = {
     }
   },
   async getAllCourseOfTitle(req, res) {
-  
-  try {
-    const { title } = req.params;
-    const courses = await Course.findAll({
-      where: {
-        title: {
-          [Op.like]: `%${title}%`, // Tìm các khóa học có title chứa từ khóa tìm kiếm
+    try {
+      const { title } = req.params;
+      const courses = await Course.findAll({
+        where: {
+          title: {
+            [Op.like]: `%${title}%`, // Tìm các khóa học có title chứa từ khóa tìm kiếm
+          },
         },
-      },
-    });
+      });
 
-    const coursesData = Promise.all(
-      courses.map(async (course) => {
-        const teacher = await Teacher.findByPk(course.teacherId);
-        const user = await User.findByPk(teacher.userId);
-        return {
-          id: course.id,
-          courseImg: course.course_image,
-          title: course.title,
-          teacherName: user.name,
-          rating: course.rating,
-          price: course.price,
-        };
-      })
-    );
-    res.send( await coursesData);
-  }   catch (err) {
+      const coursesData = Promise.all(
+        courses.map(async (course) => {
+          const teacher = await Teacher.findByPk(course.teacherId);
+          const user = await User.findByPk(teacher.userId);
+          return {
+            id: course.id,
+            courseImg: course.course_image,
+            title: course.title,
+            teacherName: user.name,
+            rating: course.rating,
+            price: course.price,
+          };
+        })
+      );
+      res.send(await coursesData);
+    } catch (err) {
       console.log("error: ", err);
       res.status(400).send({
         error: "Failed to fetch search results",
@@ -571,11 +546,43 @@ module.exports = {
         newEnroll.courseId = courseId;
         newEnroll.userId = userId;
         await newEnroll.save();
+        const course = await Course.findByPk(courseId);
+        const teacher = await Teacher.findByPk(course.teacherId);
+        const teacherUser = await User.findByPk(teacher.userId);
+        teacherUser.money += course.price;
+        await teacherUser.save();
       });
 
       res.send("Buy Successfully");
     } catch (err) {
-      console.log("error: ", err);
+      res.status(400).send({
+        error: "Failed when Buy course",
+      });
+    }
+  },
+  async getDraftCourse(req, res) {
+    try {
+      const response = await Course.findAll({
+        where: {
+          status: "Draft",
+        },
+      });
+
+      res.send(response);
+    } catch (err) {
+      res.status(400).send({
+        error: "Failed when get course information",
+      });
+    }
+  },
+  async changeCourseStatus(req, res) {
+    try {
+      const courseId = req.params.courseId;
+      const response = await Course.findByPk(courseId);
+      response.status = "Public";
+      await response.save();
+      res.send("Success");
+    } catch (err) {
       res.status(400).send({
         error: "Failed when get course information",
       });

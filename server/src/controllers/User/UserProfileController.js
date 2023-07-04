@@ -132,4 +132,31 @@ module.exports = {
       });
     }
   },
+  async getAllUserInfo(req, res) {
+    try {
+      const response = await User.findAll();
+      res.send(response);
+    } catch (err) {
+      res.status(500).send({
+        error: err,
+      });
+    }
+  },
+  async updateUserMoney(req, res) {
+    try {
+      const userId = req.params.userId;
+      const { money } = req.body;
+
+      const user = await User.findByPk(userId);
+      user.money = money;
+      await user.save();
+      res.send({
+        status: "Success",
+      });
+    } catch (err) {
+      res.status(500).send({
+        error: err,
+      });
+    }
+  },
 };

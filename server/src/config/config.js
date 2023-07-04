@@ -5,7 +5,7 @@ module.exports = {
   db: {
     database: process.env.DB_NAME || "onlinelearningweb",
     user: process.env.DB_USER || "root",
-    password: process.env.DB_PASS || "",
+    password: process.env.DB_PASS || "luvetcrv2408",
     options: {
       dialect: process.env.DIALECT || "mysql",
       host: process.env.HOST || "localhost",

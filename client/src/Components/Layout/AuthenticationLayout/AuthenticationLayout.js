@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import Footer from "../../UI/Footer/Footer";
 
 const AuthenticationLayout = ({ children }) => {
   return (
@@ -28,6 +29,7 @@ const AuthenticationLayout = ({ children }) => {
           <div className="md:w-8/12 lg:w-5/12 lg:ml-20">{children}</div>
         </div>
       </div>
+      <Footer></Footer>
     </section>
   );
 };

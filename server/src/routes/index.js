@@ -124,5 +124,11 @@ module.exports = (app) => {
     CourseController.createNewFeedback
   );
   app.get("/api/Feedback/:courseId", CourseController.getFeedbacksByCourseId);
-
+  app.get("/api/all-user", UserProfileController.getAllUserInfo);
+  app.get("/api/get-draftcourse", CourseController.getDraftCourse);
+  app.post(
+    "/api/change-course-status/:courseId",
+    CourseController.changeCourseStatus
+  );
+  app.post("/api/update-money/:userId", UserProfileController.updateUserMoney);
 };

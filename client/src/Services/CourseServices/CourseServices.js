@@ -43,10 +43,10 @@ const CourseServices = {
     const headers = { Authorization: `Bearer ${token}` };
     return Api().get(`/user/get-allcourse/${userId}`, {
       headers,
-    })
+    });
   },
   getAllCourseOfTitle(title) {
-    return Api().get(`/cart/get-course-title/${title}`)
+    return Api().get(`/cart/get-course-title/${title}`);
   },
   createNewCourse(teacherId, token) {
     const headers = { Authorization: `Bearer ${token}` };
@@ -68,6 +68,14 @@ const CourseServices = {
   },
   getFeedback(courseId) {
     return Api().get(`/api/Feedback/${courseId}`);
+  },
+  getDraftCourse(token) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return Api().get("/api/get-draftcourse", { headers });
+  },
+  publicCourse(courseId, token) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return Api().post(`/api/change-course-status/${courseId}`, { headers });
   },
 };
 

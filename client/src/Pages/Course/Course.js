@@ -338,12 +338,14 @@ const Course = () => {
               />
             )}
             <div style={{ margin: "1rem" }}>
-              <h1 style={{ paddingBottom: "0.5rem" }}>
-                {courseInformation.price === 0
-                  ? "Free"
-                  : `${courseInformation.price} $`}
-              </h1>
-              {inCartOrNot && !isBuy && (
+              {!isBuy && (
+                <h1 style={{ paddingBottom: "0.5rem" }}>
+                  {courseInformation.price === 0
+                    ? "Free"
+                    : `${courseInformation.price} $`}
+                </h1>
+              )}
+              {user.user_type !== "admin" && inCartOrNot && !isBuy && (
                 <button
                   className="course-buttonAdd"
                   onClick={() => navigate("/cart")}
@@ -351,7 +353,7 @@ const Course = () => {
                   Course is in the cart
                 </button>
               )}
-              {!inCartOrNot && !isBuy && (
+              {user.user_type !== "admin" && !inCartOrNot && !isBuy && (
                 <button
                   className="course-buttonAdd"
                   onClick={addCourseIntoCart}
@@ -360,16 +362,19 @@ const Course = () => {
                 </button>
               )}
 
-              {!isBuy && (
+              {user.user_type !== "admin" && !isBuy && (
                 <button
                   className="course-buttonBuy"
-                  onClick={() => navigate("/cart")}
+                  onClick={() => {
+                    addCourseIntoCart();
+                    navigate("/cart");
+                  }}
                 >
                   Buy now
                 </button>
               )}
 
-              {isBuy && (
+              {(user.user_type === "admin" || isBuy) && (
                 <button
                   className="course-buttonBuy"
                   onClick={() => navigate(`/coursePage/${courseId}`)}
