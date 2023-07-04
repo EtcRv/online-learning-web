@@ -102,6 +102,9 @@ module.exports = (sequelize, DataTypes) => {
     Course.hasMany(models.Section, {
       foreignKey: "courseId",
     });
+    Course.hasMany(models.Discussion, {
+      foreignKey: "courseId",
+    });
   };
 
   return Course;

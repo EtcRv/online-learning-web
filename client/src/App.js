@@ -25,6 +25,7 @@ import DashboardPage from "./Pages/Admin/DashboardPage/DashboardPage";
 import DatabasePage from "./Pages/Admin/DatabasePage/DatabasePage";
 import ReviewCoursePage from "./Pages/Admin/ReviewCoursePage/ReviewCoursePage";
 
+
 function App() {
   return (
     <BrowserRouter>

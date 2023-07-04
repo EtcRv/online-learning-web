@@ -62,6 +62,12 @@ const CourseServices = {
     const headers = { Authorization: `Bearer ${token}` };
     return Api().post("/course/buy-course", data, { headers });
   },
+  postComment(data) {
+    return Api().post("/api/Comments/create", data);
+  },
+  getCommentsByCourseId(courseId) {
+    return Api().get(`/api/Comments/${courseId}`);//api/Comments/:courseId
+  },
   postFeedback(data, token) {
     const headers = { Authorization: `Bearer ${token}` };
     return Api().post("/api/Feedback/create", data, { headers });

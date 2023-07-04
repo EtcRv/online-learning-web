@@ -131,4 +131,6 @@ module.exports = (app) => {
     CourseController.changeCourseStatus
   );
   app.post("/api/update-money/:userId", UserProfileController.updateUserMoney);
+  app.get("/api/Comments/:courseId", CourseController.getCommentsByCourseId);
+  app.post("/api/Comments/create", CourseController.createNewComment);
 };

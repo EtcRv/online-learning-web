@@ -4,10 +4,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    time: {
-      type: "TIMESTAMP",
-      allowNull: false,
-    },
   });
 
   return Discussion;

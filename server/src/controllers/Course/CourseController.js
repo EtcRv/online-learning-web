@@ -7,8 +7,10 @@ const {
   User,
   Feedback,
   Student,
+  Discussion,
 } = require("../../models");
 const { Op } = require("sequelize");
+// const Discussion = require("../../models/Discussion");
 module.exports = {
   async createNewCourse(req, res) {
     try {
@@ -406,7 +408,6 @@ module.exports = {
           userId: userId,
         },
       });
-
       const coursesData = Promise.all(
         coursesId.map(async (courseId) => {
           const course = await Course.findByPk(courseId.courseId);
@@ -457,7 +458,69 @@ module.exports = {
       });
     }
   },
+  async getCommentsByCourseId(req, res) {
+    try {
+      const { courseId } = req.params;
+      const discussions = await Discussion.findAll({
+        where: {
+          courseId: courseId,
+        },
+      });
 
+      const discusionData = Promise.all(
+        discussions.map(async (discussion) => {
+          const user = await User.findByPk(discussion.userId);
+          let avatar_url = "";
+          if (user.user_type === "teacher") {
+            const teacher = await Teacher.findOne({
+              where: {
+                userId: user.id,
+              },
+            });
+            avatar_url = teacher.avatar_url;
+          } else {
+            const student = await Student.findOne({
+              where: {
+                userId: user.id,
+              },
+            });
+            avatar_url = student.avatar_url;
+          }
+          return {
+            id: discussion.id,
+            name: user.name,
+            comment: discussion.comment,
+            avatar_url: avatar_url,
+          };
+        })
+      );
+      res.send(await discusionData);
+    } catch (err) {
+      console.error("Error retrieving comments:", err);
+      res.status(400).json({ message: "Internal server error", err });
+    }
+  },
+  async createNewComment(req, res) {
+    try {
+      const { courseId, comment, userId } = req.body;
+
+      const newComment = await Discussion.create({
+        comment: comment,
+      });
+      newComment.userId = userId;
+      newComment.courseId = courseId;
+      await newComment.save();
+      const commentJson = newComment.toJSON();
+      res.send({
+        discussions: commentJson,
+      });
+    } catch (err) {
+      console.log("err: ", err);
+      res.status(400).send({
+        error: "Failed when creating comment",
+      });
+    }
+  },
   async createNewFeedback(req, res) {
     try {
       const { courseId, userId, feedbackDescription, rating } = req.body;

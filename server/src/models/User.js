@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     User.hasOne(models.Teacher, {
       foreignKey: "userId",
     });
-    User.hasOne(models.Discussion, {
+    User.hasMany(models.Discussion, {
       foreignKey: "userId",
     });
     User.hasOne(models.Enroll, {

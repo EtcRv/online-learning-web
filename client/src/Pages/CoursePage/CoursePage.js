@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import YouTube, { YouTubeProps } from "react-youtube";
 import Header from "../../Components/UI/Header/Header";
-import Footer from "../../Components/UI/Footer/Footer";
 import { useParams } from "react-router-dom";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import CourseServices from "../../Services/CourseServices/CourseServices";
+import Comments from "../../Components/UI/Comments/Comments";
 
 const CoursePage = () => {
   const { courseId } = useParams();
@@ -13,6 +13,22 @@ const CoursePage = () => {
   const token = useSelector((state) => state.user.token);
   const [sections, setSections] = useState([]);
   const [lectureVideoId, setLectureVideoId] = useState("");
+
+  const getVideoIdFromUrl = (videoUrl) => {
+    let videoId = "";
+
+    // Kiểm tra các định dạng URL phổ biến của YouTube
+    if (videoUrl.includes("youtu.be")) {
+      // Định dạng URL: https://youtu.be/{videoId}
+      videoId = videoUrl.split("/").pop();
+    } else if (videoUrl.includes("youtube.com")) {
+      // Định dạng URL: https://www.youtube.com/watch?v={videoId}
+      const urlParams = new URLSearchParams(new URL(videoUrl).search);
+      videoId = urlParams.get("v");
+    }
+
+    return videoId;
+  };
 
   // Gọi hàm fetchData để lấy dữ liệu
   useEffect(() => {
@@ -36,12 +52,18 @@ const CoursePage = () => {
             lectures,
           });
         }
+        console.log("newSections: ", newSections);
         setSections(newSections);
-        if (newSections.length > 0 && newSections[0].lectures.length > 0) {
-          setLectureVideoId(
-            getVideoIdFromUrl(newSections[0].lectures[0].video_url)
-          );
-        }
+
+        //đặt giá trị ban đầu của videoId nhưng chưa thành công
+        // if (sections.length > 0) {
+        // if  (newSections.length > 0 && newSections[0].lectures.length > 0){
+        //   setInitVideoId(
+        //     getVideoIdFromUrl(newSections[0].lectures[0].video_url)
+        //   );
+        // }
+
+        // Sử dụng mảng sections chứa dữ liệu đã tích hợp
       } catch (error) {
         console.error(error);
       }
@@ -49,140 +71,7 @@ const CoursePage = () => {
     fetchData(courseId, token);
   }, []);
 
-  const sectionsNew = [
-    {
-      id: 1,
-      name: "Section 1",
-      courseId: 1,
-      lectures: [
-        {
-          id: 1,
-          name: "Lecture 1",
-          video_url: "https://youtu.be/E7S6zyXYe7M",
-          courseId: 1,
-          sectionId: 1,
-        },
-        {
-          id: 2,
-          name: "Lecture 2",
-          video_url: "https://youtu.be/10Ox9ZBIq1c",
-          courseId: 1,
-          sectionId: 1,
-        },
-        // Các lecture khác trong section 1
-      ],
-    },
-    {
-      id: 2,
-      name: "Section 2",
-      courseId: 1,
-      lectures: [
-        {
-          id: 3,
-          name: "Lecture 3",
-          video_url: "https://youtu.be/DJ3uXl5ZgOQ",
-          courseId: 1,
-          sectionId: 2,
-        },
-        {
-          id: 4,
-          name: "Lecture 4",
-          video_url: "https://youtu.be/DJ3uXl5ZgOQ",
-          courseId: 1,
-          sectionId: 2,
-        },
-        // Các lecture khác trong section 2
-      ],
-    },
-    // Các section khác của khóa học
-    {
-      id: 3,
-      name: "Section 3",
-      courseId: 1,
-      lectures: [
-        {
-          id: 5,
-          name: "Lecture 5",
-          video_url: "https://example.com/lecture5",
-          courseId: 1,
-          sectionId: 3,
-        },
-        {
-          id: 6,
-          name: "Lecture 6",
-          video_url: "https://example.com/lecture6",
-          courseId: 1,
-          sectionId: 3,
-        },
-        // Các lecture khác trong section 3
-      ],
-    },
-    {
-      id: 4,
-      name: "Section 4",
-      courseId: 1,
-      lectures: [
-        {
-          id: 7,
-          name: "Lecture 7",
-          video_url: "https://example.com/lecture7",
-          courseId: 1,
-          sectionId: 4,
-        },
-        {
-          id: 8,
-          name: "Lecture 8",
-          video_url: "https://example.com/lecture8",
-          courseId: 1,
-          sectionId: 4,
-        },
-        {
-          id: 9,
-          name: "Lecture 8",
-          video_url: "https://example.com/lecture8",
-          courseId: 1,
-          sectionId: 4,
-        },
-        {
-          id: 10,
-          name: "Lecture 8",
-          video_url: "https://example.com/lecture8",
-          courseId: 1,
-          sectionId: 4,
-        },
-        {
-          id: 11,
-          name: "Lecture 8",
-          video_url: "https://example.com/lecture8",
-          courseId: 1,
-          sectionId: 4,
-        },
-        // Các lecture khác trong section 4
-      ],
-    },
-  ];
 
-  const getVideoIdFromUrl = (videoUrl) => {
-    let videoId = "";
-
-    // Kiểm tra các định dạng URL phổ biến của YouTube
-    if (videoUrl.includes("youtu.be")) {
-      // Định dạng URL: https://youtu.be/{videoId}
-      videoId = videoUrl.split("/").pop();
-    } else if (videoUrl.includes("youtube.com")) {
-      // Định dạng URL: https://www.youtube.com/watch?v={videoId}
-      const urlParams = new URLSearchParams(new URL(videoUrl).search);
-      videoId = urlParams.get("v");
-    }
-
-    return videoId;
-  };
-
-  const lessons = [
-    { id: 1, title: "Bài học 1", videoUrl: "https://youtu.be/E7S6zyXYe7M" },
-    { id: 2, title: "Bài học 2", videoUrl: "https://youtu.be/E7S6zyXYe7M" },
-    { id: 3, title: "Bài học 3", videoUrl: "https://youtu.be/E7S6zyXYe7M" },
-  ];
   const opts = {
     height: "500",
     width: "100%",
@@ -193,6 +82,7 @@ const CoursePage = () => {
   };
 
   const [selectedSubTitles, setSelectedSubTitles] = useState([]);
+
 
   const toggleSubTitle = (sectionIndex, subTitleIndex) => {
     // Kiểm tra nếu sectionIndex và subTitleIndex hợp lệ
@@ -257,11 +147,9 @@ const CoursePage = () => {
           <YouTube
             opts={opts}
             videoId={lectureVideoId}
-            //  id={lessons[0].id}
-            //  title={lessons[0].title}
-            className=" w-full h-full m-auto"
+            className=" w-full  m-auto"
           />
-          {courseId}
+          <Comments courseId={courseId}></Comments>
         </div>
         <div className="w-[30%]  max-h-[500px] overflow-y-auto">
           {sections.map((section, sectionIndex) => (
@@ -293,9 +181,9 @@ const CoursePage = () => {
                   >
                     {section.lectures.map((lecture, lectureIndex) => (
                       <li key={lecture.id}>
-                        <span
-                         // href="" //{lecture.video_url}
-                          className={`block  px-4 py-2 hover:bg-[#d1d7dc] ${
+                        <div
+                          href="" //{lecture.video_url}
+                          className={`block px-4 py-2 hover:bg-[#d1d7dc] ${
                             selectedSubTitles.some(
                               ([sIndex, subIndex]) =>
                                 sIndex === sectionIndex &&
@@ -310,7 +198,7 @@ const CoursePage = () => {
                           }}
                         >
                           {lecture.name}
-                        </span>
+                        </div>
                       </li>
                     ))}
                   </ul>
@@ -320,7 +208,6 @@ const CoursePage = () => {
           ))}
         </div>
       </div>
-      <Footer></Footer>
     </>
   );
 };
