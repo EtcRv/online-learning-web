@@ -22,6 +22,7 @@ import ViewCoursePage from "./Pages/Teacher/ViewCoursePage/ViewCoursePage";
 import MessagePage from "./Pages/MessagePage/MessagePage";
 import SearchCoursesPage from "./Pages/SearchCoursesPage/SearchCoursesPage"
 
+
 function App() {
   return (
     <BrowserRouter>

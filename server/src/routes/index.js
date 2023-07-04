@@ -124,5 +124,6 @@ module.exports = (app) => {
     CourseController.createNewFeedback
   );
   app.get("/api/Feedback/:courseId", CourseController.getFeedbacksByCourseId);
-
+  app.get("/api/Comments/:courseId", CourseController.getCommentsByCourseId);
+  app.post("/api/Comments/create", CourseController.createNewComment);
 };

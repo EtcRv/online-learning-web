@@ -1,14 +1,6 @@
 import EmptyStar from "../Star/EmptyStar";
 import FullStar from "../Star/FullStar";
 
-// const props.data = {
-//   courseImg: "https://img-c.udemycdn.com/course/240x135/950390_270f_3.jpg",
-//   title:" Apple Watch Series 7 GPS, Aluminium Case, Starlight Spordasfasfasdfasdfafsaggabsafasfserw4efadf à we eawf we fwef t",
-//   teacherName: "Jose Potilla",
-//   rating: "5.0",
-//   numberStudent: "462,590",
-//   price: "12,199,000",
-// };
 
 const CardCousera = (props) => {
   return (

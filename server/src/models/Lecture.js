@@ -11,9 +11,6 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Lecture.associate = (models) => {
-    Lecture.hasOne(models.Discussion, {
-      foreignKey: "lectureId",
-    });
     Lecture.hasOne(models.Lecture_Status, {
       foreignKey: "lectureId",
     });
