@@ -196,4 +196,34 @@ module.exports = {
       });
     }
   },
+  async genNewPassword(req, res) {
+    try {
+      const { email, newPassword } = req.body;
+      const user = await User.findOne({
+        where: {
+          email: email,
+        },
+      });
+
+      const hashPassword = await user.hashPassword(newPassword);
+
+      const userUpdate = await User.update(
+        { password: hashPassword },
+        {
+          where: {
+            id: user.id,
+          },
+        }
+      );
+
+      return res.send({
+        status: "Update success",
+      });
+    } catch (err) {
+      console.log("error: ", err);
+      res.status(500).send({
+        error: err,
+      });
+    }
+  },
 };

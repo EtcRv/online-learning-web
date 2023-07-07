@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import CourseServices from "../../../Services/CourseServices/CourseServices";
 import { NavLink } from "react-router-dom";
 import CardCouseraBuy from "../CardCouseraBuy/CarCouseraBuy";
+import { useTranslation } from "react-i18next";
 
 const data = [
   {
@@ -57,22 +58,23 @@ const data = [
 export default function CouserasBuy() {
   const token = useSelector((state) => state.user.token);
   const user = useSelector((state) => state.user.user);
-  const userId=user.userId
+  const userId = user.userId;
   const [coursesBuy, setCoursesBuy] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchData = async (userId, token) => {
       try {
-        const response = await CourseServices.getAllCourseOfUser(userId,token);
+        const response = await CourseServices.getAllCourseOfUser(userId, token);
         const coursesData = response.data;
         console.log(coursesData);
-        const transformedData = coursesData.map(item => {
+        const transformedData = coursesData.map((item) => {
           return {
-            coursesId:item.courseInformation.id,
+            coursesId: item.courseInformation.id,
             courseraImg: item.courseInformation.course_image,
             courseraName: item.courseInformation.title,
             currentLec: "1. HTML - Introduction",
-            lecTime: "1 min"
+            lecTime: "1 min",
           };
         });
         setCoursesBuy(transformedData);
@@ -83,9 +85,7 @@ export default function CouserasBuy() {
 
     fetchData(userId, token);
     console.log(coursesBuy);
-
   }, []);
-
 
   let settings = {
     dots: true,
@@ -97,29 +97,31 @@ export default function CouserasBuy() {
   };
   return (
     <>
-     {coursesBuy.length > 0 && (
-      <div className="couseras mx-[35px] px-[24px] mt-[64px] mb-[96px]">
-        <h2 className="mb-[16px] mx-[45px]">Let's start learning</h2>
-        <div className="mx-[45px]">
-        <Slider {...settings}>
-          {coursesBuy.map(
-            //data-cung  courses-api
-            (
-              item,
-              idx //data=courses
-            ) => (
-              <div className="" key={idx}>
-                <NavLink to={`/course/${item.coursesId}`} activeClassName="active">
-                  <CardCouseraBuy data={item}></CardCouseraBuy>
-                </NavLink>
-              </div>
-            )
-          )}
-        </Slider>
+      {coursesBuy.length > 0 && (
+        <div className="couseras mx-[35px] px-[24px] mt-[64px] mb-[96px]">
+          <h2 className="mb-[16px] mx-[45px]">{t("Let's start learning")}</h2>
+          <div className="mx-[45px]">
+            <Slider {...settings}>
+              {coursesBuy.map(
+                //data-cung  courses-api
+                (
+                  item,
+                  idx //data=courses
+                ) => (
+                  <div className="" key={idx}>
+                    <NavLink
+                      to={`/course/${item.coursesId}`}
+                      activeClassName="active"
+                    >
+                      <CardCouseraBuy data={item}></CardCouseraBuy>
+                    </NavLink>
+                  </div>
+                )
+              )}
+            </Slider>
+          </div>
         </div>
-        
-      </div>
-       )}
+      )}
     </>
   );
 }

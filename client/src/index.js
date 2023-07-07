@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { persistor, store } from "./store/index";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
+import "./i18n";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

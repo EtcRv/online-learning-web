@@ -24,8 +24,8 @@ import SearchCoursesPage from "./Pages/SearchCoursesPage/SearchCoursesPage";
 import DashboardPage from "./Pages/Admin/DashboardPage/DashboardPage";
 import DatabasePage from "./Pages/Admin/DatabasePage/DatabasePage";
 import ReviewCoursePage from "./Pages/Admin/ReviewCoursePage/ReviewCoursePage";
-
-
+import ForgetPassword from "./Pages/AuthenticationPage/ForgetPassword";
+import LoadingMoney from "./Pages/User/LoadingMoney/LoadingMoney";
 function App() {
   return (
     <BrowserRouter>
@@ -39,6 +39,7 @@ function App() {
           <Route path="user/profile" element={<ViewPublicProfile />} />
           <Route path="user/edit-account" element={<AccountSecurity />} />
           <Route path="user/close-account" element={<CloseAccount />} />
+          <Route path="user/loading-money" element={<LoadingMoney />} />
           <Route path="course/:courseId" element={<Course />} />
           <Route path="cart" element={<CartCouseras />} />
           <Route path="instructor/course" element={<ViewCoursePage />}></Route>
@@ -83,6 +84,7 @@ function App() {
           <Route path="admin/dashboard" element={<DashboardPage />}></Route>
           <Route path="admin/database" element={<DatabasePage />}></Route>
           <Route path="admin/courses" element={<ReviewCoursePage />}></Route>
+          <Route path="forgetpassword" element={<ForgetPassword />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -39,6 +39,8 @@ const UserToolbar = () => {
       navigate("/user/close-account");
     } else if (tabName === "Edit Profile") {
       navigate("/user/edit-profile");
+    } else if (tabName === "Loading Money") {
+      navigate("/user/loading-money");
     }
   };
 
@@ -78,6 +80,16 @@ const UserToolbar = () => {
             onClick={() => changeTab("Edit Profile")}
           >
             Profile
+          </button>
+          <button
+            className={`py-1 px-4 cursor-pointer w-full text-left hover:bg-gray-700 hover:text-white ${
+              current_function === "loading-money"
+                ? "bg-gray-700 text-white"
+                : ""
+            }`}
+            onClick={() => changeTab("Loading Money")}
+          >
+            Loading Money
           </button>
           <button
             className={`py-1 px-4 cursor-pointer w-full text-left hover:bg-gray-700 hover:text-white ${

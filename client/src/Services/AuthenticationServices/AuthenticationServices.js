@@ -10,6 +10,12 @@ const AuthenticationServices = {
   checkTeacherLoginFirstTime(userId) {
     return Api().get(`checklogin/${userId}`);
   },
+  genNewPassword(email, newPassword) {
+    return Api().post("/api/genNewPassword", {
+      email: email,
+      newPassword: newPassword,
+    });
+  },
 };
 
 export default AuthenticationServices;

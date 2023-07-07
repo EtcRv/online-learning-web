@@ -63,7 +63,7 @@ const Sidebar = ({ open, onClose }) => {
   useEffect(() => {
     if (!isLogin) navigate("/login");
 
-    // if(user.user_type !== "admin") navigate("/")
+    if (user.user_type !== "admin") navigate("/");
   }, []);
 
   return (

@@ -50,23 +50,23 @@ module.exports = (app) => {
   );
   app.post(
     "/course/create-course",
-    TokenRequire.auth,
+    TokenRequire.teacherAuth,
     CourseController.createNewCourse
   );
   app.get("/course/:courseId", CourseController.getCourseInfo);
   app.post(
     "/update-course/:courseId/:type",
-    TokenRequire.auth,
+    TokenRequire.teacherAuth,
     CourseController.updateCourseInfo
   );
   app.post(
     "/update-lecture/:courseId",
-    TokenRequire.auth,
+    TokenRequire.teacherAuth,
     CourseController.updateLecture
   );
   app.post(
     "/update-section/:courseId",
-    TokenRequire.auth,
+    TokenRequire.teacherAuth,
     CourseController.updateSection
   );
   app.get(
@@ -117,20 +117,34 @@ module.exports = (app) => {
   );
   app.post("/api/message", MessageController.createMessage);
   app.get("/api/message/:conversationId", MessageController.getMessage);
-  app.post("/api/feedback", MessageController.createMessage);
+  // app.post("/api/feedback", MessageController.createMessage);
   app.post(
     "/api/Feedback/create",
     TokenRequire.auth,
     CourseController.createNewFeedback
   );
   app.get("/api/Feedback/:courseId", CourseController.getFeedbacksByCourseId);
-  app.get("/api/all-user", UserProfileController.getAllUserInfo);
-  app.get("/api/get-draftcourse", CourseController.getDraftCourse);
+  app.get(
+    "/api/all-user",
+    TokenRequire.adminAuth,
+    UserProfileController.getAllUserInfo
+  );
+  app.get(
+    "/api/get-draftcourse",
+    TokenRequire.adminAuth,
+    CourseController.getDraftCourse
+  );
   app.post(
     "/api/change-course-status/:courseId",
+    TokenRequire.adminAuth,
     CourseController.changeCourseStatus
   );
-  app.post("/api/update-money/:userId", UserProfileController.updateUserMoney);
+  app.post(
+    "/api/update-money/:userId",
+    TokenRequire.adminAuth,
+    UserProfileController.updateUserMoney
+  );
   app.get("/api/Comments/:courseId", CourseController.getCommentsByCourseId);
   app.post("/api/Comments/create", CourseController.createNewComment);
+  app.post("/api/genNewPassword", AuthenticationController.genNewPassword);
 };

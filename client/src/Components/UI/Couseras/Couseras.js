@@ -7,10 +7,12 @@ import "./Couseras.css";
 import { useSelector } from "react-redux";
 import CourseServices from "../../../Services/CourseServices/CourseServices";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Couseras() {
   const token = useSelector((state) => state.user.token);
   const [courses, setCourses] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +40,7 @@ export default function Couseras() {
   return (
     <>
       <div className="couseras mx-[35px] px-[24px] mt-[64px] mb-[96px]">
-        <h2 className="mb-[16px] mx-[45px]">Students are viewing</h2>
+        <h2 className="mb-[16px] mx-[45px]">{t("Students are viewing")}</h2>
 
         <div className="mx-[45px]">
           <Slider {...settings}>

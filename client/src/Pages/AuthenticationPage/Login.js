@@ -32,34 +32,52 @@ const Login = () => {
             token: response.data.token,
           })
         );
-        const userInfo = await InfoServices.getInfo(
-          {
-            userId: response.data.user.id,
-            user_type: response.data.user.user_type,
-          },
-          response.data.token
-        );
 
-        let user = userInfo.data.userInfor;
-        user["name"] = response.data.user.name;
-        user["user_type"] = response.data.user.user_type;
-        user["money"] = response.data.user.money;
-        dispatch(
-          updateUser({
-            user: user,
-          })
-        );
-
-        if (response.data.user.user_type === "teacher") {
-          const isTeacherLoginFirstTime =
-            await AuthenticationServices.checkTeacherLoginFirstTime(
-              response.data.user.id
-            );
-          if (isTeacherLoginFirstTime) {
-            navigate(`/user/edit-profile`);
-          }
+        if (response.data.user.user_type === "admin") {
+          let user = [];
+          user["email"] = response.data.user.email;
+          user["name"] = response.data.user.name;
+          user["user_type"] = response.data.user.user_type;
+          user["money"] = response.data.user.money;
+          dispatch(
+            updateUser({
+              user: user,
+            })
+          );
+          navigate("/admin/dashboard");
         } else {
-          navigate("/");
+          const userInfo = await InfoServices.getInfo(
+            {
+              userId: response.data.user.id,
+              user_type: response.data.user.user_type,
+            },
+            response.data.token
+          );
+
+          let user = userInfo.data.userInfor;
+          user["name"] = response.data.user.name;
+          user["user_type"] = response.data.user.user_type;
+          user["money"] = response.data.user.money;
+          dispatch(
+            updateUser({
+              user: user,
+            })
+          );
+
+          if (response.data.user.user_type === "teacher") {
+            const isTeacherLoginFirstTime =
+              await AuthenticationServices.checkTeacherLoginFirstTime(
+                response.data.user.id
+              );
+            console.log("isTeacherLoginFirstTime: ", isTeacherLoginFirstTime);
+            if (isTeacherLoginFirstTime) {
+              navigate(`/user/edit-profile`);
+            } else {
+              navigate("/");
+            }
+          } else {
+            navigate("/");
+          }
         }
       } catch (err) {
         AlertMessage("Error", `${err.response.data.error}`);
@@ -88,12 +106,18 @@ const Login = () => {
           ></FloatingInput>
         </div>
       </div>
-      <span className="w-full">
-        Don't have an account?{" "}
-        <a href="/register/student" className="text-cyan-300">
-          Sign up
+      <div className="w-full flex justify-between">
+        <span>
+          Don't have an account?{" "}
+          <a href="/register/student" className="text-cyan-300">
+            Sign up
+          </a>
+        </span>
+        <a href="/forgetpassword" className="text-cyan-500">
+          Forget your password?
         </a>
-      </span>
+      </div>
+
       <button
         className="inline-block mt-4 px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
         data-mdb-ripple="true"

@@ -33,7 +33,7 @@ function Header() {
         token: "",
       })
     );
-    window.location.href = "/";
+    navigate("/")
   };
 
   const handleMouseEnter = () => {
