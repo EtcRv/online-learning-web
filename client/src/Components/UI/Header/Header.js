@@ -21,7 +21,6 @@ function Header() {
     }
   };
 
-
   const logout = () => {
     dispatch(
       updateUser({
@@ -33,7 +32,7 @@ function Header() {
         token: "",
       })
     );
-    navigate("/")
+    navigate("/");
   };
 
   const handleMouseEnter = () => {
@@ -70,9 +69,12 @@ function Header() {
                   className="px-4 py-2 w-80"
                   placeholder="Search..."
                   value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
+                  onChange={(e) => setSearchText(e.target.value)}
                 ></input>
-                <button className="flex items-center justify-center px-4 border-l"  onClick={handleSearch}>
+                <button
+                  className="flex items-center justify-center px-4 border-l"
+                  onClick={handleSearch}
+                >
                   <svg
                     className="w-6 h-6 text-gray-600"
                     fill="currentColor"
@@ -163,7 +165,7 @@ function Header() {
                     className="rounded-full w-full h-full"
                   />
                   {isHovered && (
-                    <div class="absolute z-10 mt-[100px] top-[40px] right-[5px] bg-white divide-y divide-gray-100  shadow w-44">
+                    <div className="absolute z-10 mt-[100px] top-[40px] right-[5px] bg-white divide-y divide-gray-100  shadow w-44">
                       <div className="flex items-center justify-center">
                         <div className="rounded-full w-10 h-10 mr-2">
                           <img
@@ -177,32 +179,45 @@ function Header() {
                           <p>$ {userInfor.money}</p>
                         </div>
                       </div>
-                      <ul class=" p-[10px] text-sm text-gray-700 ">
+                      <ul className=" text-sm text-gray-700">
                         <li>
                           <NavLink
-                            href=""
-                            class="block p-[10px] hover:text-[#a435f0]  "
+                            to="/my-learning"
+                            className="block py-2 px-[10px]  hover:text-purple-600 hover:bg-gray-100 transition-colors duration-300"
+                            activeClassName="text-purple-600"
                           >
                             My learning
                           </NavLink>
                         </li>
                         <li>
                           <NavLink
-                            href=""
-                            class="block p-[10px] hover:text-[#a435f0] "
+                            to="/my-cart"
+                            className="block py-2 px-[10px]  hover:text-purple-600 hover:bg-gray-100 transition-colors duration-300"
+                            activeClassName="text-purple-600"
                           >
                             My cart
                           </NavLink>
                         </li>
                         <li>
                           <NavLink
-                            href=""
-                            class="block p-[10px] hover:text-[#a435f0] "
+                            to="/messages"
+                            className="block py-2 px-[10px]  hover:text-purple-600 hover:bg-gray-100 transition-colors duration-300"
+                            activeClassName="text-purple-600"
                           >
                             Messages
                           </NavLink>
                         </li>
+                        <li>
+                          <NavLink
+                            to="/change-language"
+                            className="block py-2 px-[10px]  hover:text-purple-600 hover:bg-gray-100 transition-colors duration-300"
+                            activeClassName="text-purple-600"
+                          >
+                            Change language
+                          </NavLink>
+                        </li>
                       </ul>
+
                       <div class="py-2 px-[10px] ">
                         <button
                           onClick={logout}
