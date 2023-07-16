@@ -11,6 +11,7 @@ import { Link, useLocation } from "react-router-dom";
 import DashIcon from "../../ReUse/Icons/DashIcon";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser, addToken } from "../../../store/userSlice";
+import { updateState } from "../../../store/createCourseSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 const routes = [
@@ -55,6 +56,53 @@ const Sidebar = ({ open, onClose }) => {
     dispatch(
       addToken({
         token: "",
+      })
+    );
+
+    dispatch(
+      updateState({
+        type: "intended_learners",
+        value: {
+          learning_object: ["", "", "", ""],
+          required_skills: "",
+          course_for: "",
+        },
+      })
+    );
+
+    dispatch(
+      updateState({
+        type: "landing_page",
+        value: {
+          course_title: "New Course",
+          course_sub_title: "",
+          course_description: "",
+          basic_info: {
+            language: "English (US)",
+            level: "-- Select Level --",
+            category: "-- Select Category --",
+          },
+          primarily_taught: "",
+          course_image: "",
+          promotional_video: "",
+        },
+      })
+    );
+
+    dispatch(
+      updateState({
+        type: "price",
+        value: "Free",
+      })
+    );
+
+    dispatch(
+      updateState({
+        type: "course_messages",
+        value: {
+          welcome_message: "",
+          congratulation_message: "",
+        },
       })
     );
     navigate("/");

@@ -23,11 +23,13 @@ const levels = [
 const categories = [
   "-- Select Category --",
   "Development",
-  "Business",
-  "Finance & Accounting",
+  "Design",
+  "Marketing",
   "IT & Software",
-  "Office Productivity",
+  "Business",
   "Personal Development",
+  "Photography",
+  "Music",
 ];
 
 const CourseLandingPage = () => {

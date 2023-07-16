@@ -16,7 +16,7 @@ const DatabasePage = () => {
 
   useEffect(() => {
     const getAllUserData = async () => {
-      const res = await InfoServices.getAllUser();
+      const res = await InfoServices.getAllUser(token);
 
       console.log("res.data: ", res.data);
 

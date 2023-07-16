@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser, addToken } from "../../../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { updateState } from "../../../store/createCourseSlice";
 
 function Header() {
   const dispatch = useDispatch();
@@ -13,11 +15,12 @@ function Header() {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
+  const { t, i18n } = useTranslation();
 
   const handleSearch = () => {
     if (searchText) {
       navigate(`/coursePage/search/${searchText}`);
-      window.location.reload();
+      // window.location.reload();
     }
   };
 
@@ -32,12 +35,57 @@ function Header() {
         token: "",
       })
     );
+    dispatch(
+      updateState({
+        type: "intended_learners",
+        value: {
+          learning_object: ["", "", "", ""],
+          required_skills: "",
+          course_for: "",
+        },
+      })
+    );
+
+    dispatch(
+      updateState({
+        type: "landing_page",
+        value: {
+          course_title: "New Course",
+          course_sub_title: "",
+          course_description: "",
+          basic_info: {
+            language: "English (US)",
+            level: "-- Select Level --",
+            category: "-- Select Category --",
+          },
+          primarily_taught: "",
+          course_image: "",
+          promotional_video: "",
+        },
+      })
+    );
+
+    dispatch(
+      updateState({
+        type: "price",
+        value: "Free",
+      })
+    );
+
+    dispatch(
+      updateState({
+        type: "course_messages",
+        value: {
+          welcome_message: "",
+          congratulation_message: "",
+        },
+      })
+    );
     navigate("/");
   };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
-    console.log(userInfor);
   };
 
   const handleMouseLeave = () => {
@@ -98,6 +146,15 @@ function Header() {
                 Teacher
               </NavLink>
             )}
+            {isLogin && user.user_type === "admin" && (
+              <NavLink
+                className="px-6 py-2 text-lg text-black "
+                to={"/admin/dashboard"}
+                activeclassname="active"
+              >
+                Admin
+              </NavLink>
+            )}
             {isLogin && (
               <NavLink
                 className="mr-5 font-medium hover:text-gray-900"
@@ -150,9 +207,8 @@ function Header() {
             )}
 
             {isLogin && (
-              <NavLink
+              <div
                 className="mr-5 rounded-full w-10 h-10"
-                to={"/user/edit-profile"}
                 activeclassname="active"
               >
                 <div
@@ -160,10 +216,12 @@ function Header() {
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <img
-                    src={userInfor.avatar_url}
-                    className="rounded-full w-full h-full"
-                  />
+                  <button onClick={() => navigate("/user/edit-profile")}>
+                    <img
+                      src={userInfor.avatar_url}
+                      className="rounded-full w-full h-full"
+                    />
+                  </button>
                   {isHovered && (
                     <div className="absolute z-10 mt-[100px] top-[40px] right-[5px] bg-white divide-y divide-gray-100  shadow w-44">
                       <div className="flex items-center justify-center">
@@ -191,7 +249,7 @@ function Header() {
                         </li>
                         <li>
                           <NavLink
-                            to="/my-cart"
+                            to="/cart"
                             className="block py-2 px-[10px]  hover:text-purple-600 hover:bg-gray-100 transition-colors duration-300"
                             activeClassName="text-purple-600"
                           >
@@ -207,15 +265,6 @@ function Header() {
                             Messages
                           </NavLink>
                         </li>
-                        <li>
-                          <NavLink
-                            to="/change-language"
-                            className="block py-2 px-[10px]  hover:text-purple-600 hover:bg-gray-100 transition-colors duration-300"
-                            activeClassName="text-purple-600"
-                          >
-                            Change language
-                          </NavLink>
-                        </li>
                       </ul>
 
                       <div class="py-2 px-[10px] ">
@@ -229,7 +278,7 @@ function Header() {
                     </div>
                   )}
                 </div>
-              </NavLink>
+              </div>
             )}
           </div>
         </div>

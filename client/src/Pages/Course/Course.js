@@ -16,21 +16,6 @@ import Feedback from "../../Components/UI/Feedback/Feedback";
 import YouTube, { YouTubeProps } from "react-youtube";
 
 const Course = () => {
-  // const dataTitle = "Công nghệ Web và Dịch vụ trực tuyến";
-  // const dataTitleDes =
-  //   "Học và làm quen với các kỹ năng cơ bản của làm web, HTML, Javascript, CSS, Nodejs, React, . . .";
-  // const dataSubscribe = 953874;
-  // const dataTeacher = "Teacher";
-  // const dataLanguage = ["Tiếng Anh", "Tiếng Việt"];
-  // const dataLearning = [
-  //   "Kiến thức cơ bản về Web",
-  //   "HTML",
-  //   "Javascript",
-  //   "CSS",
-  //   "PHP",
-  //   "Nodejs",
-  // ];
-  // const dataPrice = "2.000.000";
   const user = useSelector((state) => state.user.user);
   const token = useSelector((state) => state.user.token);
   const [courseInformation, setCourseInformation] = useState({});
@@ -134,6 +119,7 @@ const Course = () => {
       all_reviews.data.sort((a, b) => b.rating - a.rating);
       setAllReviews(all_reviews.data);
     };
+
     getCourseData();
     getSectionData();
     getLectureData();
@@ -141,6 +127,12 @@ const Course = () => {
     checkCourseInCart();
     checkCourseBuy();
   }, []);
+
+  useEffect(() => {
+    if (courseInformation.status === "Draft" && user.user_type !== "admin") {
+      navigate("/");
+    }
+  }, [courseInformation]);
 
   useEffect(() => {
     let courseStruct = [];
@@ -338,43 +330,53 @@ const Course = () => {
               />
             )}
             <div style={{ margin: "1rem" }}>
-              {!isBuy && (
+              {!isBuy && teacherInformation.userId !== user.userId && (
                 <h1 style={{ paddingBottom: "0.5rem" }}>
                   {courseInformation.price === 0
                     ? "Free"
                     : `${courseInformation.price} $`}
                 </h1>
               )}
-              {user.user_type !== "admin" && inCartOrNot && !isBuy && (
-                <button
-                  className="course-buttonAdd"
-                  onClick={() => navigate("/cart")}
-                >
-                  Course is in the cart
-                </button>
-              )}
-              {user.user_type !== "admin" && !inCartOrNot && !isBuy && (
-                <button
-                  className="course-buttonAdd"
-                  onClick={addCourseIntoCart}
-                >
-                  Add to cart
-                </button>
-              )}
+              {user.user_type !== "admin" &&
+                teacherInformation.userId !== user.userId &&
+                inCartOrNot &&
+                !isBuy && (
+                  <button
+                    className="course-buttonAdd"
+                    onClick={() => navigate("/cart")}
+                  >
+                    Course is in the cart
+                  </button>
+                )}
+              {user.user_type !== "admin" &&
+                teacherInformation.userId !== user.userId &&
+                !inCartOrNot &&
+                !isBuy && (
+                  <button
+                    className="course-buttonAdd"
+                    onClick={addCourseIntoCart}
+                  >
+                    Add to cart
+                  </button>
+                )}
 
-              {user.user_type !== "admin" && !isBuy && (
-                <button
-                  className="course-buttonBuy"
-                  onClick={() => {
-                    addCourseIntoCart();
-                    navigate("/cart");
-                  }}
-                >
-                  Buy now
-                </button>
-              )}
+              {user.user_type !== "admin" &&
+                teacherInformation.userId !== user.userId &&
+                !isBuy && (
+                  <button
+                    className="course-buttonBuy"
+                    onClick={() => {
+                      addCourseIntoCart();
+                      navigate("/cart");
+                    }}
+                  >
+                    Buy now
+                  </button>
+                )}
 
-              {(user.user_type === "admin" || isBuy) && (
+              {(user.user_type === "admin" ||
+                isBuy ||
+                teacherInformation.userId === user.userId) && (
                 <button
                   className="course-buttonBuy"
                   onClick={() => navigate(`/coursePage/${courseId}`)}
