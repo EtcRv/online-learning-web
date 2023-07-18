@@ -27,7 +27,7 @@ const CartCouseras = () => {
   const [courses, setCourses] = useState([]);
 
   const getAllCourseInCart = async () => {
-    const response = await CartServices.getCourseInCart(user.id, token);
+    const response = await CartServices.getCourseInCart(user.userId, token);
     setCourses(response.data);
   };
   useEffect(() => {
@@ -64,7 +64,7 @@ const CartCouseras = () => {
         totalPrice += course.courseInformation.price;
         const response = await CartServices.removeCourseFromCart(
           {
-            userId: user.id,
+            userId: user.userId,
             courseId: course.courseInformation.id,
           },
           token
@@ -75,7 +75,7 @@ const CartCouseras = () => {
         {
           courses: coursesId,
           totalPrice: totalPrice,
-          userId: user.id,
+          userId: user.userId,
         },
         token
       );

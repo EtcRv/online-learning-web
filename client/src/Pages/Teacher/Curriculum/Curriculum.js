@@ -23,6 +23,7 @@ const Curriculum = () => {
   const [structOfCourse, setStructOfCourse] = useState([]);
 
   useEffect(() => {
+    console.log("first")
     const getSectionData = async () => {
       const all_sections = await CourseServices.getAllSectionOfCourse(
         course_id,
@@ -73,6 +74,8 @@ const Curriculum = () => {
 
       courseStruct.push(allLectureInSection);
     });
+    // console.log("đ")
+    // console.log(courseStruct)
     setStructOfCourse(courseStruct);
   }, [lectures, sections]);
 

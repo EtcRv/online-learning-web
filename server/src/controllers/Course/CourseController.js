@@ -10,7 +10,6 @@ const {
   Discussion,
 } = require("../../models");
 const { Op } = require("sequelize");
-// const Discussion = require("../../models/Discussion");
 module.exports = {
   async createNewCourse(req, res) {
     try {
@@ -155,6 +154,7 @@ module.exports = {
             const newSection = await Section.create({
               name: section.name,
             });
+            console.log("newSection:",newSection)
             newSection.courseId = courseId;
             await newSection.save();
             return newSection;
@@ -466,25 +466,33 @@ module.exports = {
           courseId: courseId,
         },
       });
-
+      
       const discusionData = Promise.all(
         discussions.map(async (discussion) => {
-          const user = await User.findByPk(discussion.userId);
+          const user = await User.findOne({
+            where: {
+              id: discussion.userId,
+            },
+          });
           let avatar_url = "";
-          if (user.user_type === "teacher") {
-            const teacher = await Teacher.findOne({
-              where: {
-                userId: user.id,
-              },
-            });
-            avatar_url = teacher.avatar_url;
-          } else {
-            const student = await Student.findOne({
-              where: {
-                userId: user.id,
-              },
-            });
-            avatar_url = student.avatar_url;
+          if (user) {
+            if (user.user_type === "teacher") {
+              const teacher = await Teacher.findOne({
+                where: {
+                  userId: user.id,
+                },
+              });
+              avatar_url = teacher?.avatar_url;
+            } else if (user.user_type === "student") {
+              const student = await Student.findOne({
+                where: {
+                  userId: user.id,
+                },
+              });
+              avatar_url = student?.avatar_url;
+            } else if (user.user_type === "admin") {
+              avatar_url = "http://facebookfplus.com/upload/images/600_97d118b7a6f8f87d18f7b1385ea7665e.png";
+            }
           }
           return {
             id: discussion.id,

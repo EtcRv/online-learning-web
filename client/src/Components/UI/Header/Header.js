@@ -35,52 +35,52 @@ function Header() {
         token: "",
       })
     );
-    dispatch(
-      updateState({
-        type: "intended_learners",
-        value: {
-          learning_object: ["", "", "", ""],
-          required_skills: "",
-          course_for: "",
-        },
-      })
-    );
+    // dispatch(
+    //   updateState({
+    //     type: "intended_learners",
+    //     value: {
+    //       learning_object: ["", "", "", ""],
+    //       required_skills: "",
+    //       course_for: "",
+    //     },
+    //   })
+    // );
 
-    dispatch(
-      updateState({
-        type: "landing_page",
-        value: {
-          course_title: "New Course",
-          course_sub_title: "",
-          course_description: "",
-          basic_info: {
-            language: "English (US)",
-            level: "-- Select Level --",
-            category: "-- Select Category --",
-          },
-          primarily_taught: "",
-          course_image: "",
-          promotional_video: "",
-        },
-      })
-    );
+    // dispatch(
+    //   updateState({
+    //     type: "landing_page",
+    //     value: {
+    //       course_title: "New Course",
+    //       course_sub_title: "",
+    //       course_description: "",
+    //       basic_info: {
+    //         language: "English (US)",
+    //         level: "-- Select Level --",
+    //         category: "-- Select Category --",
+    //       },
+    //       primarily_taught: "",
+    //       course_image: "",
+    //       promotional_video: "",
+    //     },
+    //   })
+    // );
 
-    dispatch(
-      updateState({
-        type: "price",
-        value: "Free",
-      })
-    );
+    // dispatch(
+    //   updateState({
+    //     type: "price",
+    //     value: "Free",
+    //   })
+    // );
 
-    dispatch(
-      updateState({
-        type: "course_messages",
-        value: {
-          welcome_message: "",
-          congratulation_message: "",
-        },
-      })
-    );
+    // dispatch(
+    //   updateState({
+    //     type: "course_messages",
+    //     value: {
+    //       welcome_message: "",
+    //       congratulation_message: "",
+    //     },
+    //   })
+    // );
     navigate("/");
   };
 

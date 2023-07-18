@@ -94,17 +94,20 @@ module.exports = {
         avatar_url: req.body.avatar_url,
         phone: req.body.phone,
       };
+     
       await Student.update(newStudentInfo, {
         where: {
           userId: userId,
         },
       });
 
-      await User.update(req.body.name, {
-        where: {
-          userId: userId,
-        },
-      });
+      // await User.update(req.body.name, {
+      //   where: {
+      //     userId: userId,
+      //   },
+      // });
+      const user = await User.findByPk(userId);
+      await user.update({name: req.body.name});
 
       console.log("Update Success");
 
@@ -124,8 +127,13 @@ module.exports = {
           userId: userId,
         },
       });
+      const user = await User.findByPk(userId);
+      await user.update({name: req.body.name});
 
-      res.send(req.body);
+      console.log("Update Success");
+
+      res.send("Update Success");
+      // res.send(req.body);
     } catch (err) {
       res.status(500).send({
         error: err,

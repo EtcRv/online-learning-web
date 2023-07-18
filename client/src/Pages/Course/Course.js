@@ -51,7 +51,7 @@ const Course = () => {
   const addCourseIntoCart = async () => {
     const response = await CartServices.addCourseInCart(
       {
-        userId: user.id,
+        userId: user.userId,
         courseId: courseId,
       },
       token
@@ -78,7 +78,7 @@ const Course = () => {
 
   useEffect(() => {
     const checkCourseBuy = async () => {
-      const courses = await CourseServices.getAllCourseOfUser(user.id, token);
+      const courses = await CourseServices.getAllCourseOfUser(user.userId, token);
       courses.data.map((course, idx) => {
         if (course.courseInformation.id == courseId) {
           setIsBuy(true);
@@ -87,7 +87,7 @@ const Course = () => {
     };
 
     const checkCourseInCart = async () => {
-      const coursesInCart = await CartServices.getCourseInCart(user.id, token);
+      const coursesInCart = await CartServices.getCourseInCart(user.userId, token);
       coursesInCart.data.map((course, idx) => {
         if (course.courseInformation.id == courseId) {
           setInCartOrNot(true);
@@ -294,7 +294,7 @@ const Course = () => {
                 )}
                 {showRate && (
                   <div className="my-2">
-                    <Feedback userId={user.id} courseId={courseId}></Feedback>
+                    <Feedback userId={user.userId} courseId={courseId}></Feedback>
                   </div>
                 )}
                 <div className="grid grid-cols-2 gap-4">

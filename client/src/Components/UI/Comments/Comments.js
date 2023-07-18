@@ -26,13 +26,14 @@ const Comments = ({ courseId }) => {
     e.preventDefault();
     if (commentContent.trim() !== "") {
       const newComment = {
-        userId: userInfo.user.id,
+        userId: userInfo.user.userId,
         comment: commentContent,
         courseId: courseId
       };
       try {
         await CourseServices.postComment(newComment);
         setCommentContent("");
+      
         fetchComments(); // Gọi lại hàm fetchComments để cập nhật dữ liệu
       } catch (error) {
         console.error(error);

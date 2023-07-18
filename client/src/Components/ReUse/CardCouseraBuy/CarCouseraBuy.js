@@ -23,8 +23,8 @@ const CardCouseraBuy = (props) => {
         </div>
         <div className="w-[280px] p-[16px] flex flex-col justify-between">
       <div>
-      <div className="line-clamp-1 text-[13px] mr-[16px] mb-[6px] text-gray-500">{props.data.courseraName}</div>
-        <span className=" font-bold text-[16px]">{props.data.currentLec}</span>
+      <div className="line-clamp-1 text-[20px] mr-[16px] mb-[6px] font-bold">{props.data.courseraName}</div>
+        <span className=" text-[14px]  text-gray-500">{props.data.currentLec}</span>
       </div>
       <div className="text-[13px] text-gray-500">Lecture  •  {props.data.lecTime}</div>
         </div>

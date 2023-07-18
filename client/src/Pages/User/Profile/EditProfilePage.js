@@ -39,7 +39,7 @@ const EditProfilePage = () => {
       );
 
       let newUser = {
-        id: user.id,
+        id: user.userId,
         userId: user.userId,
         name: fullName,
         description: description,
